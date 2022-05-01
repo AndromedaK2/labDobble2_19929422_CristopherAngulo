@@ -40,11 +40,3 @@ getTailCards([_|Cards],Cards).
 
 
 
-% genNhelp(N,N,[]).
-% genNhelp(N,C,[C|R]) :- 
-%     C < N,
-%     C1 is C + 1,
-%     genNhelp(N,C1,R).
-
-% genN(N,R) :-
-%     genNhelp(N,0,R).
