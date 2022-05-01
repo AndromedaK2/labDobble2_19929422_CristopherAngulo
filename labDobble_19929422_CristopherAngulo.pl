@@ -11,8 +11,8 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     getFirstElement(Elements,Element),
     getTailElements(Elements,TailElements),
     addElementToCard(Element,FirstCard,FinalCard),
-    Count1 is Count + 1,
-    createFirstCardAuxiliar(TailElements,N,FinalCard,Count1,Card).    
+    FinalCount is Count + 1,
+    createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).    
 
 
 
