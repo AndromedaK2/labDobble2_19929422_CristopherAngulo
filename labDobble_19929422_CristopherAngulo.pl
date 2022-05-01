@@ -1,3 +1,4 @@
+:- use_module(library(lists)).
 %Dominio
 /*
 
@@ -20,11 +21,19 @@ cardsSet
 
 cardsSet().
 
-auxiliarcreateFirstCard([element|elements],n,card,count):-
-    count is count + 1,
-    auxiliarcreateFirstCard(elements,n,[card|element],count).
+
+
+
+firstAuxcreateFirstCard([Element|Elements],N,_,Count):-
+    secondAuxcreateFirstCard(Elements,N,Element,Count).
+
+secondAuxcreateFirstCard(_,N,_,N):-!.
+secondAuxcreateFirstCard([Element|Elements],N,Card,Count):-
+    Count1 is Count + 1,
+    secondAuxcreateFirstCard(Elements,N,[Element|Card],Count1).
+
     
-createFirstCard(elements,n,card):-
-    auxiliarcreateFirstCard(elements,n,card,0).
+createFirstCard(Elements,N,Card):-
+    firstAuxcreateFirstCard(Elements,N,Card,0).
 
 
