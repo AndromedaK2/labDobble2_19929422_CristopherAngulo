@@ -21,7 +21,14 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 
-CreateNCard(Elements,N,CardsSet):-
+
+CreateNCard(_,N,NCards,N,NCards):-!.
+CreateNCard(Elements,N,NCards,J):-
+    getElementByPosition(Elements,Index,Element)
+
+
+CreateNCardAuxiliar():- !.
+CreateNCardAuxiliar():- 
   calculateIndexToNCards(N,J,K,Index)),
   getElementByPosition(Elements,Index,Element)
 
@@ -33,6 +40,11 @@ getOrder(N,Order):- Order is N-1.
 getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
+cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
+cardsSetFindTotalCards(Card,TotalCards):-
+    length(Card,Large),
+    getOrder(Large,Order),
+    TotalCards is (Order * Order) + Order + 1.
 
 
 %Pertenencia
