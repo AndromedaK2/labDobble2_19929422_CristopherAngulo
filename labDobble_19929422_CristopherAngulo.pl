@@ -21,12 +21,13 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-% CreateNCard(_,N,NCards,N,NCards):-!.
-% CreateNCard(Elements,N,N,Cards,J,FinalNCards):-
-%     getFirstElement(Element,FirstElement),
-%     CreateNCardAuxiliar(Elements,FirstElement,  ),
-%     finalJ is J + 1,
-%     CreateNCard().
+createNCard(_,N,NCards,N,NCards):-!.
+createNCard(Elements,N,Cards,J,FinalNCards):-
+    getFirstElement(Elements,FirstElement),
+    FinalJ is J + 1,
+    createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,FinalNCard),
+    addCardToCardsSet(FinalNCard,Cards,CardsSet),
+    createNCard(Elements,N,CardsSet,FinalJ,FinalNCards).
 
 %Helper
 createNCardAuxiliar(_,NCard,N,_,N,NCard):-!.
@@ -39,7 +40,7 @@ createNCardAuxiliar(Elements,NCard,N,J,K,FinalNCard):-
   
   
 % EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
-
+%createNCard([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
 
 %Selectores
 getFirstElement([Element|_],Element).
@@ -72,7 +73,7 @@ calculateIndexToNCards(N,J,K,Index):-
 addElementToCard(Element,Card,CardUpdate):- isElement(Element), append(Card,[Element],CardUpdate).
 
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-
-    append([Card],CardsSet,FinalCardsSet).
+    append(CardsSet,[Card],FinalCardsSet).
 
 %Examples:
 % createFirstCard([1,2,3,4,5,6],4,Card).
