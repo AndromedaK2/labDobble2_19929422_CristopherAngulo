@@ -70,11 +70,6 @@ createNSquareCards(Elements,Cards,N,I,CardsSet):-
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
   createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
 
-
-%createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
-%createNSquareCardsFirstAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,1,0,Cards).
-%createNSquareCards([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,0,Cards).
-
 %Selectores
 getFirstElement([Element|_],Element).
 getTailElements([_|Elements],Elements).
@@ -87,6 +82,7 @@ cardsSetFindTotalCards(Card,TotalCards):-
     length(Card,Large),
     getOrder(Large,Order),
     TotalCards is (Order * Order) + Order + 1.
+
 
 
 %Pertenencia
@@ -102,13 +98,14 @@ divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
 
-
-
 %Modificador
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
 
 %Examples:
+%createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
+%createNSquareCardsFirstAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,1,0,Cards).
+%createNSquareCards([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,0,Cards).
 % createFirstCard([1,2,3,4,5,6],4,Card).
 % createFirstCard([1,"noruega",3,california,5,6],4,Card).
 % cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet)
