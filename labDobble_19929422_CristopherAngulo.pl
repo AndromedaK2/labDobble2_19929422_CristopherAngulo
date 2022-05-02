@@ -5,9 +5,8 @@ cardsSet(Elements,NumberElement,NumberMaxCard,Seed,CardsSet):-
     getOrder(NumberElement,Order),
     isValidOrder(Order),
     createFirstCard(Elements,NumberElement,FirstCard),
-    createNCard(Elements,Order,[FirstCard],0,CardsSet).
-    % addCardToCardsSet(Card,EmptyCardsSet,CardsSet).
-
+    createNCard(Elements,Order,[FirstCard],0,NCards),
+    createNSquareCards(Elements,Order,0,NCards,CardsSet).
 %Constructor Vacío
 emptyCardsSet([]).
 
@@ -55,27 +54,25 @@ createNSquareCardsSecondAuxiliar(Elements,NSquareCard,N,J,I,K,FinalCard):-
 
 %Helper
 createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):- !.
-createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCard):-
+createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-
   Index is I,
   getElementByPosition(Index,Elements,FirstElement),
   FinalJ is J + 1,
   createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
   addCardToCardsSet(Card,Cards,CardsUpdate),
-  createNSquareCardsFirstAuxiliar(Elements,CardsUpdate,N,FinalJ,I,FinalCard).
+  createNSquareCardsFirstAuxiliar(Elements,CardsUpdate,N,FinalJ,I,FinalCards).
 
-
-
-
-
-
-
-
-
-
+%Helper
+createNSquareCards(_,Cards,N,N,Cards):- !.
+createNSquareCards(Elements,Cards,N,I,CardsSet):-
+  FinalI is I + 1,
+  createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,FinalCards),
+  createNSquareCards(Elements,FinalCards,N,FinalI,CardsSet).
 
 
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
 %createNSquareCardsFirstAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,1,0,Cards).
+%createNSquareCards([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,0,Cards).
 
 %Selectores
 getFirstElement([Element|_],Element).
