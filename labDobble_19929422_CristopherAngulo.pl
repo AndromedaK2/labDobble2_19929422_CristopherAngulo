@@ -43,7 +43,17 @@ createNCardAuxiliar(Elements,NCard,N,J,K,FinalNCard):-
 % EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
 %createNCard([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
 
+%Helper
+createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
+createNSquareCardsSecondAuxiliar(Elements,NSquareCard,N,J,I,K,FinalCard):-
+  calculateIndexToNSquareCards(N,J,K,I,Index),
+  getElementByPosition(Index,Elements,Element),
+  addElementToCard(Element,NSquareCard,NSquareCardUpdate),
+  FinalK is K + 1,
+  createNSquareCardsSecondAuxiliar(Elements,NSquareCardUpdate,N,J,I,FinalK,FinalCard).
 
+
+%createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
 
 %Selectores
 getFirstElement([Element|_],Element).
@@ -70,9 +80,11 @@ isPrime(X) :- not(divisible(X, 2)).
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
-calculateIndexToN2Cards(N,J,K,I,Index):- Index is N+2+N*(K-1) + (((I-1)*(K-1)+J-1) mod N).
+calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
 
-%ModIficador
+
+
+%Modificador
 addElementToCard(Element,Card,CardUpdate):- isElement(Element), append(Card,[Element],CardUpdate).
 
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-
