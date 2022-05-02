@@ -20,17 +20,21 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     FinalCount is Count + 1,
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
-
-
+%Helper
 CreateNCard(_,N,NCards,N,NCards):-!.
-CreateNCard(Elements,N,NCards,J):-
-    getElementByPosition(Elements,Index,Element)
+CreateNCard(Elements,N,NCards,J,FinalNCards):-
+    getFirstElement(Element,FirstElement).
+    CreateNCardAuxiliar(Elements,FirstElement,  ),
+    CreateNCard().
 
-
-CreateNCardAuxiliar():- !.
-CreateNCardAuxiliar():- 
-  calculateIndexToNCards(N,J,K,Index)),
-  getElementByPosition(Elements,Index,Element)
+%Helper
+CreateNCardAuxiliar(_,Card,N,N,_,Card):- !.
+CreateNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
+  calculateIndexToNCards(N,J,K,Index),
+  getElementByPosition(Elements,Index,Element),
+  addElementToCard()
+  
+  
 
 
 %Selectores
@@ -62,6 +66,7 @@ calculateIndexToNCards(N,J,K,Index):-
 
 %Modificador
 addElementToCard(Element,Card,CardUpdate):- isElement(Element), append(Card,[Element],CardUpdate).
+
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-
     append([Card],CardsSet,FinalCardsSet).
 
