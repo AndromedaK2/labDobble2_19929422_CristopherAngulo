@@ -21,10 +21,9 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 
-% CreateNCard(Elements,N,CardsSet):-
-%   calculateIndexToNCards(),
-%   getElementByPosition(Elements,)
-
+CreateNCard(Elements,N,CardsSet):-
+  calculateIndexToNCards(N,J,K,Index)),
+  getElementByPosition(Elements,Index,Element)
 
 
 %Selectores
@@ -33,10 +32,7 @@ getTailElements([_|Elements],Elements).
 getOrder(N,Order):- Order is N-1.
 getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
-getElementByPosition(Index,Elements,Element):-
-    nth0(Index,Elements,Element).
-
-
+getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 
 
 %Pertenencia
