@@ -1,10 +1,11 @@
 :- use_module(library(lists)).
 
 %Representación Mazo de Cartas:  Elements X NumberElement X NumberMaxCard X Seed X CardsSet
-cardsSet(Elements,NumberElement,NumberMaxCard,Seed,CardsSet):-
-    getOrder(NumberElement,Order),
+cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
+    getOrder(NumberElementPerCard,Order),
     isValidOrder(Order),
-    createFirstCard(Elements,NumberElement,FirstCard),
+    isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
+    createFirstCard(Elements,NumberElementPerCard,FirstCard),
     createNCard(Elements,Order,[FirstCard],0,NCards),
     createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
@@ -77,6 +78,9 @@ getOrder(N,Order):- Order is N-1.
 getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
+getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
+ 
+
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 cardsSetFindTotalCards(Card,TotalCards):-
     length(Card,Large),
@@ -91,6 +95,11 @@ isValidOrder(Order):- isPrime(Order).
 isPrime(2) :- true,!.
 isPrime(X) :- X < 2,!,false.
 isPrime(X) :- not(divisible(X, 2)).
+isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
+  getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare),
+  length(Elements,ElementsLength), 
+  MaxNumberOfCardsToCompare = MaxNumberOfCards,
+  MaxNumberOfCards = ElementsLength.
 
 %Helper
 divisible(X,Y) :- 0 is X mod Y, !.
