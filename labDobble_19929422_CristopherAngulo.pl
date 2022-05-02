@@ -6,7 +6,8 @@ cardsSet(Elements,NumberElement,NumberMaxCard,Seed,CardsSet):-
     isValidOrder(Order),
     createFirstCard(Elements,NumberElement,FirstCard),
     createNCard(Elements,Order,[FirstCard],0,NCards),
-    createNSquareCards(Elements,Order,0,NCards,CardsSet).
+    createNSquareCards(Elements,NCards,Order,0,CardsSet).
+
 %Constructor Vacío
 emptyCardsSet([]).
 
@@ -21,22 +22,22 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-createNCard(_,N,NCards,N,NCards):-!.
-createNCard(Elements,N,Cards,J,FinalNCards):-
+createNCard(_,N,Cards,N,Cards):-!.
+createNCard(Elements,N,Cards,J,FinalCards):-
     getFirstElement(Elements,FirstElement),
     FinalJ is J + 1,
-    createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,FinalNCard),
-    addCardToCardsSet(FinalNCard,Cards,CardsSet),
-    createNCard(Elements,N,CardsSet,FinalJ,FinalNCards).
+    createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
+    addCardToCardsSet(Card,Cards,NewCards),
+    createNCard(Elements,N,NewCards,FinalJ,FinalCards).
 
 %Helper
-createNCardAuxiliar(_,NCard,N,_,N,NCard):-!.
-createNCardAuxiliar(Elements,NCard,N,J,K,FinalNCard):- 
+createNCardAuxiliar(_,Card,N,_,N,Card):-!.
+createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
   calculateIndexToNCards(N,J,K,Index),
   getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,NCard,NCardUpdate),
+  addElementToCard(Element,Card,NewCard),
   FinalK is K + 1,
-  createNCardAuxiliar(Elements,NCardUpdate,N,J,FinalK,FinalNCard).
+  createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
   
   
 % EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
@@ -44,12 +45,12 @@ createNCardAuxiliar(Elements,NCard,N,J,K,FinalNCard):-
 
 %Helper
 createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
-createNSquareCardsSecondAuxiliar(Elements,NSquareCard,N,J,I,K,FinalCard):-
+createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
   calculateIndexToNSquareCards(N,J,K,I,Index),
   getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,NSquareCard,NSquareCardUpdate),
+  addElementToCard(Element,Card,NewCard),
   FinalK is K + 1,
-  createNSquareCardsSecondAuxiliar(Elements,NSquareCardUpdate,N,J,I,FinalK,FinalCard).
+  createNSquareCardsSecondAuxiliar(Elements,NewCard,N,J,I,FinalK,FinalCard).
 
 
 %Helper
@@ -59,15 +60,15 @@ createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-
   getElementByPosition(Index,Elements,FirstElement),
   FinalJ is J + 1,
   createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
-  addCardToCardsSet(Card,Cards,CardsUpdate),
-  createNSquareCardsFirstAuxiliar(Elements,CardsUpdate,N,FinalJ,I,FinalCards).
+  addCardToCardsSet(Card,Cards,NewCards),
+  createNSquareCardsFirstAuxiliar(Elements,NewCards,N,FinalJ,I,FinalCards).
 
 %Helper
 createNSquareCards(_,Cards,N,N,Cards):- !.
 createNSquareCards(Elements,Cards,N,I,CardsSet):-
   FinalI is I + 1,
-  createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,FinalCards),
-  createNSquareCards(Elements,FinalCards,N,FinalI,CardsSet).
+  createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
+  createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
 
 
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
