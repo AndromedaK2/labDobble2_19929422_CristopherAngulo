@@ -21,15 +21,23 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 
+% CreateNCard(Elements,N,CardsSet):-
+%   calculateIndexToNCards(),
+%   getElementByPosition(Elements,)
+
+
+
 %Selectores
 getFirstElement([Element|_],Element).
 getTailElements([_|Elements],Elements).
 getOrder(N,Order):- Order is N-1.
 getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
+getElementByPosition(Index,Elements,Element):-
+    nth0(Index,Elements,Element).
 
 
-%CreateNCard(Elements,N,CardsSet):-
+
 
 %Pertenencia
 isElement(Element):- number(Element); string(Element); atom(Element).
@@ -41,6 +49,8 @@ isPrime(X) :- not(divisible(X, 2)).
 %Helper
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
+calculateIndexToNCards(N,J,K,Index):-
+  Index is (N * J) + (K + 1).
 
 %Modificador
 addElementToCard(Element,Card,CardUpdate):- isElement(Element), append(Card,[Element],CardUpdate).
