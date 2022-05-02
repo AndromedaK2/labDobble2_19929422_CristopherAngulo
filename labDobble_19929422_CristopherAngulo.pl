@@ -53,7 +53,29 @@ createNSquareCardsSecondAuxiliar(Elements,NSquareCard,N,J,I,K,FinalCard):-
   createNSquareCardsSecondAuxiliar(Elements,NSquareCardUpdate,N,J,I,FinalK,FinalCard).
 
 
+%Helper
+createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):- !.
+createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCard):-
+  Index is I,
+  getElementByPosition(Index,Elements,FirstElement),
+  FinalJ is J + 1,
+  createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
+  addCardToCardsSet(Card,Cards,CardsUpdate),
+  createNSquareCardsFirstAuxiliar(Elements,CardsUpdate,N,FinalJ,I,FinalCard).
+
+
+
+
+
+
+
+
+
+
+
+
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
+%createNSquareCardsFirstAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,1,0,Cards).
 
 %Selectores
 getFirstElement([Element|_],Element).
