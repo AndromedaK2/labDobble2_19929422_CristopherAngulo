@@ -21,20 +21,24 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-CreateNCard(_,N,NCards,N,NCards):-!.
-CreateNCard(Elements,N,NCards,J,FinalNCards):-
-    getFirstElement(Element,FirstElement).
-    CreateNCardAuxiliar(Elements,FirstElement,  ),
-    CreateNCard().
+% CreateNCard(_,N,NCards,N,NCards):-!.
+% CreateNCard(Elements,N,N,Cards,J,FinalNCards):-
+%     getFirstElement(Element,FirstElement),
+%     CreateNCardAuxiliar(Elements,FirstElement,  ),
+%     finalJ is J + 1,
+%     CreateNCard().
 
 %Helper
-CreateNCardAuxiliar(_,Card,N,N,_,Card):- !.
-CreateNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
+createNCardAuxiliar(_,NCard,N,_,N,NCard):-!.
+createNCardAuxiliar(Elements,NCard,N,J,K,FinalNCard):- 
   calculateIndexToNCards(N,J,K,Index),
-  getElementByPosition(Elements,Index,Element),
-  addElementToCard()
+  getElementByPosition(Index,Elements,Element),
+  addElementToCard(Element,NCard,NCardUpdate),
+  FinalK is K + 1,
+  createNCardAuxiliar(Elements,NCardUpdate,N,J,FinalK,FinalNCard).
   
   
+% EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
 
 
 %Selectores
