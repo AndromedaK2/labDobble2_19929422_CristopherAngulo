@@ -70,9 +70,9 @@ isPrime(X) :- not(divisible(X, 2)).
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
-%calculateIndexToN2Cards(N,J,K,I,Index):- Index is 
+calculateIndexToN2Cards(N,J,K,I,Index):- Index is N+2+N*(K-1) + (((I-1)*(K-1)+J-1) mod N).
 
-%Modificador
+%ModIficador
 addElementToCard(Element,Card,CardUpdate):- isElement(Element), append(Card,[Element],CardUpdate).
 
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-
