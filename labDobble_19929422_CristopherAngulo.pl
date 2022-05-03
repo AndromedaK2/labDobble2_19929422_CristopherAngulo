@@ -17,7 +17,7 @@
 % createNCards(Elements,Order,[FirstCard],0,NCards),
 % createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
-% -- Metas
+% --Metas--
 % Principales: CardsSet
 % Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,createFirstCard,createNCards,createNSquareCards
 
@@ -38,20 +38,20 @@ emptyCardsSet([]).
 createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
 createFirstCardAuxiliar(_,N,Card,N,Card):- !.
 createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
-    getFirstElement(Elements,Element),
-    getTailElements(Elements,TailElements),
-    addElementToCard(Element,FirstCard,FinalCard),
-    FinalCount is Count + 1,
-    createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
+  getFirstElement(Elements,Element),
+  getTailElements(Elements,TailElements),
+  addElementToCard(Element,FirstCard,FinalCard),
+  FinalCount is Count + 1,
+  createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
 createNCards(_,N,Cards,N,Cards):-!.
 createNCards(Elements,N,Cards,J,FinalCards):-
-    getFirstElement(Elements,FirstElement),
-    FinalJ is J + 1,
-    createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
-    addCardToCardsSet(Card,Cards,NewCards),
-    createNCards(Elements,N,NewCards,FinalJ,FinalCards).
+  getFirstElement(Elements,FirstElement),
+  FinalJ is J + 1,
+  createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
+  addCardToCardsSet(Card,Cards,NewCards),
+  createNCards(Elements,N,NewCards,FinalJ,FinalCards).
 
 %Helper
 createNCardAuxiliar(_,Card,N,_,N,Card):-!.
@@ -75,8 +75,7 @@ createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
 
 %Helper
 createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):- !.
-createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-
-  Index is I,
+createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
   getElementByPosition(Index,Elements,FirstElement),
   FinalJ is J + 1,
   createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
@@ -85,8 +84,7 @@ createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-
 
 %Helper
 createNSquareCards(_,Cards,N,N,Cards):- !.
-createNSquareCards(Elements,Cards,N,I,CardsSet):-
-  FinalI is I + 1,
+createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
   createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
 
@@ -99,10 +97,8 @@ getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
-cardsSetFindTotalCards(Card,TotalCards):-
-    length(Card,Large),
-    getOrder(Large,Order),
-    TotalCards is (Order * Order) + Order + 1.
+cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
+ TotalCards is (Order * Order) + Order + 1.
 
 
 
