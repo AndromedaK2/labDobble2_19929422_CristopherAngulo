@@ -1,6 +1,34 @@
 :- use_module(library(lists)).
 
-%Representación Mazo de Cartas:  Elements X NumberElement X NumberMaxCard X Seed X CardsSet
+% TDA: CardsSet 
+% Representación Lista de Cartas:  Elements X NumberElementPerCard X MaxNumberOfCards X Seed X CardsSet
+
+% --Dominios--
+% Elements: Lista de Elementos
+% NumberElementPerCard, MaxNumberOfCards, Seed: Entero+
+% CardsSet: Lista de Cartas
+
+% --Predicados--
+% cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet)
+% getOrder(NumberElementPerCard,Order)
+% isValidOrder(Order)
+% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
+% createFirstCard(Elements,NumberElementPerCard,FirstCard),
+% createNCard(Elements,Order,[FirstCard],0,NCards),
+% createNSquareCards(Elements,NCards,Order,0,CardsSet).
+
+% -- Metas
+% Principales: CardsSet
+% Secundarias: 
+  % getOrder
+  % isValidOrder
+  % isAValidCardsSetToCreate
+  % createFirstCard
+  % createNCard
+  % createNSquareCards
+
+% --Cláusulas--
+% Regla 
 cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
     getOrder(NumberElementPerCard,Order),
     isValidOrder(Order),
