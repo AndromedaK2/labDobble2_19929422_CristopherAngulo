@@ -19,13 +19,8 @@
 
 % -- Metas
 % Principales: CardsSet
-% Secundarias: 
-  % getOrder
-  % isValidOrder
-  % isAValidCardsSetToCreate
-  % createFirstCard
-  % createNCards
-  % createNSquareCards
+% Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,createFirstCard,createNCards,createNSquareCards
+
 
 % --Cláusulas--
 % Regla 
@@ -39,7 +34,6 @@ cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
 
 %Constructor Vacío
 emptyCardsSet([]).
-
 %Helper
 createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
 createFirstCardAuxiliar(_,N,Card,N,Card):- !.
@@ -104,8 +98,6 @@ getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
- 
-
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 cardsSetFindTotalCards(Card,TotalCards):-
     length(Card,Large),
@@ -131,7 +123,6 @@ divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
-
 %Modificador
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
