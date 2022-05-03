@@ -14,7 +14,7 @@
 % isValidOrder(Order)
 % isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
 % createFirstCard(Elements,NumberElementPerCard,FirstCard),
-% createNCard(Elements,Order,[FirstCard],0,NCards),
+% createNCards(Elements,Order,[FirstCard],0,NCards),
 % createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
 % -- Metas
@@ -24,7 +24,7 @@
   % isValidOrder
   % isAValidCardsSetToCreate
   % createFirstCard
-  % createNCard
+  % createNCards
   % createNSquareCards
 
 % --Cláusulas--
@@ -34,7 +34,7 @@ cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
     isValidOrder(Order),
     isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
     createFirstCard(Elements,NumberElementPerCard,FirstCard),
-    createNCard(Elements,Order,[FirstCard],0,NCards),
+    createNCards(Elements,Order,[FirstCard],0,NCards),
     createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
 %Constructor Vacío
@@ -51,13 +51,13 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
     createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-createNCard(_,N,Cards,N,Cards):-!.
-createNCard(Elements,N,Cards,J,FinalCards):-
+createNCards(_,N,Cards,N,Cards):-!.
+createNCards(Elements,N,Cards,J,FinalCards):-
     getFirstElement(Elements,FirstElement),
     FinalJ is J + 1,
     createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
     addCardToCardsSet(Card,Cards,NewCards),
-    createNCard(Elements,N,NewCards,FinalJ,FinalCards).
+    createNCards(Elements,N,NewCards,FinalJ,FinalCards).
 
 %Helper
 createNCardAuxiliar(_,Card,N,_,N,Card):-!.
@@ -69,9 +69,6 @@ createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):-
   createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
   
   
-% EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
-%createNCard([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
-
 %Helper
 createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
 createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
@@ -146,7 +143,8 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 % createFirstCard([1,2,3,4,5,6],4,Card).
 % createFirstCard([1,"noruega",3,california,5,6],4,Card).
 % cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet)
-
+% EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
+%createNCards([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
 
 
 
