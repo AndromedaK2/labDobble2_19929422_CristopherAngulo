@@ -79,7 +79,7 @@ compareTwoCards(FirstCard,SecondCard):-
 emptyCardsSet([]).
 %Helper
 createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
-createFirstCardAuxiliar(_,N,Card,N,Card).
+createFirstCardAuxiliar(_,N,Card,N,Card):-!.
 createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
   getFirstElement(Elements,Element),
   getTailElements(Elements,TailElements),
@@ -88,7 +88,7 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
   createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-createNCards(_,N,Cards,N,Cards).
+createNCards(_,N,Cards,N,Cards):-!.
 createNCards(Elements,N,Cards,J,FinalCards):-
   getFirstElement(Elements,FirstElement),
   FinalJ is J + 1,
@@ -97,7 +97,7 @@ createNCards(Elements,N,Cards,J,FinalCards):-
   createNCards(Elements,N,NewCards,FinalJ,FinalCards).
 
 %Helper
-createNCardAuxiliar(_,Card,N,_,N,Card).
+createNCardAuxiliar(_,Card,N,_,N,Card):-!.
 createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
   calculateIndexToNCards(N,J,K,Index),
   getElementByPosition(Index,Elements,Element),
@@ -126,7 +126,7 @@ createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
   createNSquareCardsFirstAuxiliar(Elements,NewCards,N,FinalJ,I,FinalCards).
 
 %Helper
-createNSquareCards(_,Cards,N,N,Cards).
+createNSquareCards(_,Cards,N,N,Cards):-!.
 createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
   createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
