@@ -1,14 +1,14 @@
 :- use_module(library(lists)).
 
-% TDA: CardsSet 
+% Implementación TDA CardsSet 
 % Representación Lista de Cartas:  Elements X NumberElementPerCard X MaxNumberOfCards X Seed X CardsSet
 
-% --Dominios--
+% -- Dominios --
 % Elements: Lista de Elementos
 % NumberElementPerCard, MaxNumberOfCards, Seed: Entero+
 % CardsSet: Lista de Cartas
 
-% --Predicados--
+% -- Predicados --
 % cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet)
 % getOrder(NumberElementPerCard,Order)
 % isValidOrder(Order)
@@ -17,26 +17,69 @@
 % createNCards(Elements,Order,[FirstCard],0,NCards),
 % createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
-% --Metas--
+% -- Metas --
 % Principales: CardsSet
 % Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,createFirstCard,createNCards,createNSquareCards
 
 
-% --Cláusulas--
+% -- Cláusulas --
 % Regla 
 cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
-    getOrder(NumberElementPerCard,Order),
-    isValidOrder(Order),
-    isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
-    createFirstCard(Elements,NumberElementPerCard,FirstCard),
-    createNCards(Elements,Order,[FirstCard],0,NCards),
-    createNSquareCards(Elements,NCards,Order,0,CardsSet).
+  getOrder(NumberElementPerCard,Order),
+  isValidOrder(Order),
+  isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
+  createFirstCard(Elements,NumberElementPerCard,FirstCard),
+  createNCards(Elements,Order,[FirstCard],0,NCards),
+  createNSquareCards(Elements,NCards,Order,0,CardsSet).
+
+% Regla
+cardsSetIsDobble(CardsSet):-
+  validateAllCardsAreUniqueElements(CardsSet),
+  validateAllCardsAreOneCommonElement(CardsSet).
+
+
+%Helper
+validateAllCardsAreUniqueElements([]).
+validateAllCardsAreUniqueElements([_,[]]).
+validateAllCardsAreUniqueElements([FirstCard|TailCards]):-
+  isCardUniqueElements(FirstCard),
+  validateAllCardsAreUniqueElements(TailCards).
+
+
+%Helper
+isCardUniqueElements([]).
+isCardUniqueElements([_,[]]).
+isCardUniqueElements([FirstElement|TailElements]):-
+  not(member(FirstElement,TailElements)),
+  isCardUniqueElements(TailElements).
+ 
+
+%Helper
+validateAllCardsAreOneCommonElement([]).
+validateAllCardsAreOneCommonElement([_,[]]).
+validateAllCardsAreOneCommonElement([FirstCard|TailCards]):- 
+  compareFirstCardWithTailCards(FirstCard,TailCards),
+  validateAllCardsAreOneCommonElement(TailCards).
+  
+
+
+compareFirstCardWithTailCards(_,[]).
+compareFirstCardWithTailCards(FirstCard,[SecondCard|TailCards]):-
+ compareTwoCards(FirstCard,SecondCard),
+ compareFirstCardWithTailCards(FirstCard,TailCards).
+ 
+compareTwoCards(FirstCard,SecondCard):-
+ intersection(FirstCard,SecondCard,Elements),
+ length(Elements,Large),
+ Large is 1.
+
+
 
 %Constructor Vacío
 emptyCardsSet([]).
 %Helper
 createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
-createFirstCardAuxiliar(_,N,Card,N,Card):- !.
+createFirstCardAuxiliar(_,N,Card,N,Card).
 createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
   getFirstElement(Elements,Element),
   getTailElements(Elements,TailElements),
@@ -45,7 +88,7 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
   createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
 
 %Helper
-createNCards(_,N,Cards,N,Cards):-!.
+createNCards(_,N,Cards,N,Cards).
 createNCards(Elements,N,Cards,J,FinalCards):-
   getFirstElement(Elements,FirstElement),
   FinalJ is J + 1,
@@ -54,11 +97,11 @@ createNCards(Elements,N,Cards,J,FinalCards):-
   createNCards(Elements,N,NewCards,FinalJ,FinalCards).
 
 %Helper
-createNCardAuxiliar(_,Card,N,_,N,Card):-!.
+createNCardAuxiliar(_,Card,N,_,N,Card).
 createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
   calculateIndexToNCards(N,J,K,Index),
   getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,Card,NewCard),
+  addElementToCard(Element,Card,NewCard),   
   FinalK is K + 1,
   createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
   
@@ -74,7 +117,7 @@ createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
 
 
 %Helper
-createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):- !.
+createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):-!.
 createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
   getElementByPosition(Index,Elements,FirstElement),
   FinalJ is J + 1,
@@ -83,7 +126,7 @@ createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
   createNSquareCardsFirstAuxiliar(Elements,NewCards,N,FinalJ,I,FinalCards).
 
 %Helper
-createNSquareCards(_,Cards,N,N,Cards):- !.
+createNSquareCards(_,Cards,N,N,Cards).
 createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
   createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
@@ -132,6 +175,21 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 % cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet)
 % EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
 %createNCards([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
+% cardsSetIsDobble([
+% [1, 2, 3, 4],
+% [1, 5, 6, 7],
+% [1, 8, 9, 10],
+% [1, 11, 12, 13],
+% [2, 5, 8, 11],
+% [2, 6, 9, 12],
+% [2, 7, 10, 13],
+% [3, 5, 9, 13],
+% [3, 6, 10, 11],
+% [3, 7, 8, 12],
+% [4, 5, 10, 12],
+% [4, 6, 8, 13],
+% [4, 7, 9, 11]
+% ]).
 
-
-
+%cardsSetIsDobble([[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]]).
+%cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
