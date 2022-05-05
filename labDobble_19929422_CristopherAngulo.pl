@@ -207,10 +207,18 @@ addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Eleme
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
+
+cardsSetToString([],Cards,Cards).
+cardsSetToString([FirstCard|TailCards],CardsSet,CardsSetToString):-
+ cardToString(FirstCard,2,StringCard),
+ string_concat(CardsSet,StringCard,StringCardFinal),
+ cardsSetToString(TailCards,StringCardFinal,CardsSetToString).
+
+
 cardToString(Card,Position,FinalStringCard):-
  atomics_to_string(Card,'-',StringCard),
  atomic_concat(Position,' : ',StringPosition),
- atomic_concat('Carta ',StringPosition,StringCardFormat),
+ atomic_concat(' Carta ',StringPosition,StringCardFormat),
  atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 %Examples:
