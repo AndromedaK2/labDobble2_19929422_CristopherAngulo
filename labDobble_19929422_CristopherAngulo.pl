@@ -97,6 +97,8 @@ compareTwoCards(FirstCard,SecondCard):-
  Large is 1.
 
 
+%cardsSetMissingCards(CardsSet):-
+ 
 
 %Constructor Vacío
 emptyCardsSet([]).
@@ -188,6 +190,7 @@ calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*
 %Modificador
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
+flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 
 %Examples:
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
