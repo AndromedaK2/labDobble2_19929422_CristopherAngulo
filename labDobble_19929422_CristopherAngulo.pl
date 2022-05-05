@@ -110,7 +110,22 @@ cardsSetMissingCards(CardsSet,MissingCards):-
  subtract(FullCardsSet,CardsSet,MissingCards).
  
 %Regla
-cardsSetToString().
+cardsSetToString(CardsSet,CardsSetToString):-
+  cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
+
+cardsToStringAuxiliar([],_,Cards,Cards).
+cardsToStringAuxiliar([FirstCard|TailCards],Position,CardsSet,CardsSetToString):-
+ FinalPosition is Position + 1,
+ cardToString(FirstCard,FinalPosition,StringCard),
+ string_concat(CardsSet,StringCard,StringCardFinal),
+ cardsToStringAuxiliar(TailCards,FinalPosition,StringCardFinal,CardsSetToString).
+
+
+cardToString(Card,Position,FinalStringCard):-
+ atomics_to_string(Card,'-',StringCard),
+ atomic_concat(Position,' : ',StringPosition),
+ atomic_concat(' Carta ',StringPosition,StringCardFormat),
+ atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 
 %Constructor Vacío
@@ -208,18 +223,7 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
-cardsSetToString([],Cards,Cards).
-cardsSetToString([FirstCard|TailCards],CardsSet,CardsSetToString):-
- cardToString(FirstCard,2,StringCard),
- string_concat(CardsSet,StringCard,StringCardFinal),
- cardsSetToString(TailCards,StringCardFinal,CardsSetToString).
 
-
-cardToString(Card,Position,FinalStringCard):-
- atomics_to_string(Card,'-',StringCard),
- atomic_concat(Position,' : ',StringPosition),
- atomic_concat(' Carta ',StringPosition,StringCardFormat),
- atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 %Examples:
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
