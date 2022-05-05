@@ -49,10 +49,10 @@ createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,In
  
 createIncompleteCardsSetAuxiliar(_,Count,Count,_,_,_,Cards,Cards):-!.
 createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,
-NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
-  FinalCount is Count + 1,
-  addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
-  createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
+  NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
+    FinalCount is Count + 1,
+    addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
+    createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
   
 
 % Regla
@@ -97,8 +97,20 @@ compareTwoCards(FirstCard,SecondCard):-
  Large is 1.
 
 
-%cardsSetMissingCards(CardsSet):-
+%Regla
+cardsSetMissingCards(CardsSet,Cardsss):-
+ flattenCardsSet(CardsSet,Elements),
+ removeDuplicateElements(Elements,ElementsWithoutDuplicates),
+ getFirstCard(CardsSet,Card),
+ cardsSetFindTotalCards(Card,TotalCards),
+ length(ElementsWithoutDuplicates,NumberOfElements),
+ NumberOfElements = TotalCards,
+ length(Card,NumberElementPerCard),
+ getOrder(NumberElementPerCard,Order),
+ createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
+ intersection(CardsSet,FullCardsSet,Cardsss).
  
+
 
 %Constructor Vacío
 emptyCardsSet([]).
@@ -164,6 +176,7 @@ getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
+getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
@@ -191,6 +204,7 @@ calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
+removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
 %Examples:
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
