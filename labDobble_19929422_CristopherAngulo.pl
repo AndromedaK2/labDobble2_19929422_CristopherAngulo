@@ -223,33 +223,7 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
-
-
-%Examples:
-%createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
-%createNSquareCardsFirstAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,1,0,Cards).
-%createNSquareCards([1,2,3,4,5,6,7,8,9,10,11,12,13],[],3,0,Cards).
-% createFirstCard([1,2,3,4,5,6],4,Card).
-% createFirstCard([1,"noruega",3,california,5,6],4,Card).
-% cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet)
-% EXAMPLE: createNCardAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[1],3,0,0,Card).
-%createNCards([1,2,3,4,5,6,7,8,9,10,11,12,13],3,[],0,Cards).
-% cardsSetIsDobble([
-% [1, 2, 3, 4],
-% [1, 5, 6, 7],
-% [1, 8, 9, 10],
-% [1, 11, 12, 13],
-% [2, 5, 8, 11],
-% [2, 6, 9, 12],
-% [2, 7, 10, 13],
-% [3, 5, 9, 13],
-% [3, 6, 10, 11],
-% [3, 7, 8, 12],
-% [4, 5, 10, 12],
-% [4, 6, 8, 13],
-% [4, 7, 9, 11]
-% ]).
-
 % cardsSetIsDobble([[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]]).
 % cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
 % cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
+% cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
