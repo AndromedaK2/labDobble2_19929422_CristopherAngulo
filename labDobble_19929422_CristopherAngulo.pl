@@ -24,12 +24,17 @@
 
 % -- Cláusulas --
 % Regla 
+
 cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
   getOrder(NumberElementPerCard,Order),
   isValidOrder(Order),
   isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
-
-
+  getMaxNumberOfCards(Order,MaxNumberOfCardsPosible),
+  MaxNumberOfCardsPosible = MaxNumberOfCards ->
+    createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet);
+    getOrder(NumberElementPerCard,Order),
+    createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet).
+    
 %Obtengo los elementos, la cantidad de elementos y agrego los restantes
 %obtengo la intersection y la niego
 
@@ -40,15 +45,14 @@ createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet):-
 
 createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,IncompleteCardsSet):-
  createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet),
- createIncompleteCardsSetAuxiliar(CardsSet,0,MaxNumberOfCards,Elements,NumberElementPerCard,Order,IncompleteCardsSet):-!.
+ createIncompleteCardsSetAuxiliar(CardsSet,0,MaxNumberOfCards,Elements,NumberElementPerCard,Order,[],IncompleteCardsSet).
  
-createIncompleteCardsSetAuxiliar(CardsSet,Count,Count,_,_,_,_):-!.
-createIncompleteCardsSet([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,NumberElementPerCard,Order,IncompleteCardsSet):-
-  getMaxNumberOfCards(Order,MaxNumberOfCardsPosible)  
-  MaxNumberOfCardsPosible => MaxNumberOfCards,
+createIncompleteCardsSetAuxiliar(_,Count,Count,_,_,_,Cards,Cards):-!.
+createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,
+NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
   FinalCount is Count + 1,
-  addCardToCardsSet(FirstCard,IncompleteCardsSet,FinalIncompleteCardsSet),
-  createIncompleteCardsSet(FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,FinalIncompleteCardsSet)
+  addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
+  createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
   
 
 % Regla
