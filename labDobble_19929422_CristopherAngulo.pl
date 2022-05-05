@@ -109,6 +109,8 @@ cardsSetMissingCards(CardsSet,MissingCards):-
  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
  subtract(FullCardsSet,CardsSet,MissingCards).
  
+%Regla
+cardsSetToString().
 
 
 %Constructor Vacío
@@ -205,6 +207,11 @@ addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Eleme
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
+cardToString(Card,Position,FinalStringCard):-
+ atomics_to_string(Card,'-',StringCard),
+ atomic_concat(Position,' : ',StringPosition),
+ atomic_concat('Carta ',StringPosition,StringCardFormat),
+ atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 %Examples:
 %createNSquareCardsSecondAuxiliar([1,2,3,4,5,6,7,8,9,10,11,12,13],[2],3,1,1,1,Cards).
