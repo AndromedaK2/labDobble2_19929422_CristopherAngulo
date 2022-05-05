@@ -98,9 +98,8 @@ compareTwoCards(FirstCard,SecondCard):-
 
 
 %Regla
-cardsSetMissingCards(CardsSet,Cardsss):-
- flattenCardsSet(CardsSet,Elements),
- removeDuplicateElements(Elements,ElementsWithoutDuplicates),
+cardsSetMissingCards(CardsSet,MissingCards):-
+ getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
  getFirstCard(CardsSet,Card),
  cardsSetFindTotalCards(Card,TotalCards),
  length(ElementsWithoutDuplicates,NumberOfElements),
@@ -108,7 +107,7 @@ cardsSetMissingCards(CardsSet,Cardsss):-
  length(Card,NumberElementPerCard),
  getOrder(NumberElementPerCard,Order),
  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
- intersection(CardsSet,FullCardsSet,Cardsss).
+ subtract(FullCardsSet,CardsSet,MissingCards).
  
 
 
@@ -177,6 +176,7 @@ getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
 getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
+getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):- flattenCardsSet(CardsSet,Elements),removeDuplicateElements(Elements,ElementsWithoutDuplicates).
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
@@ -231,5 +231,6 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % [4, 7, 9, 11]
 % ]).
 
-%cardsSetIsDobble([[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]]).
-%cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
+% cardsSetIsDobble([[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]]).
+% cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
+% cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
