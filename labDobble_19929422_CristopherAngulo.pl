@@ -35,8 +35,6 @@ cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
     getOrder(NumberElementPerCard,Order),
     createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet).
     
-%Obtengo los elementos, la cantidad de elementos y agrego los restantes
-%obtengo la intersection y la niego
 
 createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet):-
   createFirstCard(Elements,NumberElementPerCard,FirstCard),
@@ -128,8 +126,6 @@ cardToString(Card,Position,FinalStringCard):-
  atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 
-%Constructor Vacío
-emptyCardsSet([]).
 %Helper
 createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
 createFirstCardAuxiliar(_,N,Card,N,Card):-!.
@@ -227,3 +223,9 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
 % cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
 % cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
+
+
+dobbleGame(NumberOfPlayers).
+
+
+
