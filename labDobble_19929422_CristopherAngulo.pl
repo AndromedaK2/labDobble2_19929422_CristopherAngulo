@@ -93,7 +93,7 @@ createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,In
 % Secundarias: addCardToCardsSet
 
 % -- Cláusula --
-% Regla: Helper Mazo de cartas Incompleto 
+% Regla: Helper para Crear Mazo de cartas Incompleto 
 createIncompleteCardsSetAuxiliar(_,Count,Count,_,_,_,Cards,Cards):-!.
 createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,
   NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
