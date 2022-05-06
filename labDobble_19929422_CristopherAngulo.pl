@@ -230,8 +230,23 @@ player(Username,Points,Player):- string(Username), number(Points),
 
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
  number(NumberOfPlayers),
- cardsSetIsDobble(CardsSet)
+ NumberOfPlayers > 1,
+ cardsSetIsDobble(CardsSet),
+ emptyPlayers(InitialPlayers)
+ Game = [NumberOfPlayers,InitialPlayers,CardsSet,Mode].
  
+playerIsRegistered([Player|_],Player):-!.
+playerIsRegistered([_|RestPlayers],Player):-
+  playerIsRegistered(RestPlayers,Player).
+
+emptyPlayers([]).
+
+dobbleGameRegister(Player,[N,Players,C,M],[N,[Player|Players],C,M]):-
+  length(Players,PlayersNumber),
+  N >PlayersNumber,
+  not(playerIsRegistered(Players,Player)).
+
+
 
 
 
