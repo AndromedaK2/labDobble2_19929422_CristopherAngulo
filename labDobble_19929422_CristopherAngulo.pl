@@ -253,7 +253,4 @@ dobbleGameRegister(Player,[N,Players,C,M],[N,[Player|Players],C,M]):-
   not(playerIsRegistered(Players,Player)).
 
 
-
-
-
-
+%trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
