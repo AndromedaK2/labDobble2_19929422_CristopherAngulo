@@ -228,23 +228,30 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 player(Username,Points,Player):- string(Username), number(Points),
   append([Username],[Points],Player).
 
+emptyPlayers([]).
+emptyCardsZone([]).
+emptyState([]).
+
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
  number(NumberOfPlayers),
  NumberOfPlayers > 1,
  cardsSetIsDobble(CardsSet),
- emptyPlayers(InitialPlayers)
+ emptyPlayers(InitialPlayers),
+ emptyCardsZone(InitialCardsZone),
+ emptyState(InitialState),
  Game = [NumberOfPlayers,InitialPlayers,CardsSet,Mode].
  
+playerIsRegistered([],_):-false.
 playerIsRegistered([Player|_],Player):-!.
 playerIsRegistered([_|RestPlayers],Player):-
   playerIsRegistered(RestPlayers,Player).
 
-emptyPlayers([]).
 
 dobbleGameRegister(Player,[N,Players,C,M],[N,[Player|Players],C,M]):-
   length(Players,PlayersNumber),
   N >PlayersNumber,
   not(playerIsRegistered(Players,Player)).
+
 
 
 
