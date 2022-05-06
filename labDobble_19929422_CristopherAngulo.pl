@@ -12,19 +12,19 @@
 % cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet)
 % getOrder(NumberElementPerCard,Order)
 % isValidOrder(Order)
-% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
-% createFirstCard(Elements,NumberElementPerCard,FirstCard),
-% createNCards(Elements,Order,[FirstCard],0,NCards),
-% createNSquareCards(Elements,NCards,Order,0,CardsSet).
+% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
+% getMaxNumberOfCards(Order,MaxNumberOfCardsPosible)
+% createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet)
+% createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet)
 
 % -- Metas --
 % Principales: CardsSet
-% Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,createFirstCard,createNCards,createNSquareCards
+% Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,getMaxNumberOfCards
+%              createCompleteCardsSet,createIncompleteCardsSet
 
 
 % -- Cláusulas --
-% Regla 
-
+% Regla: Constructor Mazo de Cartas 
 cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
   getOrder(NumberElementPerCard,Order),
   isValidOrder(Order),
@@ -36,15 +36,64 @@ cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
     createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet).
     
 
+% -- Dominios --
+% Elements: Lista de Elementos
+% NumberElementPerCard, Order: Entero+
+% CardsSet: Lista de Cartas
+
+% -- Predicados --
+% createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet)
+%  createFirstCard(Elements,NumberElementPerCard,FirstCard)
+%  createNCards(Elements,Order,[FirstCard],0,NCards)
+%  createNSquareCards(Elements,NCards,Order,0,CardsSet)
+
+% -- Metas --
+% Principales: createCompleteCardsSet
+% Secundarias: createFirstCard,createNCards,createNSquareCards
+
+% --Cláusulas 
+% Regla: Helper Constructor Crea Mazo de Cartas Completo
 createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet):-
   createFirstCard(Elements,NumberElementPerCard,FirstCard),
   createNCards(Elements,Order,[FirstCard],0,NCards),
   createNSquareCards(Elements,NCards,Order,0,CardsSet).
 
+% -- Dominios --
+% Elements: Lista de Elementos
+% NumberElementPerCard, Order,MaxNumberOfCards: Entero+
+% IncompleteCardsSet: Lista de Cartas
+
+% -- Predicados --
+% createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet)
+% createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,IncompleteCardsSet)
+% createIncompleteCardsSetAuxiliar(CardsSet,0,MaxNumberOfCards,Elements,NumberElementPerCard,Order,[],IncompleteCardsSet)
+
+% -- Metas --
+% Principales: createIncompleteCardsSet
+% Secundarias: createCompleteCardsSet,createIncompleteCardsSetAuxiliar
+
+% -- Cláusulas --
+% Regla: Helper Constructor Crea Mazo de Cartas Incompleto
 createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,IncompleteCardsSet):-
  createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet),
  createIncompleteCardsSetAuxiliar(CardsSet,0,MaxNumberOfCards,Elements,NumberElementPerCard,Order,[],IncompleteCardsSet).
- 
+
+
+% -- Dominios --
+% CardsSet,IncompleteCardsSetAuxiliar,IncompleteCardsSet: Lista de Cartas
+% Elements: Lista de Elementos
+% NumberElementPerCard,Count,MaxNumberOfCards, Order: Entero+
+
+% -- Predicados --
+% createIncompleteCardsSetAuxiliar(CardsSet,0,MaxNumberOfCards,Elements,NumberElementPerCard,Order,[],IncompleteCardsSet)
+% addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
+
+% -- Metas --
+% Principales: createIncompleteCardsSetAuxiliar
+% Secundarias: addCardToCardsSet
+
+% -- Cláusula --
+% Regla: Helper Mazo de cartas Incompleto 
 createIncompleteCardsSetAuxiliar(_,Count,Count,_,_,_,Cards,Cards):-!.
 createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,
   NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
@@ -53,7 +102,20 @@ createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,El
     createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
   
 
-% Regla
+% -- Dominios --
+% CardsSet: Lista de Cartas
+
+% -- Predicados --
+% cardsSetIsDobble(CardsSet)
+% validateAllCardsAreUniqueElements(CardsSet)
+% validateAllCardsAreOneCommonElement(CardsSet)
+
+% -- Metas --
+% Principales: cardsSetIsDobble
+% Secundarias: validateAllCardsAreUniqueElements,validateAllCardsAreOneCommonElement
+
+% -- Cláusula --
+% Regla: Pertenencia Validar si el mazo de cartas sirve para jugar
 cardsSetIsDobble(CardsSet):-
   validateAllCardsAreUniqueElements(CardsSet),
   validateAllCardsAreOneCommonElement(CardsSet).
