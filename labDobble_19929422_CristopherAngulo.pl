@@ -133,39 +133,66 @@ isCardUniqueElements([FirstElement|TailElements]):-
   not(member(FirstElement,TailElements)),
   isCardUniqueElements(TailElements).
  
-
 % -- Dominios --
 % CardsSet: Lista de Cartas
-
 % -- Predicados --
-% isCardUniqueElements(Card)
-
+% validateAllCardsAreOneCommonElement(CardsSet):- 
+% compareFirstCardWithTailCards(Card,CardsSet),
 % -- Metas --
-% Principales: isCardUniqueElements
-
+% Principales: validateAllCardsAreOneCommonElement
+% Secundarias: compareFirstCardWithTailCards
 % -- Cláusula --
-% Regla: Helper Pertenencia Validar si la carta tiene elementos únicos
-%Helper
+% Regla: Helper Pertenencia Validar que todas las cartas tenga un elemento en común
 validateAllCardsAreOneCommonElement([]).
 validateAllCardsAreOneCommonElement([_,[]]).
 validateAllCardsAreOneCommonElement([FirstCard|TailCards]):- 
   compareFirstCardWithTailCards(FirstCard,TailCards),
   validateAllCardsAreOneCommonElement(TailCards).
   
-
-
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% FirstCard,SecondCard: Lista de Elementos
+% -- Predicados --
+% compareFirstCardWithTailCards(Card,CardsSet)
+% compareTwoCards(FirstCard,SecondCard)
+% -- Metas --
+% Principales: validateAllCardsAreOneCommonElement
+% Secundarias: compareTwoCards
+% -- Cláusula --
+% Regla: Helper Pertenencia Comparar la primera carta con el resto de cartas
 compareFirstCardWithTailCards(_,[]).
 compareFirstCardWithTailCards(FirstCard,[SecondCard|TailCards]):-
  compareTwoCards(FirstCard,SecondCard),
  compareFirstCardWithTailCards(FirstCard,TailCards).
- 
+
+% -- Dominios --
+% FirstCard,SecondCard: Lista de Elementos
+% -- Predicados --
+% compareTwoCards(FirstCard,SecondCard)
+% -- Metas --
+% Principales: compareTwoCards
+% -- Cláusula --
+% Regla: Helper Pertenencia Comparar la primera carta con la segunda carta
 compareTwoCards(FirstCard,SecondCard):-
  intersection(FirstCard,SecondCard,Elements),
  length(Elements,Large),
  Large is 1.
 
 
-%Regla
+% -- Dominios --
+% CardsSet,MissingCards: Lista de Cartas
+% -- Predicados --
+%  cardsSetMissingCards(CardsSet,MissingCards):-
+%  getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
+%  getFirstCard(CardsSet,Card),
+%  cardsSetFindTotalCards(Card,TotalCards),
+%  getOrder(NumberElementPerCard,Order),
+%  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
+% -- Metas --
+% Principales: cardsSetMissingCards
+% Secundarias: %  getElementsWithOutDuplicates,getFirstCard,cardsSetFindTotalCards,getOrder,createCompleteCardsSet
+% -- Cláusula --
+% Regla: Helper Busca las Cartas Faltantes
 cardsSetMissingCards(CardsSet,MissingCards):-
  getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
  getFirstCard(CardsSet,Card),
