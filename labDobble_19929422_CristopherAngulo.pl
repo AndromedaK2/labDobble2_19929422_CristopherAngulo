@@ -225,7 +225,13 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
 
 
-dobbleGame(NumberOfPlayers).
+player(Username,Points,Player):- string(Username), number(Points),
+  append([Username],[Points],Player).
+
+dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
+ number(NumberOfPlayers),
+ cardsSetIsDobble(CardsSet)
+ 
 
 
 
