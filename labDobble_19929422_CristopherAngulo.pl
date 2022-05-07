@@ -1,6 +1,6 @@
 :- use_module(library(lists)).
 
-% Implementación TDA CardsSet 
+% TDA CardsSet 
 % Representación Lista de Cartas:  Elements X NumberElementPerCard X MaxNumberOfCards X Seed X CardsSet
 % -- Dominios --
 % Elements: Lista de Elementos
@@ -345,38 +345,40 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
 
 
-
 emptyPlayers([]).
 emptyCardsZone([]).
 emptyState([]).
 emptyUserCards([]).
 
+%TDA Player
 player(Username,Player):- 
   string(Username),
   Cards  = [],
   Points = 0,
   Player = [Username,Cards,Points].
 
-dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
+%TDA DobbleGame
+dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  number(NumberOfPlayers),
  NumberOfPlayers > 1,
  cardsSetIsDobble(CardsSet),
  emptyPlayers(InitialPlayers),
  emptyCardsZone(InitialCardsZone),
  emptyState(InitialState),
- Game = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState].
+ DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState].
  
-playerIsRegistered([],_):-false.
-playerIsRegistered([Player|_],Player):-!.
-playerIsRegistered([_|RestPlayers],Player):-
-  playerIsRegistered(RestPlayers,Player).
 
-
+%Regla: Registar Jugadores Nuevos, si ya existe retorna false.
 dobbleGameRegister(Player,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
   length(Players,PlayersNumber),
   N > PlayersNumber,
   not(playerIsRegistered(Players,Player)).
 
+%Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
+playerIsRegistered([],_):-false.
+playerIsRegistered([Player|_],Player):-!.
+playerIsRegistered([_|RestPlayers],Player):-
+  playerIsRegistered(RestPlayers,Player).
 
 %trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
 
