@@ -190,7 +190,7 @@ compareTwoCards(FirstCard,SecondCard):-
 %  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
 % -- Metas --
 % Principales: cardsSetMissingCards
-% Secundarias: %  getElementsWithOutDuplicates,getFirstCard,cardsSetFindTotalCards,getOrder,createCompleteCardsSet
+% Secundarias: getElementsWithOutDuplicates,getFirstCard,cardsSetFindTotalCards,getOrder,createCompleteCardsSet
 % -- Cláusula --
 % Regla: Helper Busca las Cartas Faltantes
 cardsSetMissingCards(CardsSet,MissingCards):-
@@ -204,10 +204,33 @@ cardsSetMissingCards(CardsSet,MissingCards):-
  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
  subtract(FullCardsSet,CardsSet,MissingCards).
  
-%Regla
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% CardsSetToString: Representación en cadena de caracteres del mazo de cartas
+% -- Predicados --
+% cardsSetToString(CardsSet,CardsSetToString)
+% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
+% -- Metas --
+% Principales: cardsSetToString
+% Secundarias: cardsToStringAuxiliar
+% -- Cláusula --
+% Regla: Helper que convierte un mazo de cartas a una representación en string 
 cardsSetToString(CardsSet,CardsSetToString):-
   cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
 
+
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% Position: Entero+
+% 
+% -- Predicados --
+% cardsSetToString(CardsSet,CardsSetToString)
+% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
+% -- Metas --
+% Principales: cardsSetToString
+% Secundarias: cardsToStringAuxiliar
+% -- Cláusula --
+% Regla: Helper que convierte un mazo de cartas a una representación en string 
 cardsToStringAuxiliar([],_,Cards,Cards).
 cardsToStringAuxiliar([FirstCard|TailCards],Position,CardsSet,CardsSetToString):-
  FinalPosition is Position + 1,
@@ -322,12 +345,17 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
 
 
-player(Username,Points,Player):- string(Username), number(Points),
-  append([Username],[Points],Player).
 
 emptyPlayers([]).
 emptyCardsZone([]).
 emptyState([]).
+emptyUserCards([]).
+
+player(Username,Player):- 
+  string(Username),
+  Cards  = [],
+  Points = 0,
+  Player = [Username,Cards,Points].
 
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
  number(NumberOfPlayers),
@@ -336,7 +364,7 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,Game):-
  emptyPlayers(InitialPlayers),
  emptyCardsZone(InitialCardsZone),
  emptyState(InitialState),
- Game = [NumberOfPlayers,InitialPlayers,CardsSet,Mode].
+ Game = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState].
  
 playerIsRegistered([],_):-false.
 playerIsRegistered([Player|_],Player):-!.
@@ -344,10 +372,29 @@ playerIsRegistered([_|RestPlayers],Player):-
   playerIsRegistered(RestPlayers,Player).
 
 
-dobbleGameRegister(Player,[N,Players,C,M],[N,[Player|Players],C,M]):-
+dobbleGameRegister(Player,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
   length(Players,PlayersNumber),
-  N >PlayersNumber,
+  N > PlayersNumber,
   not(playerIsRegistered(Players,Player)).
 
 
 %trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
+
+% dobbleGamePlay(Game).
+
+% mode("stack",Game).
+% mode("emptyhands",Game).
+
+% llamo a la modalidad de juego
+% action(null,Game,NewGame):-
+% getGameMode(Game,Mode),
+
+% action(pass,Game).
+% action(spotit,Game).
+% action(finish,Game).
+
+% getGameMode([_,_,_,Mode],Mode):-
+%   mode(Mode,_).
+
+
+
