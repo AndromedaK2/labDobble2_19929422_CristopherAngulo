@@ -368,17 +368,18 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState].
  
 
-%Regla: Registar Jugadores Nuevos, si ya existe retorna false.
-dobbleGameRegister(Player,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
+%Regla: Registrar Jugadores Nuevos, si ya existe retorna false.
+dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
   length(Players,PlayersNumber),
   N > PlayersNumber,
-  not(playerIsRegistered(Players,Player)).
+  not(playerIsRegistered(Players,Username)),
+  player(Username,Player).
 
 %Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
 playerIsRegistered([],_):-false.
-playerIsRegistered([Player|_],Player):-!.
-playerIsRegistered([_|RestPlayers],Player):-
-  playerIsRegistered(RestPlayers,Player).
+playerIsRegistered([[Username,_,_]|_],Username):-!.
+playerIsRegistered([_|RestPlayers],Username):-
+  playerIsRegistered(RestPlayers,Username).
 
 %trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
 
