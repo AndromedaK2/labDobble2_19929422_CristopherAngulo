@@ -371,9 +371,9 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
 %Regla: Registrar Jugadores Nuevos, si ya existe retorna false.
 dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
   length(Players,PlayersNumber),
-  N > PlayersNumber,
-  not(playerIsRegistered(Players,Username)),
-  player(Username,Player).
+,Username)),
+  player(Username,  N > PlayersNumber,
+  not(playerIsRegistered(PlayersPlayer).
 
 %Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
 playerIsRegistered([],_):-false.
