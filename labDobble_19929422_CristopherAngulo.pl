@@ -349,6 +349,7 @@ emptyPlayers([]).
 emptyCardsZone([]).
 emptyState([]).
 emptyUserCards([]).
+emptyTurns([]).
 
 %TDA Player
 player(Username,Player):- 
@@ -365,21 +366,37 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  emptyPlayers(InitialPlayers),
  emptyCardsZone(InitialCardsZone),
  emptyState(InitialState),
- DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState].
+ emptyTurns(InitialTurns),
+ DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState,InitialTurns].
  
 
 %Regla: Registrar Jugadores Nuevos, si ya existe retorna false.
-dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| RestGame]):-
+dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| NewGame]):-
   length(Players,PlayersNumber),
-,Username)),
-  player(Username,  N > PlayersNumber,
-  not(playerIsRegistered(PlayersPlayer).
+  N > PlayersNumber,
+  not(playerIsRegistered(Players,Username)),
+  player(Username,Player),
+  addTurn(Username,RestGame,NewGame).
 
 %Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
 playerIsRegistered([],_):-false.
 playerIsRegistered([[Username,_,_]|_],Username):-!.
 playerIsRegistered([_|RestPlayers],Username):-
   playerIsRegistered(RestPlayers,Username).
+
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,Mode,InitialCardsZone,InitialState,UpdatedTurns]):-
+  Turns = [] ->
+    UpdatedTurns = [Username];
+    append(Turns,Username,UpdatedTurns).
+   
+
+
+%Regla: Helper Obtener a quien le toca
+% dobbleGameWhoseTurnIsIt(DobbleGame,Username):-
+ 
+
+
+
 
 %trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
 
