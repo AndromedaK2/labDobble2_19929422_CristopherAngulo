@@ -391,8 +391,16 @@ addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,M
    
 
 
+getTurns([_,_,_,_,_,_,Turns],Turns).
+getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
+getPlayers([_,Players,_,_,_,_,_],Players).
+getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
+getMode([_,_,_,Mode,_,_,_],Mode).
+getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+
+
 %Regla: Helper Obtener a quien le toca
-% dobbleGameWhoseTurnIsIt(DobbleGame,Username):-
+%dobbleGameWhoseTurnIsIt(DobbleGame,Username):-
  
 
 
