@@ -381,14 +381,10 @@ dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| NewGame]):
 %Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
 playerIsRegistered([],_):-false.
 playerIsRegistered([[Username,_,_]|_],Username):-!.
-playerIsRegistered([_|RestPlayers],Username):-
-  playerIsRegistered(RestPlayers,Username).
-
+playerIsRegistered([_|RestPlayers],Username):-playerIsRegistered(RestPlayers,Username).
 
 addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],[CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
-addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,Mode,InitialCardsZone,InitialState,UpdatedTurns]):-
-  append(Turns,Username,UpdatedTurns).
-
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
 
 getTurns([_,_,_,_,_,_,Turns],Turns).
 getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
@@ -401,7 +397,8 @@ getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
 %Regla: Helper Obtener a quien le toca
 %dobbleGameWhoseTurnIsIt(DobbleGame,Username):-
  
-
+%dobbleGame(4,[[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]],"stack",2,Game), 
+%dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Cristian",GameOut,Game2),dobbleGameRegister("Cristisan",Game2,Game3).
 
 
 
