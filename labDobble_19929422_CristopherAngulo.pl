@@ -492,6 +492,8 @@ getPlayers([_,Players,_,_,_,_,_],Players).
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+% get by position
+setCardsZone(FirstCard,SecondCard,[_,_,_,_,[FirstCard,SecondCard],_,_]).
 
 
 %Regla: Helper Obtener a quien le toca
@@ -500,14 +502,25 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  
 %dobbleGame(4,[[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]],"stack",2,Game), 
 %dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Cristian",GameOut,Game2),dobbleGameRegister("Cristisan",Game2,Game3).
-
-
-
 %trace, (dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)).
 
-% dobbleGamePlay(Game).
+dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
+ getGameMode(DobbleGame,Mode),
+ mode(Mode,DobbleGame,NewDobbleGame).
 
-% mode("stack",Game).
+dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
+ getGameMode(DobbleGame,Mode).
+dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
+dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
+
+mode("stack",DobbleGame,NewDobbleGame):-
+  getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
+  setCardsZone(FirstCard,SecondCard,NewDobbleGame).   
+
+
+
+
+
 % mode("emptyhands",Game).
 
 % llamo a la modalidad de juego
@@ -517,9 +530,6 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
 % action(pass,Game).
 % action(spotit,Game).
 % action(finish,Game).
-
-% getGameMode([_,_,_,Mode],Mode):-
-%   mode(Mode,_).
 
 
 
