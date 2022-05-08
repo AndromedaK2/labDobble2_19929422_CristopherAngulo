@@ -384,11 +384,10 @@ playerIsRegistered([[Username,_,_]|_],Username):-!.
 playerIsRegistered([_|RestPlayers],Username):-
   playerIsRegistered(RestPlayers,Username).
 
+
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],[CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
 addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,Mode,InitialCardsZone,InitialState,UpdatedTurns]):-
-  Turns = [] ->
-    UpdatedTurns = [Username];
-    append(Turns,Username,UpdatedTurns).
-   
+  append(Turns,Username,UpdatedTurns).
 
 
 getTurns([_,_,_,_,_,_,Turns],Turns).
