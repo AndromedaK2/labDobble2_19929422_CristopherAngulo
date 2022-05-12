@@ -567,24 +567,37 @@ isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   length(Elements,ElementsLength), 
   MaxNumberOfCardsToCompare = MaxNumberOfCards,
   MaxNumberOfCards = ElementsLength.
-
 % -- Dominios --
-% Elements: Elementos o Símbolos
-% Order,MaxNumberOfCards: Entero+
+% X,Y: Entero+
 %  -- Predicados --
-% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
-% getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare) 
+% divisible(X,Y)
 % -- Metas --
-% Principales: isAValidCardsSetToCreate
-% Secundarias: getMaxNumberOfCards
+% Principales: divisible(X,Y)
 % -- Cláusula --
-% Regla: Helper Pertenencia verificar si es orden válido
+% Regla: Helper Pertenencia verificar si es divisible por un número
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
-
+% -- Dominios --
+% N,J,K,Index: Entero+
+%  -- Predicados --
+% calculateIndexToNCards(N,J,K,Index)
+% -- Metas --
+% Principales: calculateIndexToNCards
+% -- Cláusula --
+% Regla: Helper Calcular Indice para buscar la N cartas
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
+% -- Dominios --
+% N,J,K,I,Index: Entero+
+%  -- Predicados --
+% calculateIndexToNSquareCards(N,J,K,I,Index)
+% -- Metas --
+% Principales: calculateIndexToNSquareCards
+% -- Cláusula --
+% Regla: Helper Calcular Indice para buscar la N cuadrado cartas
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
-%Modificador
+
+
+
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
