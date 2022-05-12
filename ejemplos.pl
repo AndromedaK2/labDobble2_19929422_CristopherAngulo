@@ -14,12 +14,21 @@ cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,2,Card)
 cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,3,Card)
 
 % Requerimiento 4
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,1,Card),cardsSetFindTotalCards(Card,Total).
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,2,Card),cardsSetFindTotalCards(Card,Total).
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,3,Card),cardsSetFindTotalCards(Card,Total).
 
-
-cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
+% Requerimiento 5 
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),cardsSetMissingCards(CardsSet,Cards)
 cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
+cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
+
+% Requerimiento 6
 cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
+cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetToString(CardsSet,Y).
+cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetToString(CardsSet,Z).
  
+% Requerimiento 7 
  cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet),
  dobbleGame(4,CardsSet,"stack",2,Game),
  dobbleGameRegister("Cristopher",Game,GameOut),
