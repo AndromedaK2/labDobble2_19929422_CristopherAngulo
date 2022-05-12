@@ -724,6 +724,9 @@ getPlayers([_,Players,_,_,_,_,_],Players).
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
+  intersection(FirstCard,SecondCard,Element).
+
 % get by position
 setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
     ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
@@ -734,21 +737,20 @@ setTurns(Game).
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
-
 dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
  getMode(DobbleGame,Mode),
  mode(Mode,DobbleGame,NewDobbleGame).
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
- getMode(DobbleGame,Mode).
+ getMode(DobbleGame,Mode),
+
+
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
 dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
   setCasetCardsZoneStackModerdsZone(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
-
-
 
 
 % separar los mazos
@@ -759,7 +761,15 @@ mode("stack",DobbleGame,NewDobbleGame):-
 
 
 % action(pass,Game).
-% action(spotit,Game).
+action(spotit,Element,DobbleGame,NewDobbleGame):-
+ getCardsZone(DobbleGame,[FirstCard,SecondCard]),
+ 
+ 
+ 
+
+
+ 
+ 
 % action(finish,Game).
 
 
