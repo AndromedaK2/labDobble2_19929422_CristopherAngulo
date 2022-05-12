@@ -9,7 +9,11 @@ cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetIsDobble(CardsSet).
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
 
 % Requerimiento 3
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,1,Card)
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,2,Card)
+cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetNthCard(CardsSet,3,Card)
 
+% Requerimiento 4
 
 
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet).
