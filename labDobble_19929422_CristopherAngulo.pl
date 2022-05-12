@@ -754,6 +754,11 @@ mode("stack",DobbleGame,NewDobbleGame):-
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
 
 
+action(spotit,Element,DobbleGame,NewDobbleGame):-
+ getCardsZone(DobbleGame,[FirstCard,SecondCard]),
+ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
+ Element = CommonElement.
+
 % separar los mazos
 % mode("emptyhands",Game).
 
@@ -762,10 +767,7 @@ mode("stack",DobbleGame,NewDobbleGame):-
 
 
 % action(pass,Game).
-action(spotit,Element,DobbleGame,NewDobbleGame):-
- getCardsZone(DobbleGame,[FirstCard,SecondCard]),
- getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
- Element = CommonElement.
+
  
  
  
