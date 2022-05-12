@@ -639,18 +639,48 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 
 
 
-emptyPlayers([]).
-emptyCardsZone([]).
-emptyState([]).
-emptyUserCards([]).
-emptyTurns([]).
 
-%TDA Player
+% TDA Player
+% Representación Lista de Username X Cards X Points
+% -- Dominios --
+% Username: string
+% Cards: Lista de Cartas 
+% Points: 
+% Player: Lista de Username X Cards X Points
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: removeDuplicateElements
+% -- Cláusula --
+% Regla: Helper Modificador remover elementos duplicados
 player(Username,Player):- 
   string(Username),
   Cards  = [],
   Points = 0,
   Player = [Username,Cards,Points].
+
+
+% -- Dominios --
+% Listas Vacías
+%  -- Predicados --
+% emptyPlayers([]).
+% emptyCardsZone([]).
+% emptyState([]).
+% emptyUserCards([]).
+% emptyTurns([]).
+% -- Metas --
+% Principales: emptyPlayers,
+% emptyCardsZone,
+% emptyState,
+% emptyUserCards,
+% emptyTurns,
+% -- Cláusula --
+% Hechos: 
+emptyPlayers([]).
+emptyCardsZone([]).
+emptyState([]).
+emptyUserCards([]).
+emptyTurns([]).
 
 %TDA DobbleGame
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
