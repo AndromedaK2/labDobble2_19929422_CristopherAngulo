@@ -743,6 +743,7 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  getMode(DobbleGame,Mode),
+ action(spotit,Element,DobbleGame,X).
 
 
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
@@ -750,7 +751,7 @@ dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
-  setCasetCardsZoneStackModerdsZone(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+  setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
 
 
 % separar los mazos
@@ -763,6 +764,8 @@ mode("stack",DobbleGame,NewDobbleGame):-
 % action(pass,Game).
 action(spotit,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
+ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
+ Element = CommonElement.
  
  
  
