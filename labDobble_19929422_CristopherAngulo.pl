@@ -516,15 +516,38 @@ cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 % Regla: Selector Obtener la enésima carta
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
-
-
-
-%Pertenencia
+% -- Dominios --
+% Element: Elemento o Símbolo
+%  -- Predicados --
+% isElement(Element)
+% -- Metas --
+% Principales: isElement
+% -- Cláusula --
+% Regla: Pertenencia verificar si es un elemento
 isElement(Element):- number(Element); string(Element); atom(Element).
+% -- Dominios --
+% Order: Entero+
+%  -- Predicados --
+% isValidOrder(Order)
+% -- Metas --
+% Principales: isValidOrder
+% Secundarias: isPrimer
+% -- Cláusula --
+% Regla: Helper Pertenencia verificar si el número es primo
 isValidOrder(Order):- isPrime(Order).
+% -- Dominios --
+% X: Entero+
+%  -- Predicados --
+% isPrime(X)
+% -- Metas --
+% Secundarias: isPrime
+% Principales: divisible
+% -- Cláusula --
+% Regla: Pertenencia verificar si es orden válido
 isPrime(2) :- true,!.
 isPrime(X) :- X < 2,!,false.
 isPrime(X) :- not(divisible(X, 2)).
+
 isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare),
   length(Elements,ElementsLength), 
