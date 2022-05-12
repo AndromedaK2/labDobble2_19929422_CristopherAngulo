@@ -439,12 +439,81 @@ getOrder(N,Order):- Order is N-1.
 % -- Cláusula --
 % Regla: Selector Obtener la primera carta
 getFirstCard([Card|_],Card).
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% Cards: Lista de Elementos
+%  -- Predicados --
+% getFirstCard(CardsSet,Cards)
+% -- Metas --
+% Principales: getTailCards
+% -- Cláusula --
+% Regla: Selector Obtener las cartas de la cola del mazo
 getTailCards([_|Cards],Cards).
+% -- Dominios --
+% Elements:Lista de Elementos
+% Index: Entero+
+% Element: Elemento o Símbolo
+%  -- Predicados --
+% getElementByPosition(Index,Elements,Element)
+% -- Metas --
+% Principales: getElementByPosition
+% -- Cláusula --
+% Regla: Selector Obtener elemento por posición
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
+% -- Dominios --
+% Elements:Lista de Elementos
+% Index: Entero+
+% Element: Elemento o Símbolo
+%  -- Predicados --
+% getElementByPosition(Index,Elements,Element)
+% -- Metas --
+% Principales: getElementByPosition
+% -- Cláusula --
+% Regla: Selector Obtener el máximo número de cartas
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
+% -- Dominios --
+% Elements:Lista de Elementos
+% NumberOfElements: Entero+
+%  -- Predicados --
+% getNumberOfElements(Elements,NumberOfElements)
+% -- Metas --
+% Principales: getNumberOfElements
+% -- Cláusula --
+% Regla: Selector Obtener el número de elementos
 getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
-getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):- flattenCardsSet(CardsSet,Elements),removeDuplicateElements(Elements,ElementsWithoutDuplicates).
+% -- Dominios --
+% ElementsWithoutDuplicates:Lista de Elementos
+% CardsSet: Lista de Cartas
+%  -- Predicados --
+% getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: getElementsWithOutDuplicates
+% Secundarias: flattenCardsSet,removeDuplicateElements
+% -- Cláusula --
+% Regla: Selector Obtener el número de elementos sin duplicados
+getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):- 
+  flattenCardsSet(CardsSet,Elements),
+  removeDuplicateElements(Elements,ElementsWithoutDuplicates).
+% -- Dominios --
+% Card:Lista de Elementos
+% Index: Entero+
+% CardsSet: Lista de Cartas
+%  -- Predicados --
+% cardsSetNthCard(CardsSet,Index,Card)
+% -- Metas --
+% Principales: cardsSetNthCard
+% -- Cláusula --
+% Regla: Selector Obtener la enésima carta
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
+% -- Dominios --
+% Card,TotalCards: Lista de Cartas
+%  -- Predicados --
+% cardsSetFindTotalCards(Card,TotalCards)
+% -- Metas --
+% Principales: cardsSetFindTotalCards
+% Secundarias: getOrder
+% -- Cláusula --
+% Regla: Selector Obtener la enésima carta
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
 
