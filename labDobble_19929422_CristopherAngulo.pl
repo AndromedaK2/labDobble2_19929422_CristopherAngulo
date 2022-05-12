@@ -1,5 +1,11 @@
 :- use_module(library(lists)).
 
+
+random(Xn, Xn1):-
+AX is 1103515245 * Xn,
+AXC is AX + 12345,
+Xn1 is (AXC mod 2147483647).
+
 % TDA CardsSet 
 % Representación Lista de Cartas:  Elements X NumberElementPerCard X MaxNumberOfCards X Seed X CardsSet
 % -- Dominios --
@@ -719,7 +725,9 @@ getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
 % get by position
-setCardsZone(FirstCard,SecondCard,[_,_,_,_,[FirstCard,SecondCard],_,_]).
+setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
+    ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
+setTurns(Game).
 
 
 %Regla: Helper Obtener a quien le toca
@@ -727,25 +735,28 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
 
-% dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
-%  getGameMode(DobbleGame,Mode),
-%  mode(Mode,DobbleGame,NewDobbleGame).
+dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
+ getMode(DobbleGame,Mode),
+ mode(Mode,DobbleGame,NewDobbleGame).
 
-% dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
-%  getGameMode(DobbleGame,Mode).
-% dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
-% dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
+dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
+ getMode(DobbleGame,Mode).
+dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
+dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
-% mode("stack",DobbleGame,NewDobbleGame):-
-%   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
-%   setCardsZone(FirstCard,SecondCard,NewDobbleGame).   
+mode("stack",DobbleGame,NewDobbleGame):-
+  getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
+  setCasetCardsZoneStackModerdsZone(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+
+
+
 
 % separar los mazos
 % mode("emptyhands",Game).
 
 % llamo a la modalidad de juego
 % action(null,Game,NewGame):-
-% getGameMode(Game,Mode),
+
 
 % action(pass,Game).
 % action(spotit,Game).

@@ -44,3 +44,10 @@ cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),dobbleGameRegister("Alexander",Game2,Game3),
 dobbleGameWhoseTurnIsIt(Game3,Username).
+
+
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(4,CardsSet,"stack",2,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
+dobbleGamePlay(Game2,null,NewDobbleGame).
+
