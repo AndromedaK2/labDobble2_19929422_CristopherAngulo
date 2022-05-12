@@ -400,10 +400,44 @@ createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
   createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
 
-%Selectores
+
+% -- Dominios --
+% Element: Simbolo
+% Elements: Simbolos o Elementos
+%  -- Predicados --
+% getFirstElement(Elements,Element)
+% -- Metas --
+% Principales: getFirstElement
+% -- Cláusula --
+% Regla: Selector Obtener el primer elemento
 getFirstElement([Element|_],Element).
+% -- Dominios --
+% Elements: Simbolos o Elementos
+%  -- Predicados --
+% getFirstElement(Elements,Elements)
+% -- Metas --
+% Principales: getTailElements
+% -- Cláusula --
+% Regla: Selector Obtener la cola de la lista de elementos
 getTailElements([_|Elements],Elements).
+% -- Dominios --
+% Order,N: Enteros+
+%  -- Predicados --
+% getOrder(N,Order)
+% -- Metas --
+% Principales: getOrder
+% -- Cláusula --
+% Regla: Selector Obtener el orden del plano proyectivo del mazo de cartas
 getOrder(N,Order):- Order is N-1.
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% Card: Lista de Elementos
+%  -- Predicados --
+% getFirstCard(CardsSet,Card)
+% -- Metas --
+% Principales: getFirstCard
+% -- Cláusula --
+% Regla: Selector Obtener la primera carta
 getFirstCard([Card|_],Card).
 getTailCards([_|Cards],Cards).
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
