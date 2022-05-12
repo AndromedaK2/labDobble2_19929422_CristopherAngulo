@@ -595,12 +595,45 @@ calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 % -- Cláusula --
 % Regla: Helper Calcular Indice para buscar la N cuadrado cartas
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
-
-
-
+% -- Dominios --
+% Element: Elemento o Símbolo
+% Card,CardUpdate: Lista de Elementos o Símbolos 
+%  -- Predicados --
+% addElementToCard(Element,Card,CardUpdate)
+% isElement(Element)
+% -- Metas --
+% Principales: addElementToCard
+% Secundarias: isElement
+% -- Cláusula --
+% Regla: Helper Modificador Agregar elemento a carta
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
+% -- Dominios --
+% CardsSet,FinalCardsSet: Lista de Cartas
+% Card: Lista de Elementos o Símbolos 
+%  -- Predicados --
+% addCardToCardsSet(Card,CardsSet,FinalCardsSet)
+% -- Metas --
+% Principales: addCardToCardsSet
+% -- Cláusula --
+% Regla: Helper Modificador Agregar Carta al mazo de cartas
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
+% -- Dominios --
+% CardsSet,FlatCardsSet: Lista de Cartas
+%  -- Predicados --
+% flattenCardsSet(CardsSet,FlatCardsSet)
+% -- Metas --
+% Principales:flattenCardsSet
+% -- Cláusula --
+% Regla: Helper Modificador Aplanar Mazo de cartas
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
+% -- Dominios --
+% Elements,ElementsWithoutDuplicates: Elementos o Símbolos
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: removeDuplicateElements
+% -- Cláusula --
+% Regla: Helper Modificador remover elementos duplicados
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
 
