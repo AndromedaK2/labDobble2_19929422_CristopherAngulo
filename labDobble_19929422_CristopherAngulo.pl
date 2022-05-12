@@ -707,8 +707,10 @@ playerIsRegistered([],_):-false.
 playerIsRegistered([[Username,_,_]|_],Username):-!.
 playerIsRegistered([_|RestPlayers],Username):-playerIsRegistered(RestPlayers,Username).
 
-addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],[CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
-addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],[CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],
+  [CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
+  [CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
 
 getTurns([_,_,_,_,_,_,Turns],Turns).
 getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
