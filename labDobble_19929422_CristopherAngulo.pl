@@ -7,7 +7,6 @@ AXC is AX + 12345,
 Xn1 is (AXC mod 2147483647).
 
 % TDA CardsSet 
-% Representación Lista de Cartas:  Elements X NumberElementPerCard X MaxNumberOfCards X Seed X CardsSet
 % -- Dominios --
 % Elements: Lista de Elementos
 % NumberElementPerCard, MaxNumberOfCards, Seed: Entero+
@@ -721,6 +720,12 @@ addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
 getTurns([_,_,_,_,_,_,Turns],Turns).
 getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
 getPlayers([_,Players,_,_,_,_,_],Players).
+
+getPlayer([],_,_).
+getPlayer([[Username,Cards,Points]|_],Username,[Username,Cards,Points]):-!.
+getPlayer([_|Players],Username,Player):-
+  getPlayer(Players,Username,Player).
+
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
@@ -731,7 +736,9 @@ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
 setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
     ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
 setTurns(Game).
-
+setPlayerCards(Username,DobbleGame,NewDobbleGame):-
+  getPlayers(DobbleGame,Players),
+  getPlayer(Players,Username,Player).
 
 %Regla: Helper Obtener a quien le toca
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
@@ -746,8 +753,8 @@ dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  action(spotit,Element,DobbleGame,X).
 
 
-dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
-dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
+% dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
+% dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
@@ -757,7 +764,12 @@ mode("stack",DobbleGame,NewDobbleGame):-
 action(spotit,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
- Element = CommonElement.
+ Element = CommonElement ->
+  setPlayerCards(Username,DobbleGame,Y);
+  setPlayerCards(Username,DobbleGame,X).
+  
+
+
 
 % separar los mazos
 % mode("emptyhands",Game).
