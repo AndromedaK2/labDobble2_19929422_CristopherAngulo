@@ -486,6 +486,8 @@ getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements
 % CardsSet: Lista de Cartas
 %  -- Predicados --
 % getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates)
+% flattenCardsSet(CardsSet,Elements)
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
 % -- Metas --
 % Principales: getElementsWithOutDuplicates
 % Secundarias: flattenCardsSet,removeDuplicateElements
@@ -509,6 +511,7 @@ cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 % Card,TotalCards: Lista de Cartas
 %  -- Predicados --
 % cardsSetFindTotalCards(Card,TotalCards)
+% getOrder(Large,Order)
 % -- Metas --
 % Principales: cardsSetFindTotalCards
 % Secundarias: getOrder
@@ -539,15 +542,25 @@ isValidOrder(Order):- isPrime(Order).
 % X: Entero+
 %  -- Predicados --
 % isPrime(X)
+% divisible(X, 2)
 % -- Metas --
-% Secundarias: isPrime
-% Principales: divisible
+% Principales: isPrime
+% Secundarias: divisible
 % -- Cláusula --
 % Regla: Pertenencia verificar si es orden válido
 isPrime(2) :- true,!.
 isPrime(X) :- X < 2,!,false.
 isPrime(X) :- not(divisible(X, 2)).
-
+% -- Dominios --
+% Elements: Elementos o Símbolos
+% Order,MaxNumberOfCards: Entero+
+%  -- Predicados --
+% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
+% -- Metas --
+% Principales: isAValidCardsSetToCreate
+% Secundarias: getMaxNumberOfCards
+% -- Cláusula --
+% Regla: Pertenencia verificar si es orden válido
 isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare),
   length(Elements,ElementsLength), 
