@@ -556,6 +556,7 @@ isPrime(X) :- not(divisible(X, 2)).
 % Order,MaxNumberOfCards: Entero+
 %  -- Predicados --
 % isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
+% getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare) 
 % -- Metas --
 % Principales: isAValidCardsSetToCreate
 % Secundarias: getMaxNumberOfCards
@@ -567,9 +568,20 @@ isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   MaxNumberOfCardsToCompare = MaxNumberOfCards,
   MaxNumberOfCards = ElementsLength.
 
-%Helper
+% -- Dominios --
+% Elements: Elementos o Símbolos
+% Order,MaxNumberOfCards: Entero+
+%  -- Predicados --
+% isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
+% getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare) 
+% -- Metas --
+% Principales: isAValidCardsSetToCreate
+% Secundarias: getMaxNumberOfCards
+% -- Cláusula --
+% Regla: Helper Pertenencia verificar si es orden válido
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
+
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
 %Modificador
@@ -637,18 +649,18 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
 
-dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
- getGameMode(DobbleGame,Mode),
- mode(Mode,DobbleGame,NewDobbleGame).
+% dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
+%  getGameMode(DobbleGame,Mode),
+%  mode(Mode,DobbleGame,NewDobbleGame).
 
-dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
- getGameMode(DobbleGame,Mode).
-dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
-dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
+% dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
+%  getGameMode(DobbleGame,Mode).
+% dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
+% dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
-mode("stack",DobbleGame,NewDobbleGame):-
-  getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
-  setCardsZone(FirstCard,SecondCard,NewDobbleGame).   
+% mode("stack",DobbleGame,NewDobbleGame):-
+%   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
+%   setCardsZone(FirstCard,SecondCard,NewDobbleGame).   
 
 % separar los mazos
 % mode("emptyhands",Game).
