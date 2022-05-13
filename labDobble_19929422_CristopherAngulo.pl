@@ -785,49 +785,38 @@ dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
 
 
-% dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
+dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  
 % dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
+
+%TDA: StackMode 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
 
+% spotit
 action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
  Element = CommonElement ->
-    getPlayers(DobbleGame,Players),
-    getPlayer(Players,Username,Player),
-    setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
-    setPlayerPoints(PlayerNewCards,PlayerNewPoints),
-    setPlayers(Players,PlayerNewPoints,NewPlayers),
-    setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
-    setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-    removeCards(NewDobbleGame2,NewDobbleGame3),
-    cleanCardsZone(NewDobbleGame3,NewDobbleGame);
-    %-------------------------------------------
-    moveCardsToFinal(DobbleGame,NewDobbleGame1),
-    setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-    cleanCardsZone(NewDobbleGame2,NewDobbleGame).
+  getPlayers(DobbleGame,Players),
+  getPlayer(Players,Username,Player),
+  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
+  setPlayerPoints(PlayerNewCards,PlayerNewPoints),
+  setPlayers(Players,PlayerNewPoints,NewPlayers),
+  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  removeCards(NewDobbleGame2,NewDobbleGame3),
+  cleanCardsZone(NewDobbleGame3,NewDobbleGame);
+  %-------------------------------------------
+  moveCardsToFinal(DobbleGame,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
-
-
-
-
-
-  % mover las cartas al final del mazo y mover el jugador
- 
-  
-
-
-
-
-
-% llamo a la modalidad de juego
-% action(null,Game,NewGame):-
-
-
-% action(pass,Game).
+% Pass
+action(pass,Game).
 
  
  
