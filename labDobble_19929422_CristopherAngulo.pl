@@ -783,7 +783,8 @@ dobbleGameStatus([_,_,_,_,_,State,_],State).
 
 dobbleGameScore(DobbleGame,Username,Score):-
   getPlayers(DobbleGame,Players),
-  getPlayer(Players,[_,_,Score]).
+  getPlayer(Players,Username,[_,_,Score]).
+
 
 
 % ---Dominios---
