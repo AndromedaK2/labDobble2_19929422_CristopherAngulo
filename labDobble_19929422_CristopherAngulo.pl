@@ -738,8 +738,11 @@ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
 
 % get by position
 setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
-    ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
-setTurns(Game).
+  ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
+
+setTurnsGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,[FirstTurn|Turns]],
+  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,NewTurns]):-
+    append(Turns,[FirstTurn],NewTurns).
 
 
 setPlayerCards([Username,[],Points],NewCards,[Username,NewCards,Points]).
@@ -780,7 +783,6 @@ mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
 
-
 action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
@@ -790,7 +792,11 @@ action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
   setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
   setPlayerPoints(PlayerNewCards,PlayerNewPoints),
   setPlayers(Players,PlayerNewPoints,NewPlayers),
-  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame).
+  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame).
+  % setStatus(),
+  % removeCards(),
+  % cleanCardsZone().
 
 
 
