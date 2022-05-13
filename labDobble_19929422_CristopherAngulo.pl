@@ -768,6 +768,10 @@ removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,Cards
 cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
+moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,CardsZone,State,Turns],
+  [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
+  append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
+
 %Regla: Helper Obtener a quien le toca
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
@@ -792,17 +796,20 @@ action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
  Element = CommonElement ->
-  getPlayers(DobbleGame,Players),
-  getPlayer(Players,Username,Player),
-  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
-  setPlayerPoints(PlayerNewCards,PlayerNewPoints),
-  setPlayers(Players,PlayerNewPoints,NewPlayers),
-  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
-  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-  removeCards(NewDobbleGame2,NewDobbleGame3),
-  cleanCardsZone(NewDobbleGame3,NewDobbleGame).
+    getPlayers(DobbleGame,Players),
+    getPlayer(Players,Username,Player),
+    setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
+    setPlayerPoints(PlayerNewCards,PlayerNewPoints),
+    setPlayers(Players,PlayerNewPoints,NewPlayers),
+    setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
+    setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+    removeCards(NewDobbleGame2,NewDobbleGame3),
+    cleanCardsZone(NewDobbleGame3,NewDobbleGame);
+    %-------------------------------------------
+    moveCardsToFinal(DobbleGame,NewDobbleGame1),
+    setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+    cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
-  % setStatus(),
 
 
 
@@ -814,8 +821,7 @@ action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
 
 
 
-% separar los mazos
-% mode("emptyhands",Game).
+
 
 % llamo a la modalidad de juego
 % action(null,Game,NewGame):-

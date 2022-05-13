@@ -40,19 +40,31 @@ cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetToString(CardsSet,Z).
  dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7],
   [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)
 
+%De quien es el turno
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),dobbleGameRegister("Alexander",Game2,Game3),
 dobbleGameWhoseTurnIsIt(Game3,Username).
 
 
+%Iniciar Juego
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,NewDobbleGame).
 
+
+%Valid
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,Game3),
 dobbleGamePlay(Game3,[spotit,"Cristopher",1],X)
+
+
+% Invalid
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(4,CardsSet,"stack",2,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
+dobbleGamePlay(Game2,null,Game3),
+dobbleGamePlay(Game3,[spotit,"Cristopher",2],X)
