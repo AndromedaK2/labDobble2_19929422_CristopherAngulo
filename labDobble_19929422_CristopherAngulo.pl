@@ -786,7 +786,7 @@ dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
 
 
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
-  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  action(pass,_,_,DobbleGame,NewDobbleGame).
   
 % dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
 
@@ -816,7 +816,10 @@ action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
   cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
 % Pass
-action(pass,Game).
+action(pass,_,_,DobbleGame,NewDobbleGame):-
+  moveCardsToFinal(DobbleGame,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
  
  
