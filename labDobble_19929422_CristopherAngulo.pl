@@ -982,6 +982,9 @@ removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,Cards
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
 
 canKeepPlaying(DobbleGame):-
+  getCardsSet(DobbleGame,CardsSet),
+  length(CardsSet,CardsSetLength),
+  CardsSetLength>=2,
   getGameStatus(DobbleGame,Status),
   Status = "En Partida"; Status = "Juego Creado".
 
@@ -1011,10 +1014,12 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
  mode(Mode,NewDobbleGame1,NewDobbleGame).
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
+ canKeepPlaying(DobbleGame),
  getMode(DobbleGame,Mode),
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
 
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
+  canKeepPlaying(DobbleGame),
   action(pass,_,_,DobbleGame,NewDobbleGame).
   
 dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
