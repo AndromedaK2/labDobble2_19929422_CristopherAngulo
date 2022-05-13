@@ -1011,6 +1011,10 @@ moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,C
   [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
   append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
 
+isPlayerTurn(DobbleGame,Username):-
+  getTurns(DobbleGame,[FirstTurn|_]),
+  Username = FirstTurn.
+
 %Regla: Helper Obtener de quien es el turno
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
