@@ -687,6 +687,10 @@ emptyState([]).
 emptyUserCards([]).
 emptyTurns([]).
 
+%Hechos
+gameState(null,"En Partida").
+gameState(finish,"Finalizado"),
+
 %TDA DobbleGame
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  number(NumberOfPlayers),
@@ -729,6 +733,9 @@ getPlayer([_|Players],Username,Player):-
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+getGameStatus([_,_,_,_,_,State,_],State).
+
+
 
 getPlayerCards([_,Cards,_],Cards).
 
@@ -743,6 +750,9 @@ setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
 setTurnsGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,[FirstTurn|Turns]],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,NewTurns]):-
     append(Turns,[FirstTurn],NewTurns).
+
+setStatusGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,_,[FirstTurn|Turns]],NewStatus,
+  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,NewStatus,NewTurns]).
 
 
 setPlayerCards([Username,[],Points],NewCards,[Username,NewCards,Points]).
@@ -784,13 +794,12 @@ dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  getMode(DobbleGame,Mode),
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
 
-
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
   action(pass,_,_,DobbleGame,NewDobbleGame).
   
-% dobbleGamePlay(DobbleGame,[finish],NewDobbleGame).
-
-
+dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
+  action(finish,_,_,DobbleGame,NewDobbleGame).
+  
 %TDA: StackMode 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
@@ -821,14 +830,17 @@ action(pass,_,_,DobbleGame,NewDobbleGame):-
   setTurnsGame(NewDobbleGame1,NewDobbleGame2),
   cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
- 
- 
- 
+
+action(finish,_,_,DobbleGame,NewDobbleGame):-
+  setGameStatus(DobbleGame,"finish",NewDobbleGame).
 
 
- 
- 
-% action(finish,Game).
+
+getWinnerAndLosers(DobbleGame).
+
+
+
+  
 
 
 
