@@ -729,6 +729,10 @@ getPlayer([_|Players],Username,Player):-
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
 getMode([_,_,_,Mode,_,_,_],Mode).
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+
+getPlayerCards([_,Cards,_],Cards).
+
+ 
 getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
   intersection(FirstCard,SecondCard,Element).
 
@@ -736,9 +740,25 @@ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
 setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
     ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
 setTurns(Game).
-setPlayerCards(Username,DobbleGame,NewDobbleGame):-
-  getPlayers(DobbleGame,Players),
-  getPlayer(Players,Username,Player).
+
+
+setPlayerCards([Username,[],Points],NewCards,[Username,NewCards,Points]).
+setPlayerCards([Username,Cards,Points],NewCards,[Username,TotalCards,Points]):-
+ append(Cards,NewCards,TotalCards).
+
+
+setPlayerPoints([Username,Cards,Points],[Username,Cards,TotalPoints]):-
+  length(Cards,TotalPoints).
+
+
+setPlayers([],_,_).
+setPlayers([[Username,_,_]|Players],[Username,Cards,Points], [[Username,Cards,Points]|Players]):-!.
+setPlayers([_|Players],Player,NewPlayers):- 
+  setPlayers(Players,Player,NewPlayers).
+
+setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
+  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
+ 
 
 %Regla: Helper Obtener a quien le toca
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
@@ -750,7 +770,7 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  getMode(DobbleGame,Mode),
- action(spotit,Element,DobbleGame,X).
+ action(spotit,Username,Element,DobbleGame,X).
 
 
 % dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
@@ -761,12 +781,23 @@ mode("stack",DobbleGame,NewDobbleGame):-
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
 
 
-action(spotit,Element,DobbleGame,NewDobbleGame):-
+action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
  Element = CommonElement ->
-  setPlayerCards(Username,DobbleGame,Y);
-  setPlayerCards(Username,DobbleGame,X).
+  getPlayers(DobbleGame,Players),
+  getPlayer(Players,Username,Player),
+  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
+  setPlayerPoints(PlayerNewCards,PlayerNewPoints),
+  setPlayers(Players,PlayerNewPoints,NewPlayers),
+  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame).
+
+
+
+
+
+  % mover las cartas al final del mazo y mover el jugador
+ 
   
 
 
