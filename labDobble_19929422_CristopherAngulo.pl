@@ -769,6 +769,22 @@ playerIsRegistered([],_):-false.
 playerIsRegistered([[Username,_,_]|_],Username):-!.
 playerIsRegistered([_|RestPlayers],Username):-playerIsRegistered(RestPlayers,Username).
 
+% ---Dominios---
+% State: Estado del Juego
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% dobbleGameStatus(DobbleGame,State)
+% ---Metas---
+% Principales: dobbleGameStatus
+% ---Cláusula---:
+% Regla: Selector Obtiene el estado del juego 
+dobbleGameStatus([_,_,_,_,_,State,_],State).
+
+
+dobbleGameScore(DobbleGame,Username,Score):-
+  getPlayers(DobbleGame,Players),
+  getPlayer(Players,[_,_,Score]).
+
 
 % ---Dominios---
 % Turns: Turnos 
@@ -851,16 +867,7 @@ getMode([_,_,_,Mode,_,_,_],Mode).
 % Regla: Selector Obtiene la zona del juego donde estan las cartas volteadas boca arriba 
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
 
-% ---Dominios---
-% State: Estado del Juego
-% DobbleGame: Juego Dobble
-% ---Predicados---
-% getGameStatus(DobbleGame,State)
-% ---Metas---
-% Principales: getGameStatus
-% ---Cláusula---:
-% Regla: Selector Obtiene el estado del juego 
-getGameStatus([_,_,_,_,_,State,_],State).
+
 
 % ---Dominios---
 % Player: Jugador
@@ -985,8 +992,8 @@ canKeepPlaying(DobbleGame):-
   getCardsSet(DobbleGame,CardsSet),
   length(CardsSet,CardsSetLength),
   CardsSetLength>=2,
-  getGameStatus(DobbleGame,Status),
-  Status = "En Partida"; Status = "Juego Creado".
+  dobbleGameStatus(DobbleGame,Status),
+  Status = "En Partida".
 
 % ---Dominios---
 % DobbleGame,NewDobbleGame: Juego Dobble
@@ -1008,7 +1015,6 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
 dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
- canKeepPlaying(DobbleGame),
  setStatusGame(DobbleGame,"En Partida",NewDobbleGame1),
  getMode(NewDobbleGame1,Mode),
  mode(Mode,NewDobbleGame1,NewDobbleGame).
