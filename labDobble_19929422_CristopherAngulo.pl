@@ -762,6 +762,11 @@ setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):-
 setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
  
+removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,CardsZone,State,Turns],
+  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
+  
+cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
+  [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
 %Regla: Helper Obtener a quien le toca
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
@@ -793,10 +798,11 @@ action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
   setPlayerPoints(PlayerNewCards,PlayerNewPoints),
   setPlayers(Players,PlayerNewPoints,NewPlayers),
   setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
-  setTurnsGame(NewDobbleGame1,NewDobbleGame).
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  removeCards(NewDobbleGame2,NewDobbleGame3),
+  cleanCardsZone(NewDobbleGame3,NewDobbleGame).
+
   % setStatus(),
-  % removeCards(),
-  % cleanCardsZone().
 
 
 
