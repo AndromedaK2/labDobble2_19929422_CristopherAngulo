@@ -958,10 +958,27 @@ setPlayers([[Username,_,_]|Players],[Username,Cards,Points], [[Username,Cards,Po
 setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):- 
   setPlayers(Players,NewPlayer,NewPlayers).
 
-
+% ---Dominios---
+% Players: Lista de jugadores
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% setPlayersGame(DobbleGame,Players,NewDobbleGame)
+% ---Metas---
+% Principales: setPlayersGame
+% ---Cláusula---:
+% Regla: Modificador Actualiza los jugadores del juego
 setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
- 
+
+% ---Dominios---
+% Players: Lista de jugadores
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% setPlayersGame(DobbleGame,Players,NewDobbleGame)
+% ---Metas---
+% Principales: setPlayersGame
+% ---Cláusula---:
+% Regla: Modificador Actualiza los jugadores del juego
 removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,CardsZone,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
   
