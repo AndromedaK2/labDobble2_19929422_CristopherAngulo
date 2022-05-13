@@ -92,6 +92,6 @@ cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,Game3),
-dobbleGamePlay(Game3,[spotit,"Cristopher",1],X),
+dobbleGamePlay(Game3,[spotit,"Rene",1],X),
 dobbleGameStatus(X,State),
 dobbleGameScore(X,"Cristopher",Score).

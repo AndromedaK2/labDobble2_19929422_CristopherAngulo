@@ -1025,6 +1025,7 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
  mode(Mode,NewDobbleGame1,NewDobbleGame).
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
+ isPlayerTurn(DobbleGame,Username),
  canKeepPlaying(DobbleGame),
  getMode(DobbleGame,Mode),
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
