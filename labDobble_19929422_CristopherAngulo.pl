@@ -854,7 +854,7 @@ action(finish,_,_,DobbleGame,NewDobbleGame):-
 
 
 
-getWinnerAndLosers(DobbleGame):-
+% getWinnerAndLosers(DobbleGame):-
  
 
 
