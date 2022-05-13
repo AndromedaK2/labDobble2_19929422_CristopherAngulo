@@ -10,7 +10,7 @@ Xn1 is (AXC mod 2147483647).
 % -- Dominios --
 % Elements: Lista de Elementos
 % NumberElementPerCard, MaxNumberOfCards, Seed: Entero+
-% CardsSet: Lista de Cartas
+% CardsSet: Lista de Cartas o Mazo de Cartas
 % -- Predicados --
 % cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet)
 % getOrder(NumberElementPerCard,Order)
@@ -406,9 +406,6 @@ cardToString(Card,Position,FinalStringCard):-
  atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 
-
-
-
 % -- Dominios --
 % Element: Simbolo
 % Elements: Simbolos o Elementos
@@ -419,6 +416,7 @@ cardToString(Card,Position,FinalStringCard):-
 % -- Cláusula --
 % Regla: Selector Obtener el primer elemento
 getFirstElement([Element|_],Element).
+
 % -- Dominios --
 % Elements: Simbolos o Elementos
 %  -- Predicados --
@@ -428,6 +426,7 @@ getFirstElement([Element|_],Element).
 % -- Cláusula --
 % Regla: Selector Obtener la cola de la lista de elementos
 getTailElements([_|Elements],Elements).
+
 % -- Dominios --
 % Order,N: Enteros+
 %  -- Predicados --
@@ -437,6 +436,7 @@ getTailElements([_|Elements],Elements).
 % -- Cláusula --
 % Regla: Selector Obtener el orden del plano proyectivo del mazo de cartas
 getOrder(N,Order):- Order is N-1.
+
 % -- Dominios --
 % CardsSet: Lista de Cartas
 % Card: Lista de Elementos
@@ -447,6 +447,7 @@ getOrder(N,Order):- Order is N-1.
 % -- Cláusula --
 % Regla: Selector Obtener la primera carta
 getFirstCard([Card|_],Card).
+
 % -- Dominios --
 % CardsSet: Lista de Cartas
 % Cards: Lista de Elementos
@@ -457,6 +458,7 @@ getFirstCard([Card|_],Card).
 % -- Cláusula --
 % Regla: Selector Obtener las cartas de la cola del mazo
 getTailCards([_|Cards],Cards).
+
 % -- Dominios --
 % Elements:Lista de Elementos
 % Index: Entero+
@@ -468,6 +470,7 @@ getTailCards([_|Cards],Cards).
 % -- Cláusula --
 % Regla: Selector Obtener elemento por posición
 getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
+
 % -- Dominios --
 % Elements:Lista de Elementos
 % Index: Entero+
@@ -479,6 +482,7 @@ getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 % -- Cláusula --
 % Regla: Selector Obtener el máximo número de cartas
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
+
 % -- Dominios --
 % Elements:Lista de Elementos
 % NumberOfElements: Entero+
@@ -489,6 +493,7 @@ getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
 % -- Cláusula --
 % Regla: Selector Obtener el número de elementos
 getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
+
 % -- Dominios --
 % ElementsWithoutDuplicates:Lista de Elementos
 % CardsSet: Lista de Cartas
@@ -504,6 +509,7 @@ getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements
 getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):- 
   flattenCardsSet(CardsSet,Elements),
   removeDuplicateElements(Elements,ElementsWithoutDuplicates).
+
 % -- Dominios --
 % Card:Lista de Elementos
 % Index: Entero+
@@ -515,6 +521,7 @@ getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):-
 % -- Cláusula --
 % Regla: Selector Obtener la enésima carta
 cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
+
 % -- Dominios --
 % Card,TotalCards: Lista de Cartas
 %  -- Predicados --
@@ -527,6 +534,7 @@ cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 % Regla: Selector Obtener la enésima carta
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
+
 % -- Dominios --
 % Element: Elemento o Símbolo
 %  -- Predicados --
@@ -536,6 +544,7 @@ cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order
 % -- Cláusula --
 % Regla: Pertenencia verificar si es un elemento
 isElement(Element):- number(Element); string(Element); atom(Element).
+
 % -- Dominios --
 % Order: Entero+
 %  -- Predicados --
@@ -546,6 +555,7 @@ isElement(Element):- number(Element); string(Element); atom(Element).
 % -- Cláusula --
 % Regla: Helper Pertenencia verificar si el número es primo
 isValidOrder(Order):- isPrime(Order).
+
 % -- Dominios --
 % X: Entero+
 %  -- Predicados --
@@ -559,6 +569,7 @@ isValidOrder(Order):- isPrime(Order).
 isPrime(2) :- true,!.
 isPrime(X) :- X < 2,!,false.
 isPrime(X) :- not(divisible(X, 2)).
+
 % -- Dominios --
 % Elements: Elementos o Símbolos
 % Order,MaxNumberOfCards: Entero+
@@ -575,6 +586,7 @@ isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   length(Elements,ElementsLength), 
   MaxNumberOfCardsToCompare = MaxNumberOfCards,
   MaxNumberOfCards = ElementsLength.
+
 % -- Dominios --
 % X,Y: Entero+
 %  -- Predicados --
@@ -585,6 +597,7 @@ isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
 % Regla: Helper Pertenencia verificar si es divisible por un número
 divisible(X,Y) :- 0 is X mod Y, !.
 divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
+
 % -- Dominios --
 % N,J,K,Index: Entero+
 %  -- Predicados --
@@ -594,6 +607,7 @@ divisible(X,Y) :- X > Y+1, divisible(X, Y+1).
 % -- Cláusula --
 % Regla: Helper Calcular Indice para buscar la N cartas
 calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
+
 % -- Dominios --
 % N,J,K,I,Index: Entero+
 %  -- Predicados --
@@ -603,6 +617,7 @@ calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 % -- Cláusula --
 % Regla: Helper Calcular Indice para buscar la N cuadrado cartas
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
+
 % -- Dominios --
 % Element: Elemento o Símbolo
 % Card,CardUpdate: Lista de Elementos o Símbolos 
@@ -615,6 +630,7 @@ calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*
 % -- Cláusula --
 % Regla: Helper Modificador Agregar elemento a carta
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
+
 % -- Dominios --
 % CardsSet,FinalCardsSet: Lista de Cartas
 % Card: Lista de Elementos o Símbolos 
@@ -625,6 +641,7 @@ addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Eleme
 % -- Cláusula --
 % Regla: Helper Modificador Agregar Carta al mazo de cartas
 addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCardsSet).
+
 % -- Dominios --
 % CardsSet,FlatCardsSet: Lista de Cartas
 %  -- Predicados --
@@ -634,6 +651,7 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 % -- Cláusula --
 % Regla: Helper Modificador Aplanar Mazo de cartas
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
+
 % -- Dominios --
 % Elements,ElementsWithoutDuplicates: Elementos o Símbolos
 %  -- Predicados --
@@ -645,22 +663,18 @@ flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
 
-
-
-
 % TDA Player
-% Representación Lista de Username X Cards X Points
 % -- Dominios --
 % Username: string
-% Cards: Lista de Cartas 
-% Points: 
-% Player: Lista de Username X Cards X Points
+% Cards: Lista de Cartas | Lista Vacía 
+% Points: Entero+
+% Player: Username X Cards X Points
 %  -- Predicados --
 % removeDuplicateElements(Elements,ElementsWithoutDuplicates)
 % -- Metas --
 % Principales: removeDuplicateElements
 % -- Cláusula --
-% Regla: Helper Modificador remover elementos duplicados
+% Regla: Constructor Jugador
 player(Username,Player):- 
   string(Username),
   Cards  = [],
@@ -697,7 +711,7 @@ emptyTurns([]).
 % NumberOfPlayers, Seed:Entero+
 % CardsSet: Lista de Cartas
 % Mode: String
-% DobbleGame: NumberOfPlayers  X Players X CardsSet X Mode X CardsZone X State X Turns
+% DobbleGame: Juego Dobble -> NumberOfPlayers  X Players X CardsSet X Mode X CardsZone X State X Turns
 % ---Predicados---
 % dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame)
 % cardsSetIsDobble(CardsSet),
@@ -706,10 +720,10 @@ emptyTurns([]).
 % emptyState(InitialState)
 % emptyTurns(InitialTurns)
 % ---Metas---
-% Principales: 
-% Secundarias:
+% Principales: dobbleGame
+% Secundarias: cardsSetIsDobble, emptyPlayers, emptyCardsZone, emptyState, emptyTurns
 % ---Cláusula---:
-% Regla:
+% Regla: Constructor DobbleGame
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  number(NumberOfPlayers),
  NumberOfPlayers > 1,
@@ -721,7 +735,19 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState,InitialTurns].
  
 
-%Regla: Registrar Jugadores Nuevos, si ya existe retorna false.
+% ---Dominios---
+% Username:string
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% dobbleGameRegister(Username,DobbleGame,NewDobbleGame)
+% playerIsRegistered(Players,Username)
+% player(Username,Player)
+% addTurn(Username,RestGame,NewGame)
+% ---Metas---
+% Principales: dobbleGameRegister
+% Secundarias: playerIsRegistered,player,addTurn
+% ---Cláusula---:
+% Regla: Modificador Registra  Jugadores Nuevos, si ya existe retorna false.
 dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| NewGame]):-
   length(Players,PlayersNumber),
   N > PlayersNumber,
@@ -729,63 +755,209 @@ dobbleGameRegister(Username,[N,Players|RestGame],[N,[Player|Players]| NewGame]):
   player(Username,Player),
   addTurn(Username,RestGame,NewGame).
 
-%Regla: Helper Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
+
+% ---Dominios---
+% Username:string
+% Players: Lista de Jugadores
+% ---Predicados---
+% playerIsRegistered(Players,Username)
+% ---Metas---
+% Principales: playerIsRegistered
+% ---Cláusula---:
+% Regla: Helper Pertenencia Verifica si el usuario esta registrado, si existe retorna true, si no retorna false.
 playerIsRegistered([],_):-false.
 playerIsRegistered([[Username,_,_]|_],Username):-!.
 playerIsRegistered([_|RestPlayers],Username):-playerIsRegistered(RestPlayers,Username).
 
-addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],
-  [CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
-addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
-  [CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
 
+% ---Dominios---
+% Turns: Turnos 
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getTurns(DobbleGame,Turns)
+% ---Metas---
+% Principales: getTurns
+% ---Cláusula---:
+% Regla: Selector retorna los turnos del juego
 getTurns([_,_,_,_,_,_,Turns],Turns).
+
+% ---Dominios---
+% NumberOfPlayers: Entero+ 
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getNumberOfPlayers(DobbleGame,NumberOfPlayers)
+% ---Metas---
+% Principales: getNumberOfPlayers
+% ---Cláusula---:
+% Regla: Selector retorna el número de jugadores
 getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
+
+% ---Dominios---
+% Players: Jugadores 
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getPlayers(DobbleGame,Players)
+% ---Metas---
+% Principales: getPlayers
+% ---Cláusula---:
+% Regla: Selector retorna los jugadores 
 getPlayers([_,Players,_,_,_,_,_],Players).
 
+% ---Dominios---
+% Username:string
+% Players: Lista de Jugadores
+% Player: Jugador 
+% ---Predicados---
+% getPlayer(Players,Username,Player)
+% ---Metas---
+% Principales: getPlayer
+% ---Cláusula---:
+% Regla: Selector Obtiene un jugador dado un nombre de usuario
 getPlayer([],_,_).
 getPlayer([[Username,Cards,Points]|_],Username,[Username,Cards,Points]):-!.
 getPlayer([_|Players],Username,Player):-
   getPlayer(Players,Username,Player).
 
+% ---Dominios---
+% CardsSet: Lista de Cartas
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getCardsSet(DobbleGame,CardsSet)
+% ---Metas---
+% Principales: getCardsSet
+% ---Cláusula---:
+% Regla: Selector Obtiene Mazo de Cartas del Juego
 getCardsSet([_,_,CardsSet,_,_,_,_],CardsSet).
+
+% ---Dominios---
+% Mode: string
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getMode(DobbleGame,Mode)
+% ---Metas---
+% Principales: getMode
+% ---Cláusula---:
+% Regla: Selector Obtiene el modo de juego
 getMode([_,_,_,Mode,_,_,_],Mode).
+
+% ---Dominios---
+% CardsZone: Lista de Cartas
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getCardsZone(DobbleGame,CardsZone)
+% ---Metas---
+% Principales: getCardsZone
+% ---Cláusula---:
+% Regla: Selector Obtiene la zona del juego donde estan las cartas volteadas boca arriba 
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
+
+% ---Dominios---
+% State: Estado del Juego
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% getGameStatus(DobbleGame,State)
+% ---Metas---
+% Principales: getGameStatus
+% ---Cláusula---:
+% Regla: Selector Obtiene el estado del juego 
 getGameStatus([_,_,_,_,_,State,_],State).
 
-
-
+% ---Dominios---
+% Player: Jugador
+% Cards: Lista de Cartas
+% ---Predicados---
+% getPlayerCards(Player,Cards)
+% ---Metas---
+% Principales: getPlayerCards
+% ---Cláusula---:
+% Regla: Selector Obtiene las cartas del jugador
 getPlayerCards([_,Cards,_],Cards).
 
+% ---Dominios---
+% Username:string
+% RestDobbleGame: CardsSet X Mode X CardsZone X State X Turns
+% ---Predicados---
+% addTurn(Username,DobbleGame)
+% ---Metas---
+% Principales: addTurn
+% ---Cláusula---:
+% Regla: Helper agrega el turno del jugador al juego
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],
+  [CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
+addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
+  [CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
  
+
+% ---Dominios---
+% FirstCard, SecondCard: Lista de Elementos
+% Element: Elemento o Símbolo
+% ---Predicados---
+% getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element)
+% ---Metas---
+% Principales: getElementInCommonBetweenTwoCards
+% ---Cláusula---:
+% Regla: Helper obtiene el elemento en común entre 2 cartas
 getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
   intersection(FirstCard,SecondCard,Element).
 
-% get by position
-setCardsZoneStackMode(FirstCard,SecondCard,[X,Y,Z,H,G,L,M]
-  ,[X,Y,Z,H,[FirstCard,SecondCard],L,M]).
 
+
+% ---Dominios---
+% DobbleGame, NewDobbleGame: Juego de Dobble
+% ---Predicados---
+% setTurnsGame(DobbleGame,NewDobbleGame)
+% ---Metas---
+% Principales: setTurnsGame
+% ---Cláusula---:
+% Regla: Modificador Actuliza los turnos del juego
 setTurnsGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,[FirstTurn|Turns]],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,NewTurns]):-
     append(Turns,[FirstTurn],NewTurns).
 
+ 
 setStatusGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,_,[FirstTurn|Turns]],NewStatus,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,NewStatus,NewTurns]).
 
 
+% ---Dominios---
+% NewCards: Lista de Cartas
+% Player, NewPlayer: Jugador 
+% ---Predicados---
+% setPlayerCards(Player,NewCards,NewPlayer)
+% ---Metas---
+% Principales: setPlayerCards
+% ---Cláusula---:
+% Regla: Modificador Actualiza las Cartas de un jugador 
 setPlayerCards([Username,[],Points],NewCards,[Username,NewCards,Points]).
 setPlayerCards([Username,Cards,Points],NewCards,[Username,TotalCards,Points]):-
  append(Cards,NewCards,TotalCards).
 
 
+% ---Dominios---
+% Player, NewPlayer: Jugador 
+% ---Predicados---
+% setPlayerPoints(Player,NewPlayer)
+% ---Metas---
+% Principales: setPlayerPoints
+% ---Cláusula---:
+% Regla: Modificador Actualiza el puntaje actual del jugador
 setPlayerPoints([Username,Cards,Points],[Username,Cards,TotalPoints]):-
   length(Cards,TotalPoints).
 
-
+% ---Dominios---
+% Players,NewPlayers: Lista de jugadores
+% Player: Jugador 
+% ---Predicados---
+% setPlayers(Players,NewPlayer,NewPlayers)
+% ---Metas---
+% Principales: setPlayers
+% ---Cláusula---:
+% Regla: Modificador Actualiza un jugador en especifico en las lista de jugadores
 setPlayers([],_,_).
 setPlayers([[Username,_,_]|Players],[Username,Cards,Points], [[Username,Cards,Points]|Players]):-!.
 setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):- 
   setPlayers(Players,NewPlayer,NewPlayers).
+
 
 setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
@@ -800,7 +972,7 @@ moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,C
   [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
   append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
 
-%Regla: Helper Obtener a quien le toca
+%Regla: Helper Obtener de quien es el turno
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
@@ -822,6 +994,20 @@ dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+
+
+% ---Dominios---
+% FirstCard, SecondCard: Lista de Elementos
+% DobbleGame: 
+% ---Predicados---
+% setCardsZoneStackMode(FirstCard,SecondCard,Element)
+% ---Metas---
+% Principales: setCardsZoneStackMode
+% ---Cláusula---:
+% Regla: Helper obtiene el elemento en común entre 2 cartas
+setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns]
+  ,[NumberOfPlayers,Players,CardsSet,Mode,[FirstCard,SecondCard],State,Turns]).
+
 
 % spotit
 action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
@@ -850,7 +1036,7 @@ action(pass,_,_,DobbleGame,NewDobbleGame):-
 
 
 action(finish,_,_,DobbleGame,NewDobbleGame):-
-  setGameStatus(DobbleGame,"finish",NewDobbleGame).
+  setStatusGame(DobbleGame,"finish",NewDobbleGame).
 
 
 
