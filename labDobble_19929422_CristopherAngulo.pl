@@ -700,7 +700,7 @@ player(Username,Player):-
 % Hechos: 
 emptyPlayers([]).
 emptyCardsZone([]).
-emptyState([]).
+emptyState("Juego Creado").
 emptyUserCards([]).
 emptyTurns([]).
 
@@ -915,8 +915,8 @@ setTurnsGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,[FirstTurn|T
     append(Turns,[FirstTurn],NewTurns).
 
  
-setStatusGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,_,[FirstTurn|Turns]],NewStatus,
-  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,NewStatus,NewTurns]).
+setStatusGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,_,Turns],NewStatus,
+  [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,NewStatus,Turns]).
 
 
 % ---Dominios---
@@ -971,17 +971,28 @@ setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
 
 % ---Dominios---
-% Players: Lista de jugadores
 % DobbleGame,NewDobbleGame: Juego Dobble
 % ---Predicados---
 % removeCards(DobbleGame,Players,NewDobbleGame)
 % ---Metas---
 % Principales: removeCards
 % ---Cláusula---:
-% Regla: Helper Actualiza los jugadores del juego
+% Regla: Helper remueve las cartas de la cima del mazo
 removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,CardsZone,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
-  
+
+canKeepPlaying(DobbleGame):-
+  getGameStatus(DobbleGame,Status),
+  Status = "En Partida"; Status = "Juego Creado".
+
+% ---Dominios---
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% removeCards(DobbleGame,Players,NewDobbleGame)
+% ---Metas---
+% Principales: removeCards
+% ---Cláusula---:
+% Regla: Helper remueve las cartas de la cima del mazo
 cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
@@ -994,8 +1005,10 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
  
 dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
- getMode(DobbleGame,Mode),
- mode(Mode,DobbleGame,NewDobbleGame).
+ canKeepPlaying(DobbleGame),
+ setStatusGame(DobbleGame,"En Partida",NewDobbleGame1),
+ getMode(NewDobbleGame1,Mode),
+ mode(Mode,NewDobbleGame1,NewDobbleGame).
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  getMode(DobbleGame,Mode),
@@ -1053,7 +1066,7 @@ action(pass,_,_,DobbleGame,NewDobbleGame):-
 
 
 action(finish,_,_,DobbleGame,NewDobbleGame):-
-  setStatusGame(DobbleGame,"finish",NewDobbleGame).
+  setStatusGame(DobbleGame,"finalizado",NewDobbleGame).
 
 
 
