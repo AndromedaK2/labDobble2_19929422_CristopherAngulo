@@ -753,8 +753,8 @@ setPlayerPoints([Username,Cards,Points],[Username,Cards,TotalPoints]):-
 
 setPlayers([],_,_).
 setPlayers([[Username,_,_]|Players],[Username,Cards,Points], [[Username,Cards,Points]|Players]):-!.
-setPlayers([_|Players],Player,NewPlayers):- 
-  setPlayers(Players,Player,NewPlayers).
+setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):- 
+  setPlayers(Players,NewPlayer,NewPlayers).
 
 setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
@@ -770,7 +770,7 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
 
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  getMode(DobbleGame,Mode),
- action(spotit,Username,Element,DobbleGame,X).
+ action(spotit,Username,Element,DobbleGame,NewDobbleGame).
 
 
 % dobbleGamePlay(DobbleGame,[pass],NewDobbleGame).
