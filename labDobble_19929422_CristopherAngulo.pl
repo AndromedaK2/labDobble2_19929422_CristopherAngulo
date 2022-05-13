@@ -974,11 +974,11 @@ setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
 % Players: Lista de jugadores
 % DobbleGame,NewDobbleGame: Juego Dobble
 % ---Predicados---
-% setPlayersGame(DobbleGame,Players,NewDobbleGame)
+% removeCards(DobbleGame,Players,NewDobbleGame)
 % ---Metas---
-% Principales: setPlayersGame
+% Principales: removeCards
 % ---Cláusula---:
-% Regla: Modificador Actualiza los jugadores del juego
+% Regla: Helper Actualiza los jugadores del juego
 removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,CardsZone,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
   
