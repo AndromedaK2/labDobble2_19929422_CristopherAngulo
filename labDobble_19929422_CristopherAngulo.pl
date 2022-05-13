@@ -91,6 +91,151 @@ createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,El
     addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
     createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
   
+% -- Dominios --
+% Card:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N: Entero+
+% -- Predicados --
+% createFirstCard(Elements,N,Card)
+% createFirstCardAuxiliar(Elements,N,[],0,Card)
+% -- Metas --
+% Principales: createFirstCard
+% Secundarias: createFirstCardAuxiliar
+% -- Cláusula --
+% Regla: Helper Constructor de Primera Carta
+createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
+
+% -- Dominios --
+% Card,FirstCard:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N, Count: Entero+
+% -- Predicados --
+% createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card)
+% getFirstElement(Elements,Element),
+% getTailElements(Elements,TailElements),
+% addElementToCard(Element,FirstCard,FinalCard),
+% -- Metas --
+% Principales: createFirstCardAuxiliar
+% Secundarias: getFirstElement,GetTailElements,addElementToCard
+% -- Cláusula --
+% Regla: Helper Constructor auxiliar de Primera Carta
+createFirstCardAuxiliar(_,N,Card,N,Card):-!.
+createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
+  getFirstElement(Elements,Element),
+  getTailElements(Elements,TailElements),
+  addElementToCard(Element,FirstCard,FinalCard),
+  FinalCount is Count + 1,
+  createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
+
+
+% -- Dominios --
+% Cards,FinalCards:Lista de cartas
+% Elements: Simbolos o Elementos
+% N: Entero+
+% -- Predicados --
+% createNCards(Elements,N,Cards,J,FinalCards)
+% getFirstElement(Elements,FirstElement)
+% createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card)
+% addCardToCardsSet(Card,Cards,NewCards)
+% createNCards(Elements,N,NewCards,FinalJ,FinalCards)
+% -- Metas --
+% Principales: createNCards
+% Secundarias: getFirstElement,createNCardAuxiliar,addCardToCardsSet
+% -- Cláusula --
+% Regla: Helper Constructor de las N Cartas 
+createNCards(_,N,Cards,N,Cards):-!.
+createNCards(Elements,N,Cards,J,FinalCards):-
+  getFirstElement(Elements,FirstElement),
+  FinalJ is J + 1,
+  createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
+  addCardToCardsSet(Card,Cards,NewCards),
+  createNCards(Elements,N,NewCards,FinalJ,FinalCards).
+
+% -- Dominios --
+% Card,FinalCard:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N,J,K: Entero+
+%  -- Predicados --
+% createNCardAuxiliar(Elements,Card,N,J,K,FinalCard)
+% calculateIndexToNCards(N,J,K,Index)
+% getElementByPosition(Index,Elements,Element)
+% addElementToCard(Element,Card,NewCard)
+% -- Metas --
+% Principales: createNCardAuxiliar
+% Secundarias: calculateIndexToNCards,getElementByPosition,addElementToCard
+% -- Cláusula --
+% Regla: Helper Auxiliar Constructor de las N Cartas 
+createNCardAuxiliar(_,Card,N,_,N,Card):-!.
+createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
+  calculateIndexToNCards(N,J,K,Index),
+  getElementByPosition(Index,Elements,Element),
+  addElementToCard(Element,Card,NewCard),   
+  FinalK is K + 1,
+  createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
+  
+  
+% -- Dominios --
+% Card,FinalCard:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N,J,K,I: Entero+
+%  -- Predicados --
+% createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard)
+% calculateIndexToNSquareCards(N,J,K,I,Index)
+% getElementByPosition(Index,Elements,Element)
+% addElementToCard(Element,Card,NewCard)
+% -- Metas --
+% Principales: createNSquareCardsSecondAuxiliar
+% Secundarias: calculateIndexToNSquareCards,getElementByPosition,addElementToCard
+% -- Cláusula --
+% Regla: Helper Segundo Auxiliar Constructor de las N cuadrado Cartas 
+createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
+createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
+  calculateIndexToNSquareCards(N,J,K,I,Index),
+  getElementByPosition(Index,Elements,Element),
+  addElementToCard(Element,Card,NewCard),
+  FinalK is K + 1,
+  createNSquareCardsSecondAuxiliar(Elements,NewCard,N,J,I,FinalK,FinalCard).
+
+% -- Dominios --
+% Cards,FinalCards:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N,J,I: Entero+
+%  -- Predicados --
+% createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards)
+% getElementByPosition(Index,Elements,Element)
+% createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card)
+% addCardToCardsSet(Card,Cards,NewCards)
+% -- Metas --
+% Principales: createNSquareCardsFirstAuxiliar
+% Secundarias: createNSquareCardsSecondAuxiliar,getElementByPosition,addCardToCardsSet
+% -- Cláusula --
+% Regla: Helper Primer Auxiliar Constructor de las N cuadrado Cartas 
+createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):-!.
+createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
+  getElementByPosition(Index,Elements,FirstElement),
+  FinalJ is J + 1,
+  createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
+  addCardToCardsSet(Card,Cards,NewCards),
+  createNSquareCardsFirstAuxiliar(Elements,NewCards,N,FinalJ,I,FinalCards).
+
+% -- Dominios --
+% Cards,CardsSet:Lista de simbolos
+% Elements: Simbolos o Elementos
+% N,I: Entero+
+%  -- Predicados --
+% createNSquareCards(Elements,Cards,N,I,CardsSet)
+% createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards)
+% -- Metas --
+% Principales: createNSquareCards
+% Secundarias: createNSquareCardsFirstAuxiliar
+% -- Cláusula --
+% Regla: Helper Constructor de las N cuadrado Cartas 
+createNSquareCards(_,Cards,N,N,Cards):-!.
+createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
+  createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
+  createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
+
+
 
 % -- Dominios --
 % CardsSet: Lista de Cartas
@@ -261,149 +406,7 @@ cardToString(Card,Position,FinalStringCard):-
  atomic_concat(StringCardFormat,StringCard,FinalStringCard).
 
 
-% -- Dominios --
-% Card:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N: Entero+
-% -- Predicados --
-% createFirstCard(Elements,N,Card)
-% createFirstCardAuxiliar(Elements,N,[],0,Card)
-% -- Metas --
-% Principales: createFirstCard
-% Secundarias: createFirstCardAuxiliar
-% -- Cláusula --
-% Regla: Helper Constructor de Primera Carta
-createFirstCard(Elements,N,Card):- createFirstCardAuxiliar(Elements,N,[],0,Card).
 
-% -- Dominios --
-% Card,FirstCard:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N, Count: Entero+
-% -- Predicados --
-% createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card)
-% getFirstElement(Elements,Element),
-% getTailElements(Elements,TailElements),
-% addElementToCard(Element,FirstCard,FinalCard),
-% -- Metas --
-% Principales: createFirstCardAuxiliar
-% Secundarias: getFirstElement,GetTailElements,addElementToCard
-% -- Cláusula --
-% Regla: Helper Constructor auxiliar de Primera Carta
-createFirstCardAuxiliar(_,N,Card,N,Card):-!.
-createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
-  getFirstElement(Elements,Element),
-  getTailElements(Elements,TailElements),
-  addElementToCard(Element,FirstCard,FinalCard),
-  FinalCount is Count + 1,
-  createFirstCardAuxiliar(TailElements,N,FinalCard,FinalCount,Card).
-
-
-% -- Dominios --
-% Cards,FinalCards:Lista de cartas
-% Elements: Simbolos o Elementos
-% N: Entero+
-% -- Predicados --
-% createNCards(Elements,N,Cards,J,FinalCards)
-% getFirstElement(Elements,FirstElement)
-% createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card)
-% addCardToCardsSet(Card,Cards,NewCards)
-% createNCards(Elements,N,NewCards,FinalJ,FinalCards)
-% -- Metas --
-% Principales: createNCards
-% Secundarias: getFirstElement,createNCardAuxiliar,addCardToCardsSet
-% -- Cláusula --
-% Regla: Helper Constructor de las N Cartas 
-createNCards(_,N,Cards,N,Cards):-!.
-createNCards(Elements,N,Cards,J,FinalCards):-
-  getFirstElement(Elements,FirstElement),
-  FinalJ is J + 1,
-  createNCardAuxiliar(Elements,[FirstElement],N,FinalJ,0,Card),
-  addCardToCardsSet(Card,Cards,NewCards),
-  createNCards(Elements,N,NewCards,FinalJ,FinalCards).
-
-% -- Dominios --
-% Card,FinalCard:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N,J,K: Entero+
-%  -- Predicados --
-% createNCardAuxiliar(Elements,Card,N,J,K,FinalCard)
-% calculateIndexToNCards(N,J,K,Index)
-% getElementByPosition(Index,Elements,Element)
-% addElementToCard(Element,Card,NewCard)
-% -- Metas --
-% Principales: createNCardAuxiliar
-% Secundarias: calculateIndexToNCards,getElementByPosition,addElementToCard
-% -- Cláusula --
-% Regla: Helper Auxiliar Constructor de las N Cartas 
-createNCardAuxiliar(_,Card,N,_,N,Card):-!.
-createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
-  calculateIndexToNCards(N,J,K,Index),
-  getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,Card,NewCard),   
-  FinalK is K + 1,
-  createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
-  
-  
-% -- Dominios --
-% Card,FinalCard:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N,J,K,I: Entero+
-%  -- Predicados --
-% createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard)
-% calculateIndexToNSquareCards(N,J,K,I,Index)
-% getElementByPosition(Index,Elements,Element)
-% addElementToCard(Element,Card,NewCard)
-% -- Metas --
-% Principales: createNSquareCardsSecondAuxiliar
-% Secundarias: calculateIndexToNSquareCards,getElementByPosition,addElementToCard
-% -- Cláusula --
-% Regla: Helper Segundo Auxiliar Constructor de las N cuadrado Cartas 
-createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
-createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
-  calculateIndexToNSquareCards(N,J,K,I,Index),
-  getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,Card,NewCard),
-  FinalK is K + 1,
-  createNSquareCardsSecondAuxiliar(Elements,NewCard,N,J,I,FinalK,FinalCard).
-
-% -- Dominios --
-% Cards,FinalCards:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N,J,I: Entero+
-%  -- Predicados --
-% createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards)
-% getElementByPosition(Index,Elements,Element)
-% createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card)
-% addCardToCardsSet(Card,Cards,NewCards)
-% -- Metas --
-% Principales: createNSquareCardsFirstAuxiliar
-% Secundarias: createNSquareCardsSecondAuxiliar,getElementByPosition,addCardToCardsSet
-% -- Cláusula --
-% Regla: Helper Primer Auxiliar Constructor de las N cuadrado Cartas 
-createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):-!.
-createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
-  getElementByPosition(Index,Elements,FirstElement),
-  FinalJ is J + 1,
-  createNSquareCardsSecondAuxiliar(Elements,[FirstElement],N,FinalJ,I,1,Card),
-  addCardToCardsSet(Card,Cards,NewCards),
-  createNSquareCardsFirstAuxiliar(Elements,NewCards,N,FinalJ,I,FinalCards).
-
-% -- Dominios --
-% Cards,CardsSet:Lista de simbolos
-% Elements: Simbolos o Elementos
-% N,I: Entero+
-%  -- Predicados --
-% createNSquareCards(Elements,Cards,N,I,CardsSet)
-% createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards)
-% -- Metas --
-% Principales: createNSquareCards
-% Secundarias: createNSquareCardsFirstAuxiliar
-% -- Cláusula --
-% Regla: Helper Constructor de las N cuadrado Cartas 
-createNSquareCards(_,Cards,N,N,Cards):-!.
-createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
-  createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
-  createNSquareCards(Elements,NewCards,N,FinalI,CardsSet).
 
 
 % -- Dominios --
@@ -687,11 +690,26 @@ emptyState([]).
 emptyUserCards([]).
 emptyTurns([]).
 
-%Hechos
-gameState(null,"En Partida").
-gameState(finish,"Finalizado"),
 
-%TDA DobbleGame
+
+% TDA DobbleGame
+% ---Dominios---
+% NumberOfPlayers, Seed:Entero+
+% CardsSet: Lista de Cartas
+% Mode: String
+% DobbleGame: NumberOfPlayers  X Players X CardsSet X Mode X CardsZone X State X Turns
+% ---Predicados---
+% dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame)
+% cardsSetIsDobble(CardsSet),
+% emptyPlayers(InitialPlayers)
+% emptyCardsZone(InitialCardsZone)
+% emptyState(InitialState)
+% emptyTurns(InitialTurns)
+% ---Metas---
+% Principales: 
+% Secundarias:
+% ---Cláusula---:
+% Regla:
 dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  number(NumberOfPlayers),
  NumberOfPlayers > 1,
@@ -836,7 +854,8 @@ action(finish,_,_,DobbleGame,NewDobbleGame):-
 
 
 
-getWinnerAndLosers(DobbleGame).
+getWinnerAndLosers(DobbleGame):-
+ 
 
 
 
