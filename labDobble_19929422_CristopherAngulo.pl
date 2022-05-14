@@ -2,9 +2,9 @@
 
 
 random(Xn, Xn1):-
-AX is 1103515245 * Xn,
-AXC is AX + 12345,
-Xn1 is (AXC mod 2147483647).
+AX is 15 * Xn,
+AXC is AX + 38,
+Xn1 is (AXC mod 22).
 
 % TDA CardsSet 
 % -- Dominios --
