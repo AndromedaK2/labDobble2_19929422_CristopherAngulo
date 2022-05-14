@@ -1170,8 +1170,7 @@ stateToString(DobbleGame,StateToString):-
 
 cardsZoneToString(DobbleGame,CardsZoneToString):-
   getCardsZone(DobbleGame,CardsZone),
-  length(CardsZone,Large),
-  Large < 2 ->  
+  CardsZone = [] ->  
     L = '\nLa zona de juego es: ', 
     atomic_concat(L,'No tenemos cartas en juego',CardsZoneToString);
     getCardsZone(DobbleGame,CardsZone),
@@ -1223,9 +1222,9 @@ dobbleGameToString(DobbleGame,Xn):-
  stateToString(DobbleGame,StateToString),
  turnsToString(DobbleGame,TurnsToString),
  getCardsSetToString(DobbleGame,CardsSetToString),
- %cardsZoneToString(DobbleGame,CardsZoneToString),
+ cardsZoneToString(DobbleGame,CardsZoneToString),
  F = '\n**********************************************\n',
- atomics_to_string([PlayersToString,F,NumberOfPlayersToString,F,StateToString,F,ModeToString,F,TurnsToString,F,CardsSetToString],Xn).
+ atomics_to_string([NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,CardsZoneToString,F,TurnsToString,F,CardsSetToString],Xn).
 
 
 
