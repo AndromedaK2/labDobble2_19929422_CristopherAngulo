@@ -1151,9 +1151,6 @@ action(finish,_,_,DobbleGame,NewDobbleGame):-
 getFinalState(DobbleGame,X):-
   getPlayers(DobbleGame,Players).
 
-
-
-% playersToString():-
 turnsToString(DobbleGame,FinalTurnsToString):-
   getTurns(DobbleGame,Turns),
   atomics_to_string(Turns,' ',TurnsToString),
@@ -1188,27 +1185,47 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
  L = '\nEl estado del mazo de cartas es: ',
  atomic_concat(L,CardsSetToString1,CardsSetToString).
 
+
+playersToString(DobbleGame,PlayersToString):-
+  getPlayers(DobbleGame,Players),
+  length(Players,Large),
+  playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString).
+
+
+playersToStringAuxiliar([],Length,Length,PlayersToString,PlayersToString).
+playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers):-
+  FinalCount is Count + 1,
+  playerToString(FinalCount,Player,PlayerToString),
+  string_concat(NewPlayers,PlayerToString,NewPlayersAux),
+  playersToStringAuxiliar(Players,Lenght,FinalCount,NewPlayersAux,FinalNewPlayers).
+
+
+playerToString(Position,[Username,Cards,Points],PlayerToString):-
+  atomic_concat('\n   *El jugador ',Position,P),
+  atomic_concat(P,' es: ',L),
+  atomic_concat(L,Username,A),
+  cardsSetToString(Cards,CardsToString),
+  atomic_concat('\n   *Sus Cartas son: ',CardsToString,C),
+  atomic_concat('\n   *Su Puntaje es: ',Points,S),
+  atomics_to_string([A,C,S],'',PlayerToString).
+
 % 2 jugadores
 % getWhoWinTwoPlayers(DobbleGame,Winner):-
 %   getPlayers(DobbleGame,[[Username1,_,Points1],[Username2,_,Points2]]),
 %   Points1 > Points2,
 
-  
 
-
-
-
-
- 
 dobbleGameToString(DobbleGame,Xn):-
  L = '***********Bienvenido a Dobble Game***********\n',
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
+ playersToString(DobbleGame,PlayersToString),
  modeToString(DobbleGame,ModeToString),
  stateToString(DobbleGame,StateToString),
  turnsToString(DobbleGame,TurnsToString),
  getCardsSetToString(DobbleGame,CardsSetToString),
- cardsZoneToString(DobbleGame,CardsZoneToString),
- atomics_to_string([CardsZoneToString,NumberOfPlayersToString,StateToString,ModeToString,TurnsToString,CardsSetToString],Xn).
+ %cardsZoneToString(DobbleGame,CardsZoneToString),
+ F = '\n**********************************************\n',
+ atomics_to_string([PlayersToString,F,NumberOfPlayersToString,F,StateToString,F,ModeToString,F,TurnsToString,F,CardsSetToString],Xn).
 
 
 
