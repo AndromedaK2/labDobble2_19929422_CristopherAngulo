@@ -87,8 +87,6 @@ dobbleGamePlay(Game3,[pass],X)),
 dobbleGamePlay(X,[pass],Y).
 
 
-
-
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
@@ -96,3 +94,14 @@ dobbleGamePlay(Game2,null,Game3),
 dobbleGamePlay(Game3,[spotit,"Rene",1],X),
 dobbleGameStatus(X,State),
 dobbleGameScore(X,"Cristopher",Score).
+
+
+%Requerimiento 13
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(4,CardsSet,"stack",2,Game), 
+dobbleGameRegister("Rene",Game,Game1),dobbleGameRegister("Cristopher",Game1,Game2),
+dobbleGamePlay(Game2,null,Game3),
+dobbleGamePlay(Game3,[spotit,"Cristopher",1],Game4),
+dobbleGamePlay(Game4,null,Game5),
+dobbleGameToString(Game5,Y),
+write(Y).
