@@ -1136,11 +1136,9 @@ turnsToString(DobbleGame,FinalTurnsToString):-
   atomics_to_string(Turns,' ',TurnsToString),
   atomic_concat('\nEl orden de los turnos es: ',TurnsToString,FinalTurnsToString).
 
-numberOfPlayersToString(DobbleGame,U):-
+numberOfPlayersToString(DobbleGame,NumberOfPlayersToString):-
  getNumberOfPlayers(DobbleGame,NumberOfPlayers),
- L = '***********Bienvenido a Dobble Game***********\n',
- atomic_concat('\nEl numero de jugadores es: ',NumberOfPlayers,Y),
- atomic_concat(L,Y,U).
+ atomic_concat('\nEl numero de jugadores es: ',NumberOfPlayers,NumberOfPlayersToString).
 
 modeToString(DobbleGame,ModeToString):-
   getMode(DobbleGame,Mode),
@@ -1152,16 +1150,30 @@ stateToString(DobbleGame,StateToString):-
 
 cardsZoneToString(DobbleGame,CardsZoneToString):-
   getCardsZone(DobbleGame,CardsZone),
-  cardsSetToString(CardsZone,CardsZoneToString).
+  length(CardsZone,Large),
+  Large < 2 ->  
+    L = '\nLa zona de juego es: ', 
+    atomic_concat(L,'No tenemos cartas en juego',CardsZoneToString);
+    getCardsZone(DobbleGame,CardsZone),
+    L = '\nLa zona de juego es: ',
+    cardsSetToString(CardsZone,CardsZoneToString1),
+    atomic_concat(L,CardsZoneToString1,CardsZoneToString). 
+
+getCardsSetToString(DobbleGame,CardsSetToString):-
+ getCardsSet(DobbleGame,CardsSet),
+ cardsSetToString(CardsSet,CardsSetToString1),
+ L = '\nEl estado del mazo de cartas es: ',
+ atomic_concat(L,CardsSetToString1,CardsSetToString).
  
 dobbleGameToString(DobbleGame,Xn):-
+ L = '***********Bienvenido a Dobble Game***********\n',
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
  modeToString(DobbleGame,ModeToString),
  stateToString(DobbleGame,StateToString),
  turnsToString(DobbleGame,TurnsToString),
- getCardsSet(DobbleGame,CardsSet),
- cardsSetToString(CardsSet,CardsSetToString),
- atomics_to_string([NumberOfPlayersToString,StateToString,ModeToString,TurnsToString],Xn).
+ getCardsSetToString(DobbleGame,CardsSetToString),
+ cardsZoneToString(DobbleGame,CardsZoneToString),
+ atomics_to_string([CardsZoneToString,NumberOfPlayersToString,StateToString,ModeToString,TurnsToString,CardsSetToString],Xn).
 
 
 
