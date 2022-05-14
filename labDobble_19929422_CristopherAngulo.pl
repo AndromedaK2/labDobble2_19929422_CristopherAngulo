@@ -25,15 +25,17 @@ Xn1 is (AXC mod 22).
 %              createCompleteCardsSet,createIncompleteCardsSet
 % -- Cláusulas --
 % Regla: Constructor Mazo de Cartas 
-cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,CardsSet):-
+cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,NewCardsSet):-
   getOrder(NumberElementPerCard,Order),
   isValidOrder(Order),
   isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards),
   getMaxNumberOfCards(Order,MaxNumberOfCardsPosible),
   MaxNumberOfCardsPosible = MaxNumberOfCards ->
-    createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet);
+    createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet),
+    shuffleCardsSet(CardsSet,Seed,NewCardsSet);
     getOrder(NumberElementPerCard,Order),
-    createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet).
+    createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,CardsSet),
+    shuffleCardsSet(CardsSet,Seed,NewCardsSet).
 
 % -- Dominios --
 % Elements: Lista de Elementos
@@ -672,13 +674,13 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % -- Cláusula --
 % Regla: Helper Modificador Desordenar cartas
 shuffleCardsSet(CardsSet,Seed,NewCardsSet):-
-  shuffleCardsSetAuxiliar(CardsSet,Seed,0,[],NewCardsSet).  
+  shuffleCardsSetAuxiliar(CardsSet,Seed,0,NewCardsSet).  
 
-shuffleCardsSetAuxiliar(_,Count,Count,CardsSet,CardsSet).
-shuffleCardsSetAuxiliar([FirstCard|CardsSet],Seed,Count,NewCardsSet,FinalCardsSet):-
-  finalCount is Count +1,
-  append(CardsSet,FirstCard,NewCardsSetAuxiliar),
-  shuffleCardsSetAuxiliar(NewCardsSetAuxiliar,Seed,finalCount,NewCardsSetAuxiliar,FinalCardsSet).
+shuffleCardsSetAuxiliar(CardsSet,Count,Count,CardsSet).
+shuffleCardsSetAuxiliar([FirstCard,SecondCard|CardsSet],Seed,Count,FinalCardsSet):-
+  FinalCount is Count + 1,
+  append(CardsSet,[SecondCard,FirstCard],NewCardsSetAuxiliar),
+  shuffleCardsSetAuxiliar(NewCardsSetAuxiliar,Seed,FinalCount,FinalCardsSet).
 
 
 %**********************************************************************************************************************************
