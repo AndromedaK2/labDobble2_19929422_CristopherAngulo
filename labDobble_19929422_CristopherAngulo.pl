@@ -1005,6 +1005,9 @@ canKeepPlaying(DobbleGame):-
   getCardsSet(DobbleGame,CardsSet),
   length(CardsSet,CardsSetLength),
   CardsSetLength>=2,
+  % getPlayers(DobbleGame,Players),
+  % length(Players,Large),
+  % Large >=2,
   dobbleGameStatus(DobbleGame,Status),
   Status = "En Partida".
 
