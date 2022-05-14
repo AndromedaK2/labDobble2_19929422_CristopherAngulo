@@ -1203,13 +1203,22 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
 
 
 playerToString(Position,[Username,Cards,Points],PlayerToString):-
-  atomic_concat('\n   *El jugador ',Position,P),
-  atomic_concat(P,' es: ',L),
-  atomic_concat(L,Username,A),
-  cardsSetToString(Cards,CardsToString),
-  atomic_concat('\n   *Sus Cartas son: ',CardsToString,C),
-  atomic_concat('\n   *Su Puntaje es: ',Points,S),
-  atomics_to_string([A,C,S],'',PlayerToString).
+  cardsSetToString(Cards,CardsToString)
+  CardsToString = [] ->      
+    cardsSetToString(Cards,CardsToString)
+    atomic_concat('\n   *El jugador ',Position,P),
+    atomic_concat(P,' es: ',L),
+    atomic_concat(L,Username,A),
+    atomic_concat('\n   *Sus Cartas son: ','No tiene cartas',C),
+    atomic_concat('\n   *Su Puntaje es: ',Points,S),
+    atomics_to_string([A,C,S],'',PlayerToString);
+    cardsSetToString(Cards,CardsToString)
+    atomic_concat('\n   *El jugador ',Position,P),
+    atomic_concat(P,' es: ',L),
+    atomic_concat(L,Username,A),
+    atomic_concat('\n   *Sus Cartas son: ',CardsToString,C),
+    atomic_concat('\n   *Su Puntaje es: ',Points,S),
+    atomics_to_string([A,C,S],'',PlayerToString).
 
 % 2 jugadores
 % getWhoWinTwoPlayers(DobbleGame,Winner):-
