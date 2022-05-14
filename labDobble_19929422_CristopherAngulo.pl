@@ -1059,25 +1059,48 @@ isPlayerTurn(DobbleGame,Username):-
 %Regla: Helper Obtener de quien es el turno
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
- 
+
+
+% ---Dominios---
+% DobbleGame,NewDobbleGame: Juego Dobble
+% Actions: Lista de string & atomos | Null
+% ---Predicados---
+% dobbleGamePlay(DobbleGame,Actions,NewDobbleGame)
+% setStatusGame(DobbleGame,"En Partida",DobbleGame)
+% getMode(DobbleGame,Mode)
+% action(Action,Username,Element,DobbleGame,NewDobbleGame)
+% isPlayerTurn(DobbleGame,Username)
+% canKeepPlaying(DobbleGame)
+% ---Metas---
+% Principales: dobbleGamePlay
+% Secundarias: setStatusGame,getMode,mode,isPlayerTurn,canKeepPlaying,getMode,action.
+% ---Cláusulas---:
+
+%Regla: Modificador que inicia el juego
 dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
  setStatusGame(DobbleGame,"En Partida",NewDobbleGame1),
  getMode(NewDobbleGame1,Mode),
  mode(Mode,NewDobbleGame1,NewDobbleGame).
 
+%Regla: Modificador que compara las cartas y verifica el elemento en común
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
  isPlayerTurn(DobbleGame,Username),
  canKeepPlaying(DobbleGame),
  getMode(DobbleGame,Mode),
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
 
+%Regla: Modificador que hace pasar de turno al jugador
 dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
   canKeepPlaying(DobbleGame),
   action(pass,_,_,DobbleGame,NewDobbleGame).
-  
+
+%Regla: Modificador que cambia el estado del juego a finalizado
 dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
   action(finish,_,_,DobbleGame,NewDobbleGame).
-  
+
+
+
+
 %TDA: StackMode 
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
@@ -1166,10 +1189,10 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
  atomic_concat(L,CardsSetToString1,CardsSetToString).
 
 % 2 jugadores
-getWhoWinTwoPlayers(DobbleGame,Winner):-
-  getPlayers(DobbleGame,[[Username1,_,Points1],[Username2,_,Points2]]),
-  Points1 > Points2,
-    
+% getWhoWinTwoPlayers(DobbleGame,Winner):-
+%   getPlayers(DobbleGame,[[Username1,_,Points1],[Username2,_,Points2]]),
+%   Points1 > Points2,
+
   
 
 
