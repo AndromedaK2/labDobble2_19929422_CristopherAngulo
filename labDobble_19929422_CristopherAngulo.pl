@@ -1164,6 +1164,18 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
  cardsSetToString(CardsSet,CardsSetToString1),
  L = '\nEl estado del mazo de cartas es: ',
  atomic_concat(L,CardsSetToString1,CardsSetToString).
+
+% 2 jugadores
+getWhoWinTwoPlayers(DobbleGame,Winner):-
+  getPlayers(DobbleGame,[[Username1,_,Points1],[Username2,_,Points2]]),
+  Points1 > Points2,
+    
+  
+
+
+
+
+
  
 dobbleGameToString(DobbleGame,Xn):-
  L = '***********Bienvenido a Dobble Game***********\n',
@@ -1177,12 +1189,6 @@ dobbleGameToString(DobbleGame,Xn):-
 
 
 
-
-
-
-
-
-  
 
 
 
