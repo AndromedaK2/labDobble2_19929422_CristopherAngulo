@@ -989,6 +989,18 @@ setPlayersGame([NumberOfPlayers,_,CardsSet,Mode,CardsZone,State,Turns],Players,
 removeCards([NumberOfPlayers,Players,[FirstCard,SecondCards|CardsSet],Mode,CardsZone,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,Turns]).
 
+
+% ---Dominios---
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% canKeepPlaying(DobbleGame)
+% getCardsSet(DobbleGame,CardsSet)
+% dobbleGameStatus(DobbleGame,Status)
+% ---Metas---
+% Principales: canKeepPlaying
+% Secundarias: getCardsSet,dobbleGameStatus
+% ---Cláusula---:
+% Regla: Helper Verifica si se puede seguir jugando pregutado el estado del juego y si hay cartas en el mazo
 canKeepPlaying(DobbleGame):-
   getCardsSet(DobbleGame,CardsSet),
   length(CardsSet,CardsSetLength),
@@ -999,22 +1011,51 @@ canKeepPlaying(DobbleGame):-
 % ---Dominios---
 % DobbleGame,NewDobbleGame: Juego Dobble
 % ---Predicados---
-% removeCards(DobbleGame,Players,NewDobbleGame)
+% cleanCardsZone(DobbleGame,NewDobbleGame)
 % ---Metas---
-% Principales: removeCards
+% Principales: cleanCardsZone
 % ---Cláusula---:
-% Regla: Helper remueve las cartas de la cima del mazo
+% Regla: Helper limpia la zona de cartas del juego
 cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
   [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
+% ---Dominios---
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% moveCardsToFinal(DobbleGame,NewDobbleGame)
+% ---Metas---
+% Principales: moveCardsToFinal
+% ---Cláusula---:
+% Regla: Helper mueve las primeras cartas al fondo del mazo
 moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,CardsZone,State,Turns],
   [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
   append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
 
+% ---Dominios---
+% DobbleGame: Juego Dobble
+% Username:String
+% ---Predicados---
+% isPlayerTurn(DobbleGame,Username)
+% getTurns(DobbleGame,Turns)
+% ---Metas---
+% Principales: isPlayerTurn
+% Secundarias: getTurns
+% ---Cláusula---:
+% Regla: Helper valida si es el turno del jugador 
 isPlayerTurn(DobbleGame,Username):-
   getTurns(DobbleGame,[FirstTurn|_]),
   Username = FirstTurn.
 
+% ---Dominios---
+% DobbleGame: Juego Dobble
+% Turn: Turno
+% ---Predicados---
+% dobbleGameWhoseTurnIsIt(DobbleGame,Username)
+% getTurns(DobbleGame,Turns)
+% ---Metas---
+% Principales: dobbleGameWhoseTurnIsIt
+% Secundarias: getTurns
+% ---Cláusula---:
 %Regla: Helper Obtener de quien es el turno
 dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
  getTurns(DobbleGame,[FirstTurn|_]).
