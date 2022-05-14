@@ -1104,7 +1104,7 @@ numberOfPlayersToString(DobbleGame,U):-
 
 modeToString(DobbleGame,ModeToString):-
   getMode(DobbleGame,Mode),
-  atomic_concat('\nEl modo de juego es: ',Mode).
+  atomic_concat('\nEl modo de juego es: ',Mode,ModeToString).
 
 stateToString(DobbleGame,StateToString):-
   dobbleGameStatus(DobbleGame,State),
@@ -1112,8 +1112,10 @@ stateToString(DobbleGame,StateToString):-
  
 dobbleGameToString(DobbleGame,Xn):-
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
+ modeToString(DobbleGame,ModeToString),
+ stateToString(DobbleGame,StateToString),
  turnsToString(DobbleGame,TurnsToString),
- atomic_concat(NumberOfPlayersToString,TurnsToString,Xn).
+ atomics_to_string([NumberOfPlayersToString,StateToString,ModeToString,TurnsToString],Xn).
 
 
 
