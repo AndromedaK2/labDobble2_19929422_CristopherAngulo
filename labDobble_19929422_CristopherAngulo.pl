@@ -1203,16 +1203,15 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
 
 
 playerToString(Position,[Username,Cards,Points],PlayerToString):-
-  cardsSetToString(Cards,CardsToString)
-  CardsToString = [] ->      
-    cardsSetToString(Cards,CardsToString)
+  Cards = [] ->   
     atomic_concat('\n   *El jugador ',Position,P),
     atomic_concat(P,' es: ',L),
     atomic_concat(L,Username,A),
     atomic_concat('\n   *Sus Cartas son: ','No tiene cartas',C),
     atomic_concat('\n   *Su Puntaje es: ',Points,S),
     atomics_to_string([A,C,S],'',PlayerToString);
-    cardsSetToString(Cards,CardsToString)
+    %-------------------------------------------- 
+    cardsSetToString(Cards,CardsToString),
     atomic_concat('\n   *El jugador ',Position,P),
     atomic_concat(P,' es: ',L),
     atomic_concat(L,Username,A),
@@ -1226,7 +1225,7 @@ playerToString(Position,[Username,Cards,Points],PlayerToString):-
 %   Points1 > Points2,
 
 
-dobbleGameToString(DobbleGame,Xn):-
+dobbleGameToString(DobbleGame,DobbleGameToString):-
  L = '***********Bienvenido a Dobble Game***********\n',
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
  playersToString(DobbleGame,PlayersToString),
@@ -1236,7 +1235,8 @@ dobbleGameToString(DobbleGame,Xn):-
  getCardsSetToString(DobbleGame,CardsSetToString),
  cardsZoneToString(DobbleGame,CardsZoneToString),
  F = '\n**********************************************\n',
- atomics_to_string([NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,CardsZoneToString,F,TurnsToString,F,CardsSetToString],Xn).
+ atomics_to_string([NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
+ CardsZoneToString,F,TurnsToString,F,CardsSetToString],DobbleGameToString).
 
 
 
