@@ -1095,7 +1095,6 @@ turnsToString(DobbleGame,FinalTurnsToString):-
   atomics_to_string(Turns,' ',TurnsToString),
   atomic_concat('\nEl orden de los turnos es: ',TurnsToString,FinalTurnsToString).
 
-
 numberOfPlayersToString(DobbleGame,U):-
  getNumberOfPlayers(DobbleGame,NumberOfPlayers),
  L = '***********Bienvenido a Dobble Game***********\n',
@@ -1109,6 +1108,10 @@ modeToString(DobbleGame,ModeToString):-
 stateToString(DobbleGame,StateToString):-
   dobbleGameStatus(DobbleGame,State),
   atomic_concat('\nEl estado del juego es: ',State,StateToString).
+
+cardsZoneToString(DobbleGame,CardsZoneToString):-
+  getCardsZone(DobbleGame,CardsZone),
+  cardsSetToString(CardsZone,CardsZoneToString).
  
 dobbleGameToString(DobbleGame,Xn):-
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
