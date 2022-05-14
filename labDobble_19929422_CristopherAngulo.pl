@@ -663,6 +663,26 @@ flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
 
+% -- Dominios --
+% Elements,ElementsWithoutDuplicates: Elementos o Símbolos
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: removeDuplicateElements
+% -- Cláusula --
+% Regla: Helper Modificador Desordenar cartas
+shuffleCardsSet(CardsSet,Seed,NewCardsSet):-
+  shuffleCardsSetAuxiliar(CardsSet,Seed,0,[],NewCardsSet).  
+
+shuffleCardsSetAuxiliar(_,Count,Count,CardsSet,CardsSet).
+shuffleCardsSetAuxiliar([FirstCard|CardsSet],Seed,Count,NewCardsSet,FinalCardsSet):-
+  finalCount is Count +1,
+  append(CardsSet,FirstCard,NewCardsSetAuxiliar),
+  shuffleCardsSetAuxiliar(NewCardsSetAuxiliar,Seed,finalCount,NewCardsSetAuxiliar,FinalCardsSet).
+
+
+%**********************************************************************************************************************************
+
 % TDA Player
 % -- Dominios --
 % Username: string
