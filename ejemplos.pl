@@ -27,6 +27,7 @@ cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetMissingCards(CardsSet,Cards).
 cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),cardsSetToString(CardsSet,X).
 cardsSet([1,2,3,4,5,6,7],3,6,2,CardsSet),cardsSetToString(CardsSet,Y).
 cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetToString(CardsSet,Z).
+cardsSet(['Pedro',2,estrella,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),cardsSetToString(CardsSet,W).
  
 % Requerimiento 7 
  cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet),

@@ -369,7 +369,7 @@ cardsSetToString(CardsSet,CardsSetToString):-
   cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
 
 
-% -- Dominios --
+% -- Dominios --string_concat
 % CardsSet: Lista de Cartas
 % Position: Entero+
 % CardsSetToString: Mazo de cartas en formato string
@@ -1081,14 +1081,44 @@ action(pass,_,_,DobbleGame,NewDobbleGame):-
   setTurnsGame(NewDobbleGame1,NewDobbleGame2),
   cleanCardsZone(NewDobbleGame2,NewDobbleGame).
 
-
 action(finish,_,_,DobbleGame,NewDobbleGame):-
   setStatusGame(DobbleGame,"finalizado",NewDobbleGame).
 
+getFinalState(DobbleGame,X):-
+  getPlayers(DobbleGame,Players).
 
 
-% getWinnerAndLosers(DobbleGame):-
+
+% playersToString():-
+turnsToString(DobbleGame,FinalTurnsToString):-
+  getTurns(DobbleGame,Turns),
+  atomics_to_string(Turns,' ',TurnsToString),
+  atomic_concat('\nEl orden de los turnos es: ',TurnsToString,FinalTurnsToString).
+
+
+numberOfPlayersToString(DobbleGame,U):-
+ getNumberOfPlayers(DobbleGame,NumberOfPlayers),
+ L = '***********Bienvenido a Dobble Game***********\n',
+ atomic_concat('\nEl numero de jugadores es: ',NumberOfPlayers,Y),
+ atomic_concat(L,Y,U).
+
+modeToString(DobbleGame,ModeToString):-
+  getMode(DobbleGame,Mode),
+  atomic_concat('\nEl modo de juego es: ',Mode).
+
+stateToString(DobbleGame,StateToString):-
+  dobbleGameStatus(DobbleGame,State),
+  atomic_concat('\nEl estado del juego es: ',State,StateToString).
  
+dobbleGameToString(DobbleGame,Xn):-
+ numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
+ turnsToString(DobbleGame,TurnsToString),
+ atomic_concat(NumberOfPlayersToString,TurnsToString,Xn).
+
+
+
+
+
 
 
 
