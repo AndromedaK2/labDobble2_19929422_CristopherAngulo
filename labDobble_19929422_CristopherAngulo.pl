@@ -1115,6 +1115,8 @@ dobbleGameToString(DobbleGame,Xn):-
  modeToString(DobbleGame,ModeToString),
  stateToString(DobbleGame,StateToString),
  turnsToString(DobbleGame,TurnsToString),
+ getCardsSet(DobbleGame,CardsSet),
+ cardsSetToString(CardsSet,CardsSetToString),
  atomics_to_string([NumberOfPlayersToString,StateToString,ModeToString,TurnsToString],Xn).
 
 
