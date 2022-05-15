@@ -1139,6 +1139,18 @@ dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
 
 
 %TDA: StackMode 
+% ---Dominios---
+% Mode: "stack" (string)
+% DobbleGame,NewDobble: Juego Dobble
+% ---Predicados---
+% mode(Mode,DobbleGame,NewDobbleGame)
+% getCardsSet(DobbleGame,CardsSet),
+% setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+% ---Metas---
+% Principales: mode
+% Secundarias:  getCardsSet,setCardsZoneStackMode
+% ---Cláusula---:
+% Regla: Modificador del Juego Dobble por el modo stack volteando las cartas de la cima del mazo en la zona de cartas del juego
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
   setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
@@ -1146,18 +1158,26 @@ mode("stack",DobbleGame,NewDobbleGame):-
 
 % ---Dominios---
 % FirstCard, SecondCard: Lista de Elementos
-% DobbleGame: 
+% DobbleGame: Juego Dobble
 % ---Predicados---
 % setCardsZoneStackMode(FirstCard,SecondCard,Element)
 % ---Metas---
 % Principales: setCardsZoneStackMode
 % ---Cláusula---:
-% Regla: Helper obtiene el elemento en común entre 2 cartas
+% Regla: Helper voltea la primera y segunda carta a la zona de juego
 setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns]
   ,[NumberOfPlayers,Players,CardsSet,Mode,[FirstCard,SecondCard],State,Turns]).
 
 
-% spotit
+% ---Dominios---
+% FirstCard, SecondCard: Lista de Elementos
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% setCardsZoneStackMode(FirstCard,SecondCard,Element)
+% ---Metas---
+% Principales: setCardsZoneStackMode
+% ---Cláusula---:
+% Regla: Helper voltea la primera y segunda carta a la zona de juego
 action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
@@ -1288,11 +1308,6 @@ getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):
     getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
 
 
-% getLosers():-
-
-% getLoserAuxiliar():-
- 
-
 
 dobbleGameToString(DobbleGame,DobbleGameToString):-
  L = '***********Bienvenido a Dobble Game***********\n',
@@ -1305,7 +1320,7 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
  cardsZoneToString(DobbleGame,CardsZoneToString),
  winnersToString(DobbleGame,WinnersToString),
  F = '\n**********************************************\n',
- atomics_to_string([NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
+ atomics_to_string([L,NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
  CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
 
 
