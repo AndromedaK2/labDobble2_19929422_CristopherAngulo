@@ -1,11 +1,6 @@
 :- use_module(library(lists)).
 
 
-random(Xn, Xn1):-
-AX is 15 * Xn,
-AXC is AX + 38,
-Xn1 is (AXC mod 22).
-
 % TDA CardsSet 
 % -- Dominios --
 % Elements: Lista de Elementos
@@ -666,16 +661,33 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 
 
 % -- Dominios --
-% Elements,ElementsWithoutDuplicates: Elementos o Símbolos
-%  -- Predicados --
-% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% Xn, Xn1: Entero+
+% -- Predicados --
+% random(Xn, Xn1)
 % -- Metas --
-% Principales: removeDuplicateElements
+% Principales: random
+% -- Cláusulas --
+% Regla: Helper Genera un numero aleatorio
+random(Xn, Xn1):-
+AX is 15 * Xn,
+AXC is AX + 38,
+Xn1 is (AXC mod 22).
+
+
+% -- Dominios --
+% Seed:Entero+
+% 
+%  -- Predicados --
+% shuffleCardsSet(CardsSet,Seed,NewCardsSet)
+% shuffleCardsSetAuxiliar(CardsSet,Count,Count,CardsSet).
+% -- Metas --
+% Principales: shuffleCardsSet
+% Secundarias: shuffleCardsSetAuxiliar
 % -- Cláusula --
 % Regla: Helper Modificador Desordenar cartas
 shuffleCardsSet(CardsSet,Seed,NewCardsSet):-
   shuffleCardsSetAuxiliar(CardsSet,Seed,0,NewCardsSet).  
-
+% Regla: Helper Modificador Auxiliar Desordenar cartas
 shuffleCardsSetAuxiliar(CardsSet,Count,Count,CardsSet).
 shuffleCardsSetAuxiliar([FirstCard,SecondCard|CardsSet],Seed,Count,FinalCardsSet):-
   FinalCount is Count + 1,
@@ -1183,7 +1195,7 @@ turnsToString(DobbleGame,FinalTurnsToString):-
 
 numberOfPlayersToString(DobbleGame,NumberOfPlayersToString):-
  getNumberOfPlayers(DobbleGame,NumberOfPlayers),
- atomic_concat('\nEl numero de jugadores es: ',NumberOfPlayers,NumberOfPlayersToString).
+ atomic_concat('\nEl numero maximo de jugadores es: ',NumberOfPlayers,NumberOfPlayersToString).
 
 modeToString(DobbleGame,ModeToString):-
   getMode(DobbleGame,Mode),
@@ -1241,10 +1253,28 @@ playerToString(Position,[Username,Cards,Points],PlayerToString):-
     atomic_concat('\n   *Su Puntaje es: ',Points,S),
     atomics_to_string([A,C,S],'',PlayerToString).
 
-% 2 jugadores
-% getWhoWinTwoPlayers(DobbleGame,Winner):-
-%   getPlayers(DobbleGame,[[Username1,_,Points1],[Username2,_,Points2]]),
-%   Points1 > Points2,
+
+getMaxPoints(DobbleGame,MaxPoint):-
+  getPlayers(DobbleGame,Players),
+  getMaxPointsAuxiliar(Players,MaxPoint,0).
+  
+getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
+getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
+  Point >= MaxPoint ->
+    getMaxPointsAuxiliar(Players,Point,FinalMaxPoint);
+    getMaxPointsAuxiliar(Players,MaxPoint,FinalMaxPoint).
+
+getWinners(DobbleGame,MaxPoint,Winners):-
+ getPlayers(DobbleGame,Players),
+ getWinnerAuxiliar(Players,MaxPoint,[],Winners).
+ 
+getWinnersAuxiliar():
+
+
+getLosers():-
+
+getLoserAuxiliar():-
+ 
 
 
 dobbleGameToString(DobbleGame,DobbleGameToString):-
