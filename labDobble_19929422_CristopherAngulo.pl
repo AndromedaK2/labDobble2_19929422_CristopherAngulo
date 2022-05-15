@@ -1253,10 +1253,21 @@ playerToString(Position,[Username,Cards,Points],PlayerToString):-
     atomic_concat('\n   *Su Puntaje es: ',Points,S),
     atomics_to_string([A,C,S],'',PlayerToString).
 
+winnersToString(DobbleGame,WinnersToString):-
+ getMaxPoints(DobbleGame,MaxPoint),
+ getWinners(DobbleGame,MaxPoint,Winners),
+ length(Winners,Large),
+ Large > 1 ->
+  getWinners(DobbleGame,MaxPoint,Winners),
+  atomics_to_string(Winners,'-',W),
+  atomic_concat('\nExiste empate  entre: ',W,WinnersToString);
+  getWinners(DobbleGame,MaxPoint,Winners),
+  atomics_to_string(Winners,'-',W),
+  atomic_concat('\nEl ganador actual es: ',W,WinnersToString).
 
 getMaxPoints(DobbleGame,MaxPoint):-
   getPlayers(DobbleGame,Players),
-  getMaxPointsAuxiliar(Players,MaxPoint,0).
+  getMaxPointsAuxiliar(Players,0,MaxPoint).
   
 getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
 getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
@@ -1266,14 +1277,20 @@ getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
 
 getWinners(DobbleGame,MaxPoint,Winners):-
  getPlayers(DobbleGame,Players),
- getWinnerAuxiliar(Players,MaxPoint,[],Winners).
- 
-getWinnersAuxiliar():
+ getWinnersAuxiliar(Players,MaxPoint,[],Winners).
 
 
-getLosers():-
+getWinnersAuxiliar([],_,Winners,Winners).
+getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):-
+  MaxPoint = Points -> 
+    append(Winners,[Username],W),
+    getWinnersAuxiliar(Players,MaxPoint,W,FinalWinners);
+    getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
 
-getLoserAuxiliar():-
+
+% getLosers():-
+
+% getLoserAuxiliar():-
  
 
 
@@ -1286,9 +1303,10 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
  turnsToString(DobbleGame,TurnsToString),
  getCardsSetToString(DobbleGame,CardsSetToString),
  cardsZoneToString(DobbleGame,CardsZoneToString),
+ winnersToString(DobbleGame,WinnersToString),
  F = '\n**********************************************\n',
  atomics_to_string([NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
- CardsZoneToString,F,TurnsToString,F,CardsSetToString],DobbleGameToString).
+ CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
 
 
 
