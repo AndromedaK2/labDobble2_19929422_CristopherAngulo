@@ -30,24 +30,49 @@ cardsSet([1,2,3,4,5,6,7],3,4,2,CardsSet),cardsSetToString(CardsSet,Z).
 cardsSet(['Pedro',2,estrella,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),cardsSetToString(CardsSet,W).
  
 % Requerimiento 7 
- cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet), cardsSetIsDobble(CardsSet),
- dobbleGame(4,CardsSet,"stack",2,Game),
- dobbleGameRegister("Cristopher",Game,GameOut),
- dobbleGameWhoseTurnIsIt(GameOut,User).
+ cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+ dobbleGame(4,CardsSet,"stack",Seed,Game).
+ 
+ cardsSet([1,2,3,4,5,6,7],3,7,2,CardsSet),
+ dobbleGame(2,CardsSet,"stack",Seed,Game1).
 
-% Requerimiento 8
- dobbleGame(4,[[1, 2, 3], [1, 4, 5], [1, 6, 7], [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]],"stack",2,Game), 
- dobbleGameRegister("Cristopher",Game,GameOut),
- dobbleGameRegister("Cristian",GameOut,Game2),dobbleGameRegister("Cristisan",Game2,Game3).
- dobbleGameRegister("cristopher",[2, ["ss"], [[1, 2, 3], [1, 4, 5], [1, 6, 7],
-  [2, 4, 6], [2, 5, 7], [3, 4, 7], [3, 5, 6]], 'Modo'],GameOut)
+ cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,12,2,CardsSet),
+ dobbleGame(3,CardsSet,"stack",Seed,Game2).
 
-%De quien es el turno
+% Requerimiento 8 
+
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(2,CardsSet,"stack",Seed,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2).
+
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(3,CardsSet,"stack",Seed,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),dobbleGameRegister("Alexander",Game2,Game3).
+
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(4,CardsSet,"stack",Seed,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),dobbleGameRegister("Alexander",Game2,Game3).
+
+
+%Requerimiento 9
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),dobbleGameRegister("Alexander",Game2,Game3),
 dobbleGameWhoseTurnIsIt(Game3,Username).
 
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(3,CardsSet,"stack",Seed,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
+dobbleGameWhoseTurnIsIt(Game2,Username).
+
+
+cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
+dobbleGame(2,CardsSet,"stack",Seed,Game), 
+dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
+dobbleGameWhoseTurnIsIt(Game2,Username).
+
+
+%Requerimiento 10
 
 %Iniciar Juego
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
@@ -56,20 +81,12 @@ dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,
 dobbleGamePlay(Game2,null,NewDobbleGame).
 
 
-%Valid
+%Spotit
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,Game3),
-dobbleGamePlay(Game3,[spotit,"Cristopher",1],X)
-
-
-% Invalid
-cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
-dobbleGame(4,CardsSet,"stack",2,Game), 
-dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
-dobbleGamePlay(Game2,null,Game3),
-dobbleGamePlay(Game3,[spotit,"Cristopher",1],X)
+dobbleGamePlay(Game3,[spotit,"Rene",2],X).
 
 
 % Pasar
@@ -80,21 +97,27 @@ dobbleGamePlay(Game2,null,Game3),
 dobbleGamePlay(Game3,[pass],X)
 
 
+
+%Finalizar 
+
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,Game3),
-dobbleGamePlay(Game3,[pass],X)),
-dobbleGamePlay(X,[pass],Y).
+dobbleGamePlay(Game3,[finish],X).
+
+%Requeriminto 11 y 12
 
 
 cardsSet([1,2,3,4,5,6,7,8,9,10,11,12,13],4,13,2,CardsSet),
 dobbleGame(4,CardsSet,"stack",2,Game), 
 dobbleGameRegister("Cristopher",Game,GameOut),dobbleGameRegister("Rene",GameOut,Game2),
 dobbleGamePlay(Game2,null,Game3),
-dobbleGamePlay(Game3,[spotit,"Rene",1],X),
+dobbleGamePlay(Game3,[spotit,"Rene",2],X),
 dobbleGameStatus(X,State),
-dobbleGameScore(X,"Cristopher",Score).
+dobbleGameScore(X,"Cristopher",Score),
+dobbleGameScore(X,"Rene",Score1).
+
 
 
 %Requerimiento 13

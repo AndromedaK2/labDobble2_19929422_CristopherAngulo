@@ -1,7 +1,7 @@
 :- use_module(library(lists)).
 
 
-% TDA CardsSet 
+% TDA CardsSet
 % -- Dominios --
 % Elements: Lista de Elementos
 % NumberElementPerCard, MaxNumberOfCards, Seed: Entero+
@@ -19,7 +19,7 @@
 % Secundarias: getOrder,isValidOrder,isAValidCardsSetToCreate,getMaxNumberOfCards
 %              createCompleteCardsSet,createIncompleteCardsSet
 % -- Cláusulas --
-% Regla: Constructor Mazo de Cartas 
+% Regla: Constructor Mazo de Cartas
 cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,NewCardsSet):-
   getOrder(NumberElementPerCard,Order),
   isValidOrder(Order),
@@ -44,7 +44,7 @@ cardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Seed,NewCardsSet):-
 % -- Metas --
 % Principales: createCompleteCardsSet
 % Secundarias: createFirstCard,createNCards,createNSquareCards
-% --Cláusulas 
+% --Cláusulas
 % Regla: Helper Constructor Crea Mazo de Cartas Completo
 createCompleteCardsSet(Elements,NumberElementPerCard,Order,CardsSet):-
   createFirstCard(Elements,NumberElementPerCard,FirstCard),
@@ -80,14 +80,14 @@ createIncompleteCardsSet(Elements,NumberElementPerCard,MaxNumberOfCards,Order,In
 % Principales: createIncompleteCardsSetAuxiliar
 % Secundarias: addCardToCardsSet
 % -- Cláusula --
-% Regla: Helper para Crear Mazo de cartas Incompleto 
+% Regla: Helper para Crear Mazo de cartas Incompleto
 createIncompleteCardsSetAuxiliar(_,Count,Count,_,_,_,Cards,Cards):-!.
 createIncompleteCardsSetAuxiliar([FirstCard|TailCards],Count,MaxNumberOfCards,Elements,
   NumberElementPerCard,Order,IncompleteCardsSetAuxiliar,IncompleteCardsSet):-
     FinalCount is Count + 1,
     addCardToCardsSet(FirstCard,IncompleteCardsSetAuxiliar,CardsSet),
     createIncompleteCardsSetAuxiliar(TailCards,FinalCount,MaxNumberOfCards,Elements,NumberElementPerCard,Order,CardsSet,IncompleteCardsSet).
-  
+
 % -- Dominios --
 % Card:Lista de simbolos
 % Elements: Simbolos o Elementos
@@ -139,7 +139,7 @@ createFirstCardAuxiliar(Elements,N,FirstCard,Count,Card):-
 % Principales: createNCards
 % Secundarias: getFirstElement,createNCardAuxiliar,addCardToCardsSet
 % -- Cláusula --
-% Regla: Helper Constructor de las N Cartas 
+% Regla: Helper Constructor de las N Cartas
 createNCards(_,N,Cards,N,Cards):-!.
 createNCards(Elements,N,Cards,J,FinalCards):-
   getFirstElement(Elements,FirstElement),
@@ -161,16 +161,16 @@ createNCards(Elements,N,Cards,J,FinalCards):-
 % Principales: createNCardAuxiliar
 % Secundarias: calculateIndexToNCards,getElementByPosition,addElementToCard
 % -- Cláusula --
-% Regla: Helper Auxiliar Constructor de las N Cartas 
+% Regla: Helper Auxiliar Constructor de las N Cartas
 createNCardAuxiliar(_,Card,N,_,N,Card):-!.
-createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):- 
+createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):-
   calculateIndexToNCards(N,J,K,Index),
   getElementByPosition(Index,Elements,Element),
-  addElementToCard(Element,Card,NewCard),   
+  addElementToCard(Element,Card,NewCard),
   FinalK is K + 1,
   createNCardAuxiliar(Elements,NewCard,N,J,FinalK,FinalCard).
-  
-  
+
+
 % -- Dominios --
 % Card,FinalCard:Lista de simbolos
 % Elements: Simbolos o Elementos
@@ -184,7 +184,7 @@ createNCardAuxiliar(Elements,Card,N,J,K,FinalCard):-
 % Principales: createNSquareCardsSecondAuxiliar
 % Secundarias: calculateIndexToNSquareCards,getElementByPosition,addElementToCard
 % -- Cláusula --
-% Regla: Helper Segundo Auxiliar Constructor de las N cuadrado Cartas 
+% Regla: Helper Segundo Auxiliar Constructor de las N cuadrado Cartas
 createNSquareCardsSecondAuxiliar(_,Card,N,_,_,K,Card):- K is N+1.
 createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
   calculateIndexToNSquareCards(N,J,K,I,Index),
@@ -206,7 +206,7 @@ createNSquareCardsSecondAuxiliar(Elements,Card,N,J,I,K,FinalCard):-
 % Principales: createNSquareCardsFirstAuxiliar
 % Secundarias: createNSquareCardsSecondAuxiliar,getElementByPosition,addCardToCardsSet
 % -- Cláusula --
-% Regla: Helper Primer Auxiliar Constructor de las N cuadrado Cartas 
+% Regla: Helper Primer Auxiliar Constructor de las N cuadrado Cartas
 createNSquareCardsFirstAuxiliar(_,Cards,N,N,_,Cards):-!.
 createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
   getElementByPosition(Index,Elements,FirstElement),
@@ -226,7 +226,7 @@ createNSquareCardsFirstAuxiliar(Elements,Cards,N,J,I,FinalCards):-Index is I,
 % Principales: createNSquareCards
 % Secundarias: createNSquareCardsFirstAuxiliar
 % -- Cláusula --
-% Regla: Helper Constructor de las N cuadrado Cartas 
+% Regla: Helper Constructor de las N cuadrado Cartas
 createNSquareCards(_,Cards,N,N,Cards):-!.
 createNSquareCards(Elements,Cards,N,I,CardsSet):-FinalI is I + 1,
   createNSquareCardsFirstAuxiliar(Elements,Cards,N,0,FinalI,NewCards),
@@ -285,7 +285,7 @@ cardsSetMissingCards(CardsSet,MissingCards):-
 % Principales: cardsSetToString
 % Secundarias: cardsToStringAuxiliar
 % -- Cláusula --
-% Regla: Helper que convierte un mazo de cartas a una representación en string 
+% Regla: Helper que convierte un mazo de cartas a una representación en string
 cardsSetToString(CardsSet,CardsSetToString):-
   cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
 
@@ -300,7 +300,7 @@ cardsSetToString(CardsSet,CardsSetToString):-
 % Principales: cardsSetToString
 % Secundarias: cardsToStringAuxiliar
 % -- Cláusula --
-% Regla: Helper que convierte un mazo de cartas a una representación en string 
+% Regla: Helper que convierte un mazo de cartas a una representación en string
 cardsToStringAuxiliar([],_,Cards,Cards).
 cardsToStringAuxiliar([FirstCard|TailCards],Position,CardsSet,CardsSetToString):-
  FinalPosition is Position + 1,
@@ -329,7 +329,7 @@ validateAllCardsAreUniqueElements([FirstCard|TailCards]):-
 % -- Dominios --
 % CardsSet: Lista de Cartas
 % -- Predicados --
-% validateAllCardsAreOneCommonElement(CardsSet):- 
+% validateAllCardsAreOneCommonElement(CardsSet):-
 % compareFirstCardWithTailCards(Card,CardsSet),
 % -- Metas --
 % Principales: validateAllCardsAreOneCommonElement
@@ -338,7 +338,7 @@ validateAllCardsAreUniqueElements([FirstCard|TailCards]):-
 % Regla: Helper Pertenencia Validar que todas las cartas tenga un elemento en común
 validateAllCardsAreOneCommonElement([]).
 validateAllCardsAreOneCommonElement([_,[]]).
-validateAllCardsAreOneCommonElement([FirstCard|TailCards]):- 
+validateAllCardsAreOneCommonElement([FirstCard|TailCards]):-
   compareFirstCardWithTailCards(FirstCard,TailCards),
   validateAllCardsAreOneCommonElement(TailCards).
 
@@ -430,7 +430,7 @@ getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
 % Secundarias: flattenCardsSet,removeDuplicateElements
 % -- Cláusula --
 % Regla: Selector Obtener el número de elementos sin duplicados
-getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):- 
+getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates):-
   flattenCardsSet(CardsSet,Elements),
   removeDuplicateElements(Elements,ElementsWithoutDuplicates).
 
@@ -489,7 +489,7 @@ isPrime(X) :- not(divisible(X, 2)).
 % Order,MaxNumberOfCards: Entero+
 %  -- Predicados --
 % isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards)
-% getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare) 
+% getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare)
 % -- Metas --
 % Principales: isAValidCardsSetToCreate
 % Secundarias: getMaxNumberOfCards
@@ -497,7 +497,7 @@ isPrime(X) :- not(divisible(X, 2)).
 % Regla: Pertenencia verificar si es orden válido
 isAValidCardsSetToCreate(Elements,Order,MaxNumberOfCards):-
   getMaxNumberOfCards(Order,MaxNumberOfCardsToCompare),
-  length(Elements,ElementsLength), 
+  length(Elements,ElementsLength),
   MaxNumberOfCardsToCompare = MaxNumberOfCards,
   MaxNumberOfCards = ElementsLength.
 
@@ -534,7 +534,7 @@ calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*
 
 % -- Dominios --
 % CardsSet,FinalCardsSet: Lista de Cartas
-% Card: Lista de Elementos o Símbolos 
+% Card: Lista de Elementos o Símbolos
 %  -- Predicados --
 % addCardToCardsSet(Card,CardsSet,FinalCardsSet)
 % -- Metas --
@@ -571,7 +571,7 @@ Xn1 is (AXC mod 22).
 
 % -- Dominios --
 % Seed:Entero+
-% 
+%
 %  -- Predicados --
 % shuffleCardsSet(CardsSet,Seed,NewCardsSet)
 % shuffleCardsSetAuxiliar(CardsSet,Count,Count,CardsSet).
@@ -581,7 +581,7 @@ Xn1 is (AXC mod 22).
 % -- Cláusula --
 % Regla: Helper Modificador Desordenar cartas
 shuffleCardsSet(CardsSet,Seed,NewCardsSet):-
-  shuffleCardsSetAuxiliar(CardsSet,Seed,0,NewCardsSet).  
+  shuffleCardsSetAuxiliar(CardsSet,Seed,0,NewCardsSet).
 % Regla: Helper Modificador Auxiliar Desordenar cartas
 shuffleCardsSetAuxiliar(CardsSet,Count,Count,CardsSet).
 shuffleCardsSetAuxiliar([FirstCard,SecondCard|CardsSet],Seed,Count,FinalCardsSet):-
@@ -607,7 +607,7 @@ isCardUniqueElements([_,[]]).
 isCardUniqueElements([FirstElement|TailElements]):-
   not(member(FirstElement,TailElements)),
   isCardUniqueElements(TailElements).
- 
+
 
 
 % -- Dominios --
@@ -619,7 +619,7 @@ isCardUniqueElements([FirstElement|TailElements]):-
 % -- Metas --
 % Principales: cardToString
 % -- Cláusula --
-% Regla: Helper que convierte una carta representación en string 
+% Regla: Helper que convierte una carta representación en string
 cardToString(Card,Position,FinalStringCard):-
  atomics_to_string(Card,'-',StringCard),
  atomic_concat(Position,' : ',StringPosition),
@@ -650,7 +650,7 @@ getTailElements([_|Elements],Elements).
 
 % -- Dominios --
 % Element: Elemento o Símbolo
-% Card,CardUpdate: Lista de Elementos o Símbolos 
+% Card,CardUpdate: Lista de Elementos o Símbolos
 %  -- Predicados --
 % addElementToCard(Element,Card,CardUpdate)
 % isElement(Element)
@@ -734,7 +734,7 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % TDA Player
 % -- Dominios --
 % Username: string
-% Cards: Lista de Cartas | Lista Vacía 
+% Cards: Lista de Cartas | Lista Vacía
 % Points: Entero+
 % Player: Username X Cards X Points
 %  -- Predicados --
@@ -743,7 +743,7 @@ removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, Ele
 % Principales: removeDuplicateElements
 % -- Cláusula --
 % Regla: Constructor Jugador
-player(Username,Player):- 
+player(Username,Player):-
   string(Username),
   Cards  = [],
   Points = 0,
@@ -761,14 +761,14 @@ player(Username,Player):-
 % -- Cláusula --
 % Regla: Helper Transforma un jugador a su representación en string
 playerToString(Position,[Username,Cards,Points],PlayerToString):-
-  Cards = [] ->   
+  Cards = [] ->
     atomic_concat('\n   *El jugador ',Position,P),
     atomic_concat(P,' es: ',L),
     atomic_concat(L,Username,A),
     atomic_concat('\n   *Sus Cartas son: ','No tiene cartas',C),
     atomic_concat('\n   *Su Puntaje es: ',Points,S),
     atomics_to_string([A,C,S],'',PlayerToString);
-    %-------------------------------------------- 
+    %--------------------------------------------
     cardsSetToString(Cards,CardsToString),
     atomic_concat('\n   *El jugador ',Position,P),
     atomic_concat(P,' es: ',L),
@@ -796,7 +796,7 @@ playerToString(Position,[Username,Cards,Points],PlayerToString):-
 % emptyUserCards,
 % emptyTurns,
 % -- Cláusula --
-% Hechos: 
+% Hechos:
 emptyPlayers([]).
 emptyCardsZone([]).
 emptyState("Juego Creado").
@@ -832,7 +832,7 @@ dobbleGame(NumberOfPlayers,CardsSet,Mode,Seed,DobbleGame):-
  emptyState(InitialState),
  emptyTurns(InitialTurns),
  DobbleGame = [NumberOfPlayers,InitialPlayers,CardsSet,Mode,InitialCardsZone,InitialState,InitialTurns].
- 
+
 
 % ---Dominios---
 % Username:string
@@ -876,7 +876,7 @@ playerIsRegistered([_|RestPlayers],Username):-playerIsRegistered(RestPlayers,Use
 % ---Metas---
 % Principales: dobbleGameStatus
 % ---Cláusula---:
-% Regla: Selector Obtiene el estado del juego 
+% Regla: Selector Obtiene el estado del juego
 dobbleGameStatus([_,_,_,_,_,State,_],State).
 
 
@@ -887,7 +887,7 @@ dobbleGameScore(DobbleGame,Username,Score):-
 
 
 % ---Dominios---
-% Turns: Turnos 
+% Turns: Turnos
 % DobbleGame: Juego Dobble
 % ---Predicados---
 % getTurns(DobbleGame,Turns)
@@ -898,7 +898,7 @@ dobbleGameScore(DobbleGame,Username,Score):-
 getTurns([_,_,_,_,_,_,Turns],Turns).
 
 % ---Dominios---
-% NumberOfPlayers: Entero+ 
+% NumberOfPlayers: Entero+
 % DobbleGame: Juego Dobble
 % ---Predicados---
 % getNumberOfPlayers(DobbleGame,NumberOfPlayers)
@@ -909,20 +909,20 @@ getTurns([_,_,_,_,_,_,Turns],Turns).
 getNumberOfPlayers([NumberOfPlayers,_,_,_,_,_,_],NumberOfPlayers).
 
 % ---Dominios---
-% Players: Jugadores 
+% Players: Jugadores
 % DobbleGame: Juego Dobble
 % ---Predicados---
 % getPlayers(DobbleGame,Players)
 % ---Metas---
 % Principales: getPlayers
 % ---Cláusula---:
-% Regla: Selector retorna los jugadores 
+% Regla: Selector retorna los jugadores
 getPlayers([_,Players,_,_,_,_,_],Players).
 
 % ---Dominios---
 % Username:string
 % Players: Lista de Jugadores
-% Player: Jugador 
+% Player: Jugador
 % ---Predicados---
 % getPlayer(Players,Username,Player)
 % ---Metas---
@@ -964,7 +964,7 @@ getMode([_,_,_,Mode,_,_,_],Mode).
 % ---Metas---
 % Principales: getCardsZone
 % ---Cláusula---:
-% Regla: Selector Obtiene la zona del juego donde estan las cartas volteadas boca arriba 
+% Regla: Selector Obtiene la zona del juego donde estan las cartas volteadas boca arriba
 getCardsZone([_,_,_,_,CardsZone,_,_],CardsZone).
 
 
@@ -993,7 +993,7 @@ addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,[]],
   [CardsSet,Mode,InitialCardsZone,InitialState,[Username]]).
 addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
   [CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
- 
+
 
 
 
@@ -1011,39 +1011,39 @@ setTurnsGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,[FirstTurn|T
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,State,NewTurns]):-
     append(Turns,[FirstTurn],NewTurns).
 
- 
+
 setStatusGame([NumberOfPlayers,Players,CardsSet,Mode,CardsZone,_,Turns],NewStatus,
   [NumberOfPlayers,Players,CardsSet,Mode,CardsZone,NewStatus,Turns]).
 
 
 % ---Dominios---
 % NewCards: Lista de Cartas
-% Player, NewPlayer: Jugador 
+% Player, NewPlayer: Jugador
 % ---Predicados---
 % setPlayerCards(Player,NewCards,NewPlayer)
 % ---Metas---
 % Principales: setPlayerCards
 % ---Cláusula---:
-% Regla: Modificador Actualiza las Cartas de un jugador 
+% Regla: Modificador Actualiza las Cartas de un jugador
 setPlayerCards([Username,[],Points],NewCards,[Username,NewCards,Points]).
 setPlayerCards([Username,Cards,Points],NewCards,[Username,TotalCards,Points]):-
  append(Cards,NewCards,TotalCards).
 
 
 % ---Dominios---
-% Player, NewPlayer: Jugador 
+% Player, NewPlayer: Jugador
 % ---Predicados---
 % setPlayerPoints(Player,NewPlayer)
 % ---Metas---
 % Principales: setPlayerPoints
 % ---Cláusula---:
 % Regla: Modificador Actualiza el puntaje actual del jugador
-setPlayerPoints([Username,Cards,Points],[Username,Cards,TotalPoints]):-
+setPlayerPoints([Username,Cards,_],[Username,Cards,TotalPoints]):-
   length(Cards,TotalPoints).
 
 % ---Dominios---
 % Players,NewPlayers: Lista de jugadores
-% Player: Jugador 
+% Player: Jugador
 % ---Predicados---
 % setPlayers(Players,NewPlayer,NewPlayers)
 % ---Metas---
@@ -1052,7 +1052,7 @@ setPlayerPoints([Username,Cards,Points],[Username,Cards,TotalPoints]):-
 % Regla: Modificador Actualiza un jugador en especifico en las lista de jugadores
 setPlayers([],_,_).
 setPlayers([[Username,_,_]|Players],[Username,Cards,Points], [[Username,Cards,Points]|Players]):-!.
-setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):- 
+setPlayers([Player|Players],NewPlayer,[Player|NewPlayers]):-
   setPlayers(Players,NewPlayer,NewPlayers).
 
 % ---Dominios---
@@ -1112,10 +1112,10 @@ canKeepPlaying(DobbleGame):-
 % Principales: isPlayerTurn
 % Secundarias: getTurns
 % ---Cláusula---:
-% Regla: Helper valida si es el turno del jugador 
-isPlayerTurn(DobbleGame,Username):-
-  getTurns(DobbleGame,[FirstTurn|_]),
-  Username = FirstTurn.
+% Regla: Helper valida si es el turno del jugador
+% isPlayerTurn(DobbleGame,Username):-
+%   getTurns(DobbleGame,[FirstTurn|_]),
+%   Username = FirstTurn.
 
 % ---Dominios---
 % DobbleGame: Juego Dobble
@@ -1154,7 +1154,6 @@ dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
 
 %Regla: Modificador que compara las cartas y verifica el elemento en común
 dobbleGamePlay(DobbleGame,[spotit,Username,Element],NewDobbleGame):-
- isPlayerTurn(DobbleGame,Username),
  canKeepPlaying(DobbleGame),
  getMode(DobbleGame,Mode),
  action(spotit,Username,Element,DobbleGame,NewDobbleGame).
@@ -1178,7 +1177,7 @@ dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
 % Principales: winnersToString
 % Secundarias: getMaxPoints,getWinners
 % -- Cláusula --
-% Regla:  Helper convierte los ganadores a un formato en string 
+% Regla:  Helper convierte los ganadores a un formato en string
 winnersToString(DobbleGame,WinnersToString):-
  getMaxPoints(DobbleGame,MaxPoint),
  getWinners(DobbleGame,MaxPoint,Winners),
@@ -1207,7 +1206,7 @@ winnersToString(DobbleGame,WinnersToString):-
 getMaxPoints(DobbleGame,MaxPoint):-
   getPlayers(DobbleGame,Players),
   getMaxPointsAuxiliar(Players,0,MaxPoint).
-  
+
 % Regla: Helper auxiliar obtiene el punto o score maximo
 getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
 getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
@@ -1236,7 +1235,7 @@ getWinners(DobbleGame,MaxPoint,Winners):-
 % Regla: Helpe Auxiliar transforma los ganadores a string
 getWinnersAuxiliar([],_,Winners,Winners).
 getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):-
-  MaxPoint = Points -> 
+  MaxPoint = Points ->
     append(Winners,[Username],W),
     getWinnersAuxiliar(Players,MaxPoint,W,FinalWinners);
     getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
@@ -1244,7 +1243,7 @@ getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% DobbleGameToString: string 
+% DobbleGameToString: string
 %  -- Predicados --
 %  dobbleGameToString(DobbleGame,DobbleGameToString)
 %  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString)
@@ -1257,7 +1256,7 @@ getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):
 %  winnersToString(DobbleGame,WinnersToString)
 % -- Metas --
 % Principales: dobbleGameToString
-% Secundarias: 
+% Secundarias:
 %  numberOfPlayersToString
 %  playersToString
 %  modeToString
@@ -1285,7 +1284,7 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% FinalTurnsToString: string 
+% FinalTurnsToString: string
 %  -- Predicados --
 % turnsToString(DobbleGame,FinalTurnsToString)
 % getTurns(DobbleGame,Turns)
@@ -1293,7 +1292,7 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
 % Principales: turnsToString
 % Secundarias:  getTurns
 % -- Cláusula --
-% Regla: Helper transforma los turnos actuales a una representación en string 
+% Regla: Helper transforma los turnos actuales a una representación en string
 turnsToString(DobbleGame,FinalTurnsToString):-
   getTurns(DobbleGame,Turns),
   atomics_to_string(Turns,' ',TurnsToString),
@@ -1301,7 +1300,7 @@ turnsToString(DobbleGame,FinalTurnsToString):-
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% NumberOfPlayersToString: string 
+% NumberOfPlayersToString: string
 %  -- Predicados --
 % numberOfPlayersToString(DobbleGame,NumberOfPlayersToString)
 % getNumberOfPlayers(DobbleGame,NumberOfPlayers)
@@ -1309,14 +1308,14 @@ turnsToString(DobbleGame,FinalTurnsToString):-
 % Principales: numberOfPlayersToString
 % getNumberOfPlayers
 % -- Cláusula --
-% Regla: Helper transforma el numero de jugadores actual a una representación en string 
+% Regla: Helper transforma el numero de jugadores actual a una representación en string
 numberOfPlayersToString(DobbleGame,NumberOfPlayersToString):-
  getNumberOfPlayers(DobbleGame,NumberOfPlayers),
  atomic_concat('\nEl numero maximo de jugadores es: ',NumberOfPlayers,NumberOfPlayersToString).
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% ModeToString: string 
+% ModeToString: string
 %  -- Predicados --
 % modeToString(DobbleGame,ModeToString)
 % getMode(DobbleGame,Mode)
@@ -1333,7 +1332,7 @@ modeToString(DobbleGame,ModeToString):-
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% StateToString: string 
+% StateToString: string
 %  -- Predicados --
 % stateToString(DobbleGame,StateToString)
 % dobbleGameStatus(DobbleGame,State)
@@ -1349,7 +1348,7 @@ stateToString(DobbleGame,StateToString):-
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% CardsZoneToString: string 
+% CardsZoneToString: string
 %  -- Predicados --
 % cardsZoneToString(DobbleGame,CardsZoneToString)
 % getCardsZone(DobbleGame,CardsZone)
@@ -1358,20 +1357,20 @@ stateToString(DobbleGame,StateToString):-
 % Principales: cardsZoneToString
 % Secundarias: getCardsZone, cardsSetToString
 % -- Cláusula --
-% Regla: Helper transforma la zona de cartas a string 
+% Regla: Helper transforma la zona de cartas a string
 cardsZoneToString(DobbleGame,CardsZoneToString):-
   getCardsZone(DobbleGame,CardsZone),
-  CardsZone = [] ->  
-    L = '\nLa zona de juego es: ', 
+  CardsZone = [] ->
+    L = '\nLa zona de juego es: ',
     atomic_concat(L,'No tenemos cartas en juego',CardsZoneToString);
     getCardsZone(DobbleGame,CardsZone),
     L = '\nLa zona de juego es: ',
     cardsSetToString(CardsZone,CardsZoneToString1),
-    atomic_concat(L,CardsZoneToString1,CardsZoneToString). 
+    atomic_concat(L,CardsZoneToString1,CardsZoneToString).
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% CardsSetToString: string 
+% CardsSetToString: string
 %  -- Predicados --
 % getCardsSetToString(DobbleGame,CardsSetToString)
 % getCardsSet(DobbleGame,CardsSet)
@@ -1381,7 +1380,7 @@ cardsZoneToString(DobbleGame,CardsZoneToString):-
 % Principales: getCardsSetToString
 % Secundarias: getCardsSet, getCardsSet
 % -- Cláusula --
-% Regla: Helper transforma las cartas del juego actual a una representación en string 
+% Regla: Helper transforma las cartas del juego actual a una representación en string
 getCardsSetToString(DobbleGame,CardsSetToString):-
  getCardsSet(DobbleGame,CardsSet),
  cardsSetToString(CardsSet,CardsSetToString1),
@@ -1392,7 +1391,7 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% PlayersToString: string 
+% PlayersToString: string
 %  -- Predicados --
 % playersToString(DobbleGame,PlayersToString)
 % getPlayers(DobbleGame,Players)
@@ -1401,7 +1400,7 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
 % Principales: playersToString
 % Secundarias: getPlayers, playersToStringAuxiliar
 % -- Cláusula --
-% Regla: Helper transforma los jugadores a una representación en string 
+% Regla: Helper transforma los jugadores a una representación en string
 playersToString(DobbleGame,PlayersToString):-
   getPlayers(DobbleGame,Players),
   length(Players,Large),
@@ -1416,14 +1415,14 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
 
 %******************************************************************************************
 
-%TDA: StackMode 
+%TDA: StackMode
 % ---Dominios---
 % Mode: "stack" (string)
 % DobbleGame,NewDobble: Juego Dobble
 % ---Predicados---
 % mode(Mode,DobbleGame,NewDobbleGame)
 % getCardsSet(DobbleGame,CardsSet),
-% setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+% setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).
 % ---Metas---
 % Principales: mode
 % Secundarias:  getCardsSet,setCardsZoneStackMode
@@ -1431,7 +1430,7 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
 % Regla: Modificador del Juego Dobble por el modo stack volteando las cartas de la cima del mazo en la zona de cartas del juego
 mode("stack",DobbleGame,NewDobbleGame):-
   getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
-  setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+  setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).
 
 
 % ---Dominios---
@@ -1467,7 +1466,7 @@ setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mod
 %  moveCardsToFinal(DobbleGame,NewDobbleGame1),
 % ---Metas---
 % Principales: action
-%  Secundarias: 
+%  Secundarias:
 %  getElementInCommonBetweenTwoCards
 %  getPlayers
 %  getPlayer
