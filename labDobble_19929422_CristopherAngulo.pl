@@ -251,6 +251,64 @@ cardsSetIsDobble(CardsSet):-
 
 
 % -- Dominios --
+% CardsSet,MissingCards: Lista de Cartas
+% -- Predicados --
+%  cardsSetMissingCards(CardsSet,MissingCards):-
+%  getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
+%  getFirstCard(CardsSet,Card),
+%  cardsSetFindTotalCards(Card,TotalCards),
+%  getOrder(NumberElementPerCard,Order),
+%  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
+% -- Metas --
+% Principales: cardsSetMissingCards
+% Secundarias: getElementsWithOutDuplicates,getFirstCard,cardsSetFindTotalCards,getOrder,createCompleteCardsSet
+% -- Cláusula --
+% Regla: Helper Busca las Cartas Faltantes
+cardsSetMissingCards(CardsSet,MissingCards):-
+ getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
+ getFirstCard(CardsSet,Card),
+ cardsSetFindTotalCards(Card,TotalCards),
+ length(ElementsWithoutDuplicates,NumberOfElements),
+ NumberOfElements = TotalCards,
+ length(Card,NumberElementPerCard),
+ getOrder(NumberElementPerCard,Order),
+ createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
+ subtract(FullCardsSet,CardsSet,MissingCards).
+
+% -- Dominios --
+% CardsSet: Lista de Cartas
+% CardsSetToString: Representación en cadena de caracteres del mazo de cartas
+% -- Predicados --
+% cardsSetToString(CardsSet,CardsSetToString)
+% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
+% -- Metas --
+% Principales: cardsSetToString
+% Secundarias: cardsToStringAuxiliar
+% -- Cláusula --
+% Regla: Helper que convierte un mazo de cartas a una representación en string 
+cardsSetToString(CardsSet,CardsSetToString):-
+  cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
+
+% -- Dominios --string_concat
+% CardsSet: Lista de Cartas
+% Position: Entero+
+% CardsSetToString: Mazo de cartas en formato string
+% -- Predicados --
+% cardsSetToString(CardsSet,CardsSetToString)
+% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
+% -- Metas --
+% Principales: cardsSetToString
+% Secundarias: cardsToStringAuxiliar
+% -- Cláusula --
+% Regla: Helper que convierte un mazo de cartas a una representación en string 
+cardsToStringAuxiliar([],_,Cards,Cards).
+cardsToStringAuxiliar([FirstCard|TailCards],Position,CardsSet,CardsSetToString):-
+ FinalPosition is Position + 1,
+ cardToString(FirstCard,FinalPosition,StringCard),
+ string_concat(CardsSet,StringCard,StringCardFinal),
+ cardsToStringAuxiliar(TailCards,FinalPosition,StringCardFinal,CardsSetToString).
+
+% -- Dominios --
 % CardsSet: Lista de Cartas
 % -- Predicados --
 % validateAllCardsAreUniqueElements(CardsSet)
@@ -266,20 +324,8 @@ validateAllCardsAreUniqueElements([FirstCard|TailCards]):-
   isCardUniqueElements(FirstCard),
   validateAllCardsAreUniqueElements(TailCards).
 
-% -- Dominios --
-% Card: Lista de Elementos
-% -- Predicados --
-% isCardUniqueElements(Card)
-% -- Metas --
-% Principales: isCardUniqueElements
-% -- Cláusula --
-% Regla: Helper Pertenencia Validar si la carta tiene elementos únicos
-isCardUniqueElements([]).
-isCardUniqueElements([_,[]]).
-isCardUniqueElements([FirstElement|TailElements]):-
-  not(member(FirstElement,TailElements)),
-  isCardUniqueElements(TailElements).
- 
+
+
 % -- Dominios --
 % CardsSet: Lista de Cartas
 % -- Predicados --
@@ -295,7 +341,7 @@ validateAllCardsAreOneCommonElement([_,[]]).
 validateAllCardsAreOneCommonElement([FirstCard|TailCards]):- 
   compareFirstCardWithTailCards(FirstCard,TailCards),
   validateAllCardsAreOneCommonElement(TailCards).
-  
+
 % -- Dominios --
 % CardsSet: Lista de Cartas
 % FirstCard,SecondCard: Lista de Elementos
@@ -325,104 +371,6 @@ compareTwoCards(FirstCard,SecondCard):-
  length(Elements,Large),
  Large is 1.
 
-
-% -- Dominios --
-% CardsSet,MissingCards: Lista de Cartas
-% -- Predicados --
-%  cardsSetMissingCards(CardsSet,MissingCards):-
-%  getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
-%  getFirstCard(CardsSet,Card),
-%  cardsSetFindTotalCards(Card,TotalCards),
-%  getOrder(NumberElementPerCard,Order),
-%  createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
-% -- Metas --
-% Principales: cardsSetMissingCards
-% Secundarias: getElementsWithOutDuplicates,getFirstCard,cardsSetFindTotalCards,getOrder,createCompleteCardsSet
-% -- Cláusula --
-% Regla: Helper Busca las Cartas Faltantes
-cardsSetMissingCards(CardsSet,MissingCards):-
- getElementsWithOutDuplicates(CardsSet,ElementsWithoutDuplicates),
- getFirstCard(CardsSet,Card),
- cardsSetFindTotalCards(Card,TotalCards),
- length(ElementsWithoutDuplicates,NumberOfElements),
- NumberOfElements = TotalCards,
- length(Card,NumberElementPerCard),
- getOrder(NumberElementPerCard,Order),
- createCompleteCardsSet(ElementsWithoutDuplicates,NumberElementPerCard,Order,FullCardsSet),
- subtract(FullCardsSet,CardsSet,MissingCards).
- 
-% -- Dominios --
-% CardsSet: Lista de Cartas
-% CardsSetToString: Representación en cadena de caracteres del mazo de cartas
-% -- Predicados --
-% cardsSetToString(CardsSet,CardsSetToString)
-% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
-% -- Metas --
-% Principales: cardsSetToString
-% Secundarias: cardsToStringAuxiliar
-% -- Cláusula --
-% Regla: Helper que convierte un mazo de cartas a una representación en string 
-cardsSetToString(CardsSet,CardsSetToString):-
-  cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString).
-
-
-% -- Dominios --string_concat
-% CardsSet: Lista de Cartas
-% Position: Entero+
-% CardsSetToString: Mazo de cartas en formato string
-% -- Predicados --
-% cardsSetToString(CardsSet,CardsSetToString)
-% cardsToStringAuxiliar(CardsSet,0,'Mazo de Cartas: ',CardsSetToString)
-% -- Metas --
-% Principales: cardsSetToString
-% Secundarias: cardsToStringAuxiliar
-% -- Cláusula --
-% Regla: Helper que convierte un mazo de cartas a una representación en string 
-cardsToStringAuxiliar([],_,Cards,Cards).
-cardsToStringAuxiliar([FirstCard|TailCards],Position,CardsSet,CardsSetToString):-
- FinalPosition is Position + 1,
- cardToString(FirstCard,FinalPosition,StringCard),
- string_concat(CardsSet,StringCard,StringCardFinal),
- cardsToStringAuxiliar(TailCards,FinalPosition,StringCardFinal,CardsSetToString).
-
-
-% -- Dominios --
-% Card:Lista de simbolos
-% FinalStringCard: Carta em formato string
-% Position: Entero+
-% -- Predicados --
-% cardToString(Card,Position,FinalStringCard)
-% -- Metas --
-% Principales: cardToString
-% -- Cláusula --
-% Regla: Helper que convierte una carta representación en string 
-cardToString(Card,Position,FinalStringCard):-
- atomics_to_string(Card,'-',StringCard),
- atomic_concat(Position,' : ',StringPosition),
- atomic_concat(' Carta ',StringPosition,StringCardFormat),
- atomic_concat(StringCardFormat,StringCard,FinalStringCard).
-
-
-% -- Dominios --
-% Element: Simbolo
-% Elements: Simbolos o Elementos
-%  -- Predicados --
-% getFirstElement(Elements,Element)
-% -- Metas --
-% Principales: getFirstElement
-% -- Cláusula --
-% Regla: Selector Obtener el primer elemento
-getFirstElement([Element|_],Element).
-
-% -- Dominios --
-% Elements: Simbolos o Elementos
-%  -- Predicados --
-% getFirstElement(Elements,Elements)
-% -- Metas --
-% Principales: getTailElements
-% -- Cláusula --
-% Regla: Selector Obtener la cola de la lista de elementos
-getTailElements([_|Elements],Elements).
 
 % -- Dominios --
 % Order,N: Enteros+
@@ -456,17 +404,6 @@ getFirstCard([Card|_],Card).
 % Regla: Selector Obtener las cartas de la cola del mazo
 getTailCards([_|Cards],Cards).
 
-% -- Dominios --
-% Elements:Lista de Elementos
-% Index: Entero+
-% Element: Elemento o Símbolo
-%  -- Predicados --
-% getElementByPosition(Index,Elements,Element)
-% -- Metas --
-% Principales: getElementByPosition
-% -- Cláusula --
-% Regla: Selector Obtener elemento por posición
-getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 
 % -- Dominios --
 % Elements:Lista de Elementos
@@ -480,16 +417,6 @@ getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
 % Regla: Selector Obtener el máximo número de cartas
 getMaxNumberOfCards(N,MaxNumberOfCards):-MaxNumberOfCards is  (N*N)+N+1.
 
-% -- Dominios --
-% Elements:Lista de Elementos
-% NumberOfElements: Entero+
-%  -- Predicados --
-% getNumberOfElements(Elements,NumberOfElements)
-% -- Metas --
-% Principales: getNumberOfElements
-% -- Cláusula --
-% Regla: Selector Obtener el número de elementos
-getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
 
 % -- Dominios --
 % ElementsWithoutDuplicates:Lista de Elementos
@@ -531,16 +458,6 @@ cardsSetNthCard(CardsSet,Index,Card):-nth0(Index,CardsSet,Card).
 % Regla: Selector Obtener la enésima carta
 cardsSetFindTotalCards(Card,TotalCards):-length(Card,Large),getOrder(Large,Order),
  TotalCards is (Order * Order) + Order + 1.
-
-% -- Dominios --
-% Element: Elemento o Símbolo
-%  -- Predicados --
-% isElement(Element)
-% -- Metas --
-% Principales: isElement
-% -- Cláusula --
-% Regla: Pertenencia verificar si es un elemento
-isElement(Element):- number(Element); string(Element); atom(Element).
 
 % -- Dominios --
 % Order: Entero+
@@ -616,19 +533,6 @@ calculateIndexToNCards(N,J,K,Index):- Index is (N * J) + (K + 1).
 calculateIndexToNSquareCards(N,J,K,I,Index):- Index is ((N+2)+N*(K-1) + (((I-1)*(K-1)+J-1) mod N)-1).
 
 % -- Dominios --
-% Element: Elemento o Símbolo
-% Card,CardUpdate: Lista de Elementos o Símbolos 
-%  -- Predicados --
-% addElementToCard(Element,Card,CardUpdate)
-% isElement(Element)
-% -- Metas --
-% Principales: addElementToCard
-% Secundarias: isElement
-% -- Cláusula --
-% Regla: Helper Modificador Agregar elemento a carta
-addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
-
-% -- Dominios --
 % CardsSet,FinalCardsSet: Lista de Cartas
 % Card: Lista de Elementos o Símbolos 
 %  -- Predicados --
@@ -649,15 +553,6 @@ addCardToCardsSet(Card,CardsSet,FinalCardsSet):-append(CardsSet,[Card],FinalCard
 % Regla: Helper Modificador Aplanar Mazo de cartas
 flattenCardsSet(CardsSet,FlatCardsSet):-flatten(CardsSet,FlatCardsSet).
 
-% -- Dominios --
-% Elements,ElementsWithoutDuplicates: Elementos o Símbolos
-%  -- Predicados --
-% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
-% -- Metas --
-% Principales: removeDuplicateElements
-% -- Cláusula --
-% Regla: Helper Modificador remover elementos duplicados
-removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
 
 
 % -- Dominios --
@@ -693,6 +588,133 @@ shuffleCardsSetAuxiliar([FirstCard,SecondCard|CardsSet],Seed,Count,FinalCardsSet
   FinalCount is Count + 1,
   append(CardsSet,[SecondCard,FirstCard],NewCardsSetAuxiliar),
   shuffleCardsSetAuxiliar(NewCardsSetAuxiliar,Seed,FinalCount,FinalCardsSet).
+
+
+%***************************************************************************************************
+
+%TDA Carta
+%Card: Lista de Elementos o Símbolos
+% -- Dominios --
+% Card: Lista de Elementos
+% -- Predicados --
+% isCardUniqueElements(Card)
+% -- Metas --
+% Principales: isCardUniqueElements
+% -- Cláusula --
+% Regla: Helper Pertenencia Validar si la carta tiene elementos únicos
+isCardUniqueElements([]).
+isCardUniqueElements([_,[]]).
+isCardUniqueElements([FirstElement|TailElements]):-
+  not(member(FirstElement,TailElements)),
+  isCardUniqueElements(TailElements).
+ 
+
+
+% -- Dominios --
+% Card:Lista de simbolos
+% FinalStringCard: Carta em formato string
+% Position: Entero+
+% -- Predicados --
+% cardToString(Card,Position,FinalStringCard)
+% -- Metas --
+% Principales: cardToString
+% -- Cláusula --
+% Regla: Helper que convierte una carta representación en string 
+cardToString(Card,Position,FinalStringCard):-
+ atomics_to_string(Card,'-',StringCard),
+ atomic_concat(Position,' : ',StringPosition),
+ atomic_concat(' Carta ',StringPosition,StringCardFormat),
+ atomic_concat(StringCardFormat,StringCard,FinalStringCard).
+
+
+% -- Dominios --
+% Element: Simbolo
+% Elements: Simbolos o Elementos
+%  -- Predicados --
+% getFirstElement(Elements,Element)
+% -- Metas --
+% Principales: getFirstElement
+% -- Cláusula --
+% Regla: Selector Obtener el primer elemento
+getFirstElement([Element|_],Element).
+
+% -- Dominios --
+% Elements: Simbolos o Elementos
+%  -- Predicados --
+% getFirstElement(Elements,Elements)
+% -- Metas --
+% Principales: getTailElements
+% -- Cláusula --
+% Regla: Selector Obtener la cola de la lista de elementos
+getTailElements([_|Elements],Elements).
+
+% -- Dominios --
+% Element: Elemento o Símbolo
+% Card,CardUpdate: Lista de Elementos o Símbolos 
+%  -- Predicados --
+% addElementToCard(Element,Card,CardUpdate)
+% isElement(Element)
+% -- Metas --
+% Principales: addElementToCard
+% Secundarias: isElement
+% -- Cláusula --
+% Regla: Helper Modificador Agregar elemento a carta
+addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
+
+%************************************************************
+
+
+%TDA Element
+%Element: string | número | átomo
+
+% -- Dominios --
+% Elements:Lista de Elementos
+% Index: Entero+
+% Element: Elemento o Símbolo
+%  -- Predicados --
+% getElementByPosition(Index,Elements,Element)
+% -- Metas --
+% Principales: getElementByPosition
+% -- Cláusula --
+% Regla: Selector Obtener elemento por posición
+getElementByPosition(Index,Elements,Element):-nth0(Index,Elements,Element).
+
+
+
+% -- Dominios --
+% Elements:Lista de Elementos
+% NumberOfElements: Entero+
+%  -- Predicados --
+% getNumberOfElements(Elements,NumberOfElements)
+% -- Metas --
+% Principales: getNumberOfElements
+% -- Cláusula --
+% Regla: Selector Obtener el número de elementos
+getNumberOfElements(Elements,NumberOfElements):-length(Elements,NumberOfElements).
+
+
+
+% -- Dominios --
+% Element: Elemento o Símbolo
+%  -- Predicados --
+% isElement(Element)
+% -- Metas --
+% Principales: isElement
+% -- Cláusula --
+% Regla: Pertenencia verificar si es un elemento
+isElement(Element):- number(Element); string(Element); atom(Element).
+
+% -- Dominios --
+% Elements,ElementsWithoutDuplicates: Elementos o Símbolos
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: removeDuplicateElements
+% -- Cláusula --
+% Regla: Helper Modificador remover elementos duplicados
+removeDuplicateElements(Elements,ElementsWithoutDuplicates):- sort(Elements, ElementsWithoutDuplicates).
+
+
 
 
 %**********************************************************************************************************************************
@@ -752,7 +774,7 @@ playerToString(Position,[Username,Cards,Points],PlayerToString):-
 %  -- Predicados --
 % emptyPlayers([]).
 % emptyCardsZone([]).
-% emptyState([]).
+% emptyState(["Juego Creado"]).
 % emptyUserCards([]).
 % emptyTurns([]).
 % -- Metas --
