@@ -1,0 +1,87 @@
+Requerimiento no Funcional
+Autoevaluación (0 al 1 )
+Descripción
+
+Autoevaluación
+1
+Se logró realizar
+
+Lenguaje
+1
+Se logró realizar
+
+Versión
+Se logró realizar
+1
+
+
+Documentación
+Se logró realizar
+1
+
+Historial
+Se logró realizar
+1
+
+Ejemplos
+Se logró realizar
+1
+
+
+Requerimiento Funcional
+Autoevaluación (0 al 1 )
+Descripción
+
+TDA
+1
+Se logró implementar todos los tdas
+
+cardsSet
+1
+Se logró implementar 
+
+cardsSetIsDobble
+1
+Se logró implementar 
+
+cardsSetNthCard
+1
+Se logró implementar 
+
+cardsSetFindTotalCards
+1
+Se logró implementar 
+
+cardsSetMissingCards
+1
+Se logró implementar 
+
+dobbleGame
+1
+Se implementó 
+
+dobbleGameRegister
+1
+Se implementó
+
+dobbleGameWhoseTurnIsIt
+1
+Se implementó sin mayor dificultad
+
+dobbleGamePlay
+1
+Se implementó con mayor dificultad
+
+dobbleGameStatus
+1
+Se implementó sin mayor dificultad
+
+dobbleGameScore
+1
+Se implementó sin mayor dificultad
+
+dobbleGameToString
+1
+se logró implementar 
+
+
