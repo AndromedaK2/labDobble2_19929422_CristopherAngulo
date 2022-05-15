@@ -1202,17 +1202,30 @@ getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):
 
 % -- Dominios --
 % DobbleGame: Juego Dobble
-% CardsSetToString: string 
+% DobbleGameToString: string 
 %  -- Predicados --
-% getCardsSetToString(DobbleGame,CardsSetToString)
-% getCardsSet(DobbleGame,CardsSet)
-% cardsSetToString(CardsSet,CardsSetToString1)
-% playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString)
+%  dobbleGameToString(DobbleGame,DobbleGameToString)
+%  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString)
+%  playersToString(DobbleGame,PlayersToString)
+%  modeToString(DobbleGame,ModeToString)
+%  stateToString(DobbleGame,StateToString),
+%  turnsToString(DobbleGame,TurnsToString),
+%  getCardsSetToString(DobbleGame,CardsSetToString)
+%  cardsZoneToString(DobbleGame,CardsZoneToString),
+%  winnersToString(DobbleGame,WinnersToString)
 % -- Metas --
-% Principales: getCardsSetToString
-% Secundarias: getCardsSet, getCardsSet
+% Principales: dobbleGameToString
+% Secundarias: 
+%  numberOfPlayersToString
+%  playersToString
+%  modeToString
+%  stateToString
+%  turnsToString
+%  getCardsSetToString
+%  cardsZoneToString
+%  winnersToString
 % -- Cláusula --
-% Regla: Helper transforma las cartas del juego actual a una representación en string 
+% Regla: Helper transforma un juego dobble a su representación en string
 dobbleGameToString(DobbleGame,DobbleGameToString):-
  L = '***********Bienvenido a Dobble Game***********\n',
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
