@@ -1200,7 +1200,19 @@ getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):
     getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
 
 
-
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% CardsSetToString: string 
+%  -- Predicados --
+% getCardsSetToString(DobbleGame,CardsSetToString)
+% getCardsSet(DobbleGame,CardsSet)
+% cardsSetToString(CardsSet,CardsSetToString1)
+% playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString)
+% -- Metas --
+% Principales: getCardsSetToString
+% Secundarias: getCardsSet, getCardsSet
+% -- Cláusula --
+% Regla: Helper transforma las cartas del juego actual a una representación en string 
 dobbleGameToString(DobbleGame,DobbleGameToString):-
  L = '***********Bienvenido a Dobble Game***********\n',
  numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
@@ -1216,23 +1228,82 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
  CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
 
 
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% FinalTurnsToString: string 
+%  -- Predicados --
+% turnsToString(DobbleGame,FinalTurnsToString)
+% getTurns(DobbleGame,Turns)
+% -- Metas --
+% Principales: turnsToString
+% Secundarias:  getTurns
+% -- Cláusula --
+% Regla: Helper transforma los turnos actuales a una representación en string 
 turnsToString(DobbleGame,FinalTurnsToString):-
   getTurns(DobbleGame,Turns),
   atomics_to_string(Turns,' ',TurnsToString),
   atomic_concat('\nEl orden de los turnos es: ',TurnsToString,FinalTurnsToString).
 
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% NumberOfPlayersToString: string 
+%  -- Predicados --
+% numberOfPlayersToString(DobbleGame,NumberOfPlayersToString)
+% getNumberOfPlayers(DobbleGame,NumberOfPlayers)
+% -- Metas --
+% Principales: numberOfPlayersToString
+% getNumberOfPlayers
+% -- Cláusula --
+% Regla: Helper transforma el numero de jugadores actual a una representación en string 
 numberOfPlayersToString(DobbleGame,NumberOfPlayersToString):-
  getNumberOfPlayers(DobbleGame,NumberOfPlayers),
  atomic_concat('\nEl numero maximo de jugadores es: ',NumberOfPlayers,NumberOfPlayersToString).
 
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% ModeToString: string 
+%  -- Predicados --
+% modeToString(DobbleGame,ModeToString)
+% getMode(DobbleGame,Mode)
+% -- Metas --
+% Principales: modeToString
+% Secundarias: getMode
+% -- Cláusula --
+% Regla: Helper transforma el modo de juego a un string dentro de una oración descriptiva
 modeToString(DobbleGame,ModeToString):-
   getMode(DobbleGame,Mode),
   atomic_concat('\nEl modo de juego es: ',Mode,ModeToString).
 
+
+
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% StateToString: string 
+%  -- Predicados --
+% stateToString(DobbleGame,StateToString)
+% dobbleGameStatus(DobbleGame,State)
+% -- Metas --
+% Principales: stateToString
+% Secundarias: dobbleGameStatus
+% -- Cláusula --
+% Regla: Helper transforma el estado a formato de string en un oración descriptiva
 stateToString(DobbleGame,StateToString):-
   dobbleGameStatus(DobbleGame,State),
   atomic_concat('\nEl estado del juego es: ',State,StateToString).
 
+
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% CardsZoneToString: string 
+%  -- Predicados --
+% cardsZoneToString(DobbleGame,CardsZoneToString)
+% getCardsZone(DobbleGame,CardsZone)
+% cardsSetToString(CardsSet,CardsSetToString1)
+% -- Metas --
+% Principales: cardsZoneToString
+% Secundarias: getCardsZone, cardsSetToString
+% -- Cláusula --
+% Regla: Helper transforma la zona de cartas a string 
 cardsZoneToString(DobbleGame,CardsZoneToString):-
   getCardsZone(DobbleGame,CardsZone),
   CardsZone = [] ->  
@@ -1287,9 +1358,6 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
   playerToString(FinalCount,Player,PlayerToString),
   string_concat(NewPlayers,PlayerToString,NewPlayersAux),
   playersToStringAuxiliar(Players,Lenght,FinalCount,NewPlayersAux,FinalNewPlayers).
-
-
-
 
 %******************************************************************************************
 
