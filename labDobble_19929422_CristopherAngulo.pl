@@ -1170,14 +1170,43 @@ setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mod
 
 
 % ---Dominios---
-% FirstCard, SecondCard: Lista de Elementos
+% spotit: atomo
+% Username: string
+% Element: elemento o simbolo
+% DobbleGame,NewDobbleGame: Juego Dobble
 % DobbleGame: Juego Dobble
 % ---Predicados---
-% setCardsZoneStackMode(FirstCard,SecondCard,Element)
+%  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
+%  getElementInCommonBetweenTwoCards
+%  getPlayers(DobbleGame,Players)
+%  getPlayer(Players,Username,Player)
+%  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards)
+%  setPlayerPoints(PlayerNewCards,PlayerNewPoints)
+%  setPlayers(Players,PlayerNewPoints,NewPlayers)
+%  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1)
+%  setTurnsGame(NewDobbleGame1,NewDobbleGame2)
+%  removeCards(NewDobbleGame2,NewDobbleGame3)
+%  cleanCardsZone(NewDobbleGame3,NewDobbleGame)
+%  moveCardsToFinal(DobbleGame,NewDobbleGame1),
 % ---Metas---
-% Principales: setCardsZoneStackMode
+% Principales: action
+%  Secundarias: 
+%  getElementInCommonBetweenTwoCards
+%  getPlayers
+%  getPlayer
+%  setPlayerCards
+%  setPlayerPoints
+%  setPlayers
+%  setPlayersGame
+%  setTurnsGame
+%  removeCards
+%  cleanCardsZone
+%  moveCardsToFinal
 % ---Cláusula---:
-% Regla: Helper voltea la primera y segunda carta a la zona de juego
+% Regla: Helper modificador del Juego que verifica si el elemento es el común en 2 cartas según el jugador
+% Si el elemento resulta se el común las cartas se agregar al jugador, cambia el turno, se calculo el puntaje,se actualizan los jugadores,
+% se limpia la zona de juego y además se remueven las cartas del mazo; por otra parte si no le achundo a la figura las cartas se van al final
+% del mazo, cambia el turno y se limpia la zona de juego.
 action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
  getCardsZone(DobbleGame,[FirstCard,SecondCard]),
  getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
