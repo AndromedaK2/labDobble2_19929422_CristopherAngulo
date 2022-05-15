@@ -1216,108 +1216,6 @@ dobbleGameToString(DobbleGame,DobbleGameToString):-
  CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
 
 
-
-%******************************************************************************************
-
-%TDA: StackMode 
-% ---Dominios---
-% Mode: "stack" (string)
-% DobbleGame,NewDobble: Juego Dobble
-% ---Predicados---
-% mode(Mode,DobbleGame,NewDobbleGame)
-% getCardsSet(DobbleGame,CardsSet),
-% setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
-% ---Metas---
-% Principales: mode
-% Secundarias:  getCardsSet,setCardsZoneStackMode
-% ---Cláusula---:
-% Regla: Modificador del Juego Dobble por el modo stack volteando las cartas de la cima del mazo en la zona de cartas del juego
-mode("stack",DobbleGame,NewDobbleGame):-
-  getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
-  setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
-
-
-% ---Dominios---
-% FirstCard, SecondCard: Lista de Elementos
-% DobbleGame: Juego Dobble
-% ---Predicados---
-% setCardsZoneStackMode(FirstCard,SecondCard,Element)
-% ---Metas---
-% Principales: setCardsZoneStackMode
-% ---Cláusula---:
-% Regla: Helper voltea la primera y segunda carta a la zona de juego
-setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns]
-  ,[NumberOfPlayers,Players,CardsSet,Mode,[FirstCard,SecondCard],State,Turns]).
-
-
-% ---Dominios---
-% spotit: atomo
-% Username: string
-% Element: elemento o simbolo
-% DobbleGame,NewDobbleGame: Juego Dobble
-% DobbleGame: Juego Dobble
-% ---Predicados---
-%  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
-%  getElementInCommonBetweenTwoCards
-%  getPlayers(DobbleGame,Players)
-%  getPlayer(Players,Username,Player)
-%  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards)
-%  setPlayerPoints(PlayerNewCards,PlayerNewPoints)
-%  setPlayers(Players,PlayerNewPoints,NewPlayers)
-%  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1)
-%  setTurnsGame(NewDobbleGame1,NewDobbleGame2)
-%  removeCards(NewDobbleGame2,NewDobbleGame3)
-%  cleanCardsZone(NewDobbleGame3,NewDobbleGame)
-%  moveCardsToFinal(DobbleGame,NewDobbleGame1),
-% ---Metas---
-% Principales: action
-%  Secundarias: 
-%  getElementInCommonBetweenTwoCards
-%  getPlayers
-%  getPlayer
-%  setPlayerCards
-%  setPlayerPoints
-%  setPlayers
-%  setPlayersGame
-%  setTurnsGame
-%  removeCards
-%  cleanCardsZone
-%  moveCardsToFinal
-% ---Cláusula---:
-% Regla: Helper modificador del Juego que verifica si el elemento es el común en 2 cartas según el jugador
-% Si el elemento resulta se el común las cartas se agregar al jugador, cambia el turno, se calculo el puntaje,se actualizan los jugadores,
-% se limpia la zona de juego y además se remueven las cartas del mazo; por otra parte si no le achundo a la figura las cartas se van al final
-% del mazo, cambia el turno y se limpia la zona de juego.
-action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
- getCardsZone(DobbleGame,[FirstCard,SecondCard]),
- getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
- Element = CommonElement ->
-  getPlayers(DobbleGame,Players),
-  getPlayer(Players,Username,Player),
-  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
-  setPlayerPoints(PlayerNewCards,PlayerNewPoints),
-  setPlayers(Players,PlayerNewPoints,NewPlayers),
-  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
-  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-  removeCards(NewDobbleGame2,NewDobbleGame3),
-  cleanCardsZone(NewDobbleGame3,NewDobbleGame);
-  %-------------------------------------------
-  moveCardsToFinal(DobbleGame,NewDobbleGame1),
-  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
-
-% Pass
-action(pass,_,_,DobbleGame,NewDobbleGame):-
-  moveCardsToFinal(DobbleGame,NewDobbleGame1),
-  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
-  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
-
-action(finish,_,_,DobbleGame,NewDobbleGame):-
-  setStatusGame(DobbleGame,"finalizado",NewDobbleGame).
-
-getFinalState(DobbleGame,X):-
-  getPlayers(DobbleGame,Players).
-
 turnsToString(DobbleGame,FinalTurnsToString):-
   getTurns(DobbleGame,Turns),
   atomics_to_string(Turns,' ',TurnsToString),
@@ -1377,6 +1275,134 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
   playerToString(FinalCount,Player,PlayerToString),
   string_concat(NewPlayers,PlayerToString,NewPlayersAux),
   playersToStringAuxiliar(Players,Lenght,FinalCount,NewPlayersAux,FinalNewPlayers).
+
+
+
+
+%******************************************************************************************
+
+%TDA: StackMode 
+% ---Dominios---
+% Mode: "stack" (string)
+% DobbleGame,NewDobble: Juego Dobble
+% ---Predicados---
+% mode(Mode,DobbleGame,NewDobbleGame)
+% getCardsSet(DobbleGame,CardsSet),
+% setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+% ---Metas---
+% Principales: mode
+% Secundarias:  getCardsSet,setCardsZoneStackMode
+% ---Cláusula---:
+% Regla: Modificador del Juego Dobble por el modo stack volteando las cartas de la cima del mazo en la zona de cartas del juego
+mode("stack",DobbleGame,NewDobbleGame):-
+  getCardsSet(DobbleGame,[FirstCard,SecondCard|_]),
+  setCardsZoneStackMode(FirstCard,SecondCard,DobbleGame,NewDobbleGame).   
+
+
+% ---Dominios---
+% FirstCard, SecondCard: Lista de Elementos
+% DobbleGame: Juego Dobble
+% ---Predicados---
+% setCardsZoneStackMode(FirstCard,SecondCard,Element)
+% ---Metas---
+% Principales: setCardsZoneStackMode
+% ---Cláusula---:
+% Regla: Helper voltea la primera y segunda carta a la zona de juego
+setCardsZoneStackMode(FirstCard,SecondCard,[NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns]
+  ,[NumberOfPlayers,Players,CardsSet,Mode,[FirstCard,SecondCard],State,Turns]).
+
+
+% ---Dominios---
+% spotit: atomo
+% Username: string
+% Element: elemento o simbolo
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+%  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
+%  getElementInCommonBetweenTwoCards
+%  getPlayers(DobbleGame,Players)
+%  getPlayer(Players,Username,Player)
+%  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards)
+%  setPlayerPoints(PlayerNewCards,PlayerNewPoints)
+%  setPlayers(Players,PlayerNewPoints,NewPlayers)
+%  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1)
+%  setTurnsGame(NewDobbleGame1,NewDobbleGame2)
+%  removeCards(NewDobbleGame2,NewDobbleGame3)
+%  cleanCardsZone(NewDobbleGame3,NewDobbleGame)
+%  moveCardsToFinal(DobbleGame,NewDobbleGame1),
+% ---Metas---
+% Principales: action
+%  Secundarias: 
+%  getElementInCommonBetweenTwoCards
+%  getPlayers
+%  getPlayer
+%  setPlayerCards
+%  setPlayerPoints
+%  setPlayers
+%  setPlayersGame
+%  setTurnsGame
+%  removeCards
+%  cleanCardsZone
+%  moveCardsToFinal
+% ---Cláusula---:
+% Regla: Helper modificador del Juego que verifica si el elemento es el común en 2 cartas según el jugador
+% Si el elemento resulta se el común las cartas se agregar al jugador, cambia el turno, se calculo el puntaje,se actualizan los jugadores,
+% se limpia la zona de juego y además se remueven las cartas del mazo; por otra parte si no le achundo a la figura las cartas se van al final
+% del mazo, cambia el turno y se limpia la zona de juego.
+action(spotit,Username,Element,DobbleGame,NewDobbleGame):-
+ getCardsZone(DobbleGame,[FirstCard,SecondCard]),
+ getElementInCommonBetweenTwoCards(FirstCard,SecondCard,[CommonElement]),
+ Element = CommonElement ->
+  getPlayers(DobbleGame,Players),
+  getPlayer(Players,Username,Player),
+  setPlayerCards(Player,[FirstCard,SecondCard],PlayerNewCards),
+  setPlayerPoints(PlayerNewCards,PlayerNewPoints),
+  setPlayers(Players,PlayerNewPoints,NewPlayers),
+  setPlayersGame(DobbleGame,NewPlayers,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  removeCards(NewDobbleGame2,NewDobbleGame3),
+  cleanCardsZone(NewDobbleGame3,NewDobbleGame);
+  %-------------------------------------------
+  moveCardsToFinal(DobbleGame,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
+
+% ---Dominios---
+% spotit: atomo
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+%  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
+%  setTurnsGame(DobbleGame,NewDobbleGame)
+%  cleanCardsZone(DobbleGame,NewDobbleGame)
+%  moveCardsToFinal(DobbleGame,NewDobbleGame),
+% ---Metas---
+% Principales: action
+%  Secundarias: setTurnsGame,cleanCardsZone,moveCardsToFinal
+% ---Cláusula---
+% Regla: Helper que pasa hace pasar de turno al jugador actual
+action(pass,_,_,DobbleGame,NewDobbleGame):-
+  moveCardsToFinal(DobbleGame,NewDobbleGame1),
+  setTurnsGame(NewDobbleGame1,NewDobbleGame2),
+  cleanCardsZone(NewDobbleGame2,NewDobbleGame).
+
+% ---Dominios---
+% spotit: atomo
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+%  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
+%  setTurnsGame(DobbleGame,NewDobbleGame)
+%  cleanCardsZone(DobbleGame,NewDobbleGame)
+%  moveCardsToFinal(DobbleGame,NewDobbleGame),
+% ---Metas---
+% Principales: action
+%  Secundarias: setTurnsGame,cleanCardsZone,moveCardsToFinal
+% ---Cláusula---
+% Regla: Helper que pasa hace pasar de turno al jugador actual
+action(finish,_,_,DobbleGame,NewDobbleGame):-
+  setStatusGame(DobbleGame,"finalizado",NewDobbleGame).
+
+
+
 
 
 
