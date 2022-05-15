@@ -56,6 +56,10 @@ cardsSetMissingCards
 1
 Se logró implementar 
 
+cardsSetToString
+1
+Se logró implementar 
+
 dobbleGame
 1
 Se implementó 
