@@ -715,6 +715,37 @@ player(Username,Player):-
   Points = 0,
   Player = [Username,Cards,Points].
 
+% -- Dominios --
+% Player: Jugador
+% Position: Entero+
+% PlayerToString: string
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: playerToString
+% Secundarias: cardsSetToString
+% -- Cláusula --
+% Regla: Helper Transforma un jugador a su representación en string
+playerToString(Position,[Username,Cards,Points],PlayerToString):-
+  Cards = [] ->   
+    atomic_concat('\n   *El jugador ',Position,P),
+    atomic_concat(P,' es: ',L),
+    atomic_concat(L,Username,A),
+    atomic_concat('\n   *Sus Cartas son: ','No tiene cartas',C),
+    atomic_concat('\n   *Su Puntaje es: ',Points,S),
+    atomics_to_string([A,C,S],'',PlayerToString);
+    %-------------------------------------------- 
+    cardsSetToString(Cards,CardsToString),
+    atomic_concat('\n   *El jugador ',Position,P),
+    atomic_concat(P,' es: ',L),
+    atomic_concat(L,Username,A),
+    atomic_concat('\n   *Sus Cartas son: ',CardsToString,C),
+    atomic_concat('\n   *Su Puntaje es: ',Points,S),
+    atomics_to_string([A,C,S],'',PlayerToString).
+
+
+
+%***********************************************************************************************************************************
 
 % -- Dominios --
 % Listas Vacías
@@ -1111,8 +1142,7 @@ dobbleGameWhoseTurnIsIt(DobbleGame,FirstTurn):-
 % ---Metas---
 % Principales: dobbleGamePlay
 % Secundarias: setStatusGame,getMode,mode,isPlayerTurn,canKeepPlaying,getMode,action.
-% ---Cláusulas---:
-
+% ---Cláusulas---
 %Regla: Modificador que inicia el juego
 dobbleGamePlay(DobbleGame,null,NewDobbleGame):-
  setStatusGame(DobbleGame,"En Partida",NewDobbleGame1),
@@ -1135,8 +1165,59 @@ dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
 dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
   action(finish,_,_,DobbleGame,NewDobbleGame).
 
+winnersToString(DobbleGame,WinnersToString):-
+ getMaxPoints(DobbleGame,MaxPoint),
+ getWinners(DobbleGame,MaxPoint,Winners),
+ length(Winners,Large),
+ Large > 1 ->
+  getWinners(DobbleGame,MaxPoint,Winners),
+  atomics_to_string(Winners,'-',W),
+  atomic_concat('\nExiste empate  entre: ',W,WinnersToString);
+  getWinners(DobbleGame,MaxPoint,Winners),
+  atomics_to_string(Winners,'-',W),
+  atomic_concat('\nEl ganador actual es: ',W,WinnersToString).
+
+getMaxPoints(DobbleGame,MaxPoint):-
+  getPlayers(DobbleGame,Players),
+  getMaxPointsAuxiliar(Players,0,MaxPoint).
+  
+getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
+getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
+  Point >= MaxPoint ->
+    getMaxPointsAuxiliar(Players,Point,FinalMaxPoint);
+    getMaxPointsAuxiliar(Players,MaxPoint,FinalMaxPoint).
+
+getWinners(DobbleGame,MaxPoint,Winners):-
+ getPlayers(DobbleGame,Players),
+ getWinnersAuxiliar(Players,MaxPoint,[],Winners).
 
 
+getWinnersAuxiliar([],_,Winners,Winners).
+getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):-
+  MaxPoint = Points -> 
+    append(Winners,[Username],W),
+    getWinnersAuxiliar(Players,MaxPoint,W,FinalWinners);
+    getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
+
+
+
+dobbleGameToString(DobbleGame,DobbleGameToString):-
+ L = '***********Bienvenido a Dobble Game***********\n',
+ numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
+ playersToString(DobbleGame,PlayersToString),
+ modeToString(DobbleGame,ModeToString),
+ stateToString(DobbleGame,StateToString),
+ turnsToString(DobbleGame,TurnsToString),
+ getCardsSetToString(DobbleGame,CardsSetToString),
+ cardsZoneToString(DobbleGame,CardsZoneToString),
+ winnersToString(DobbleGame,WinnersToString),
+ F = '\n**********************************************\n',
+ atomics_to_string([L,NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
+ CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
+
+
+
+%******************************************************************************************
 
 %TDA: StackMode 
 % ---Dominios---
@@ -1271,6 +1352,19 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
  atomic_concat(L,CardsSetToString1,CardsSetToString).
 
 
+
+% TDA Player
+% -- Dominios --
+% Username: string
+% Cards: Lista de Cartas | Lista Vacía 
+% Points: Entero+
+% Player: Username X Cards X Points
+%  -- Predicados --
+% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% -- Metas --
+% Principales: removeDuplicateElements
+% -- Cláusula --
+% Regla: Constructor Jugador
 playersToString(DobbleGame,PlayersToString):-
   getPlayers(DobbleGame,Players),
   length(Players,Large),
@@ -1284,73 +1378,6 @@ playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers
   string_concat(NewPlayers,PlayerToString,NewPlayersAux),
   playersToStringAuxiliar(Players,Lenght,FinalCount,NewPlayersAux,FinalNewPlayers).
 
-
-playerToString(Position,[Username,Cards,Points],PlayerToString):-
-  Cards = [] ->   
-    atomic_concat('\n   *El jugador ',Position,P),
-    atomic_concat(P,' es: ',L),
-    atomic_concat(L,Username,A),
-    atomic_concat('\n   *Sus Cartas son: ','No tiene cartas',C),
-    atomic_concat('\n   *Su Puntaje es: ',Points,S),
-    atomics_to_string([A,C,S],'',PlayerToString);
-    %-------------------------------------------- 
-    cardsSetToString(Cards,CardsToString),
-    atomic_concat('\n   *El jugador ',Position,P),
-    atomic_concat(P,' es: ',L),
-    atomic_concat(L,Username,A),
-    atomic_concat('\n   *Sus Cartas son: ',CardsToString,C),
-    atomic_concat('\n   *Su Puntaje es: ',Points,S),
-    atomics_to_string([A,C,S],'',PlayerToString).
-
-winnersToString(DobbleGame,WinnersToString):-
- getMaxPoints(DobbleGame,MaxPoint),
- getWinners(DobbleGame,MaxPoint,Winners),
- length(Winners,Large),
- Large > 1 ->
-  getWinners(DobbleGame,MaxPoint,Winners),
-  atomics_to_string(Winners,'-',W),
-  atomic_concat('\nExiste empate  entre: ',W,WinnersToString);
-  getWinners(DobbleGame,MaxPoint,Winners),
-  atomics_to_string(Winners,'-',W),
-  atomic_concat('\nEl ganador actual es: ',W,WinnersToString).
-
-getMaxPoints(DobbleGame,MaxPoint):-
-  getPlayers(DobbleGame,Players),
-  getMaxPointsAuxiliar(Players,0,MaxPoint).
-  
-getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
-getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
-  Point >= MaxPoint ->
-    getMaxPointsAuxiliar(Players,Point,FinalMaxPoint);
-    getMaxPointsAuxiliar(Players,MaxPoint,FinalMaxPoint).
-
-getWinners(DobbleGame,MaxPoint,Winners):-
- getPlayers(DobbleGame,Players),
- getWinnersAuxiliar(Players,MaxPoint,[],Winners).
-
-
-getWinnersAuxiliar([],_,Winners,Winners).
-getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):-
-  MaxPoint = Points -> 
-    append(Winners,[Username],W),
-    getWinnersAuxiliar(Players,MaxPoint,W,FinalWinners);
-    getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners).
-
-
-
-dobbleGameToString(DobbleGame,DobbleGameToString):-
- L = '***********Bienvenido a Dobble Game***********\n',
- numberOfPlayersToString(DobbleGame,NumberOfPlayersToString),
- playersToString(DobbleGame,PlayersToString),
- modeToString(DobbleGame,ModeToString),
- stateToString(DobbleGame,StateToString),
- turnsToString(DobbleGame,TurnsToString),
- getCardsSetToString(DobbleGame,CardsSetToString),
- cardsZoneToString(DobbleGame,CardsZoneToString),
- winnersToString(DobbleGame,WinnersToString),
- F = '\n**********************************************\n',
- atomics_to_string([L,NumberOfPlayersToString,F,PlayersToString,F,StateToString,F,ModeToString,F,
- CardsZoneToString,F,TurnsToString,F,CardsSetToString,F,WinnersToString],DobbleGameToString).
 
 
 
