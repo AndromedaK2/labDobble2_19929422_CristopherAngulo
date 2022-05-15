@@ -1165,6 +1165,17 @@ dobbleGamePlay(DobbleGame,[pass],NewDobbleGame):-
 dobbleGamePlay(DobbleGame,[finish],NewDobbleGame):-
   action(finish,_,_,DobbleGame,NewDobbleGame).
 
+% -- Dominios --
+% DobbleGame,WinnersToString: Juego Dobble
+%  -- Predicados --
+% winnersToString(DobbleGame,WinnersToString)
+% getMaxPoints(DobbleGame,MaxPoint)
+% getWinners(DobbleGame,MaxPoint,Winners)
+% -- Metas --
+% Principales: winnersToString
+% Secundarias: getMaxPoints,getWinners
+% -- Cláusula --
+% Regla:  Helper convierte los ganadores a un formato en string 
 winnersToString(DobbleGame,WinnersToString):-
  getMaxPoints(DobbleGame,MaxPoint),
  getWinners(DobbleGame,MaxPoint,Winners),
