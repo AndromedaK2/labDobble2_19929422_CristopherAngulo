@@ -1243,6 +1243,19 @@ cardsZoneToString(DobbleGame,CardsZoneToString):-
     cardsSetToString(CardsZone,CardsZoneToString1),
     atomic_concat(L,CardsZoneToString1,CardsZoneToString). 
 
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% CardsSetToString: string 
+%  -- Predicados --
+% getCardsSetToString(DobbleGame,CardsSetToString)
+% getCardsSet(DobbleGame,CardsSet)
+% cardsSetToString(CardsSet,CardsSetToString1)
+% playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString)
+% -- Metas --
+% Principales: getCardsSetToString
+% Secundarias: getCardsSet, getCardsSet
+% -- Cláusula --
+% Regla: Helper transforma las cartas del juego actual a una representación en string 
 getCardsSetToString(DobbleGame,CardsSetToString):-
  getCardsSet(DobbleGame,CardsSet),
  cardsSetToString(CardsSet,CardsSetToString1),
