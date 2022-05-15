@@ -1187,11 +1187,25 @@ getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
     getMaxPointsAuxiliar(Players,Point,FinalMaxPoint);
     getMaxPointsAuxiliar(Players,MaxPoint,FinalMaxPoint).
 
+
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% MaxPoint: Entero+
+% Winners: Lista de Nombre de usuarios
+%  -- Predicados --
+% getWinners(DobbleGame,MaxPoint,Winners)
+% getWinnersAuxiliar(Players,MaxPoint,Winners,FinalWinners)
+% getPlayers(DobbleGame,Players)
+% -- Metas --
+% Principales: getWinners
+% Secundarias: getPlayers,getWinnersAuxiliar
+% -- Cláusula --
+% Regla: Helper transforma los ganadores a string
 getWinners(DobbleGame,MaxPoint,Winners):-
  getPlayers(DobbleGame,Players),
  getWinnersAuxiliar(Players,MaxPoint,[],Winners).
 
-
+% Regla: Helpe Auxiliar transforma los ganadores a string
 getWinnersAuxiliar([],_,Winners,Winners).
 getWinnersAuxiliar([[Username,_,Points]|Players],MaxPoint,Winners,FinalWinners):-
   MaxPoint = Points -> 
