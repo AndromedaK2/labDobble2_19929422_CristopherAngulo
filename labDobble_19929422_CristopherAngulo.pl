@@ -661,6 +661,18 @@ getTailElements([_|Elements],Elements).
 % Regla: Helper Modificador Agregar elemento a carta
 addElementToCard(Element,Card,CardUpdate):-isElement(Element),append(Card,[Element],CardUpdate).
 
+% ---Dominios---
+% FirstCard, SecondCard: Lista de Elementos
+% Element: Elemento o Símbolo
+% ---Predicados---
+% getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element)
+% ---Metas---
+% Principales: getElementInCommonBetweenTwoCards
+% ---Cláusula---:
+% Regla: Helper obtiene el elemento en común entre 2 cartas
+getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
+  intersection(FirstCard,SecondCard,Element).
+
 %************************************************************
 
 
@@ -983,17 +995,7 @@ addTurn(Username,[CardsSet,Mode,InitialCardsZone,InitialState,Turns],
   [CardsSet,Mode,InitialCardsZone,InitialState,[Username|Turns]]).
  
 
-% ---Dominios---
-% FirstCard, SecondCard: Lista de Elementos
-% Element: Elemento o Símbolo
-% ---Predicados---
-% getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element)
-% ---Metas---
-% Principales: getElementInCommonBetweenTwoCards
-% ---Cláusula---:
-% Regla: Helper obtiene el elemento en común entre 2 cartas
-getElementInCommonBetweenTwoCards(FirstCard,SecondCard,Element):-
-  intersection(FirstCard,SecondCard,Element).
+
 
 
 
@@ -1098,28 +1100,7 @@ canKeepPlaying(DobbleGame):-
   dobbleGameStatus(DobbleGame,Status),
   Status = "En Partida".
 
-% ---Dominios---
-% DobbleGame,NewDobbleGame: Juego Dobble
-% ---Predicados---
-% cleanCardsZone(DobbleGame,NewDobbleGame)
-% ---Metas---
-% Principales: cleanCardsZone
-% ---Cláusula---:
-% Regla: Helper limpia la zona de cartas del juego
-cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
-  [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
-% ---Dominios---
-% DobbleGame,NewDobbleGame: Juego Dobble
-% ---Predicados---
-% moveCardsToFinal(DobbleGame,NewDobbleGame)
-% ---Metas---
-% Principales: moveCardsToFinal
-% ---Cláusula---:
-% Regla: Helper mueve las primeras cartas al fondo del mazo
-moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,CardsZone,State,Turns],
-  [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
-  append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
 
 % ---Dominios---
 % DobbleGame: Juego Dobble
@@ -1555,7 +1536,28 @@ action(finish,_,_,DobbleGame,NewDobbleGame):-
 
 
 
+% ---Dominios---
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% cleanCardsZone(DobbleGame,NewDobbleGame)
+% ---Metas---
+% Principales: cleanCardsZone
+% ---Cláusula---:
+% Regla: Helper limpia la zona de cartas del juego
+cleanCardsZone([NumberOfPlayers,Players,CardsSet,Mode,_,State,Turns],
+  [NumberOfPlayers,Players,CardsSet,Mode,[],State,Turns]).
 
+% ---Dominios---
+% DobbleGame,NewDobbleGame: Juego Dobble
+% ---Predicados---
+% moveCardsToFinal(DobbleGame,NewDobbleGame)
+% ---Metas---
+% Principales: moveCardsToFinal
+% ---Cláusula---:
+% Regla: Helper mueve las primeras cartas al fondo del mazo
+moveCardsToFinal([NumberOfPlayers,Players,[FirstCard,SecondCard|CardsSet],Mode,CardsZone,State,Turns],
+  [NumberOfPlayers,Players,NewCardsSet,Mode,CardsZone,State,Turns]):-
+  append(CardsSet,[FirstCard,SecondCard],NewCardsSet).
 
 
 
