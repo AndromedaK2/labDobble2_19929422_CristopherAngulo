@@ -1390,14 +1390,12 @@ action(pass,_,_,DobbleGame,NewDobbleGame):-
 % DobbleGame,NewDobbleGame: Juego Dobble
 % ---Predicados---
 %  action(spotit,Username,Element,DobbleGame,NewDobbleGame)
-%  setTurnsGame(DobbleGame,NewDobbleGame)
-%  cleanCardsZone(DobbleGame,NewDobbleGame)
-%  moveCardsToFinal(DobbleGame,NewDobbleGame),
+%  setStatusGame(DobbleGame,"finalizado",NewDobbleGame)
 % ---Metas---
 % Principales: action
-%  Secundarias: setTurnsGame,cleanCardsZone,moveCardsToFinal
+% Secundarias: setStatusGame
 % ---Cláusula---
-% Regla: Helper que pasa hace pasar de turno al jugador actual
+% Regla: Helper que finaliza la partida
 action(finish,_,_,DobbleGame,NewDobbleGame):-
   setStatusGame(DobbleGame,"finalizado",NewDobbleGame).
 
