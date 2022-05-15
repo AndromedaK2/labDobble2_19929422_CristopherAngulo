@@ -1251,23 +1251,22 @@ getCardsSetToString(DobbleGame,CardsSetToString):-
 
 
 
-% TDA Player
 % -- Dominios --
-% Username: string
-% Cards: Lista de Cartas | Lista Vacía 
-% Points: Entero+
-% Player: Username X Cards X Points
+% DobbleGame: Juego Dobble
+% PlayersToString: string 
 %  -- Predicados --
-% removeDuplicateElements(Elements,ElementsWithoutDuplicates)
+% playersToString(DobbleGame,PlayersToString)
+% getPlayers(DobbleGame,Players)
+% playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString)
 % -- Metas --
-% Principales: removeDuplicateElements
+% Principales: playersToString
+% Secundarias: getPlayers, playersToStringAuxiliar
 % -- Cláusula --
-% Regla: Constructor Jugador
+% Regla: Helper transforma los jugadores a una representación en string 
 playersToString(DobbleGame,PlayersToString):-
   getPlayers(DobbleGame,Players),
   length(Players,Large),
   playersToStringAuxiliar(Players,Large,0,'\nJugadores:',PlayersToString).
-
 
 playersToStringAuxiliar([],Length,Length,PlayersToString,PlayersToString).
 playersToStringAuxiliar([Player|Players],Lenght,Count,NewPlayers,FinalNewPlayers):-
