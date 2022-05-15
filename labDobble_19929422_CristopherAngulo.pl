@@ -1177,10 +1177,24 @@ winnersToString(DobbleGame,WinnersToString):-
   atomics_to_string(Winners,'-',W),
   atomic_concat('\nEl ganador actual es: ',W,WinnersToString).
 
+
+% -- Dominios --
+% DobbleGame: Juego Dobble
+% MaxPoint: Entero+
+%  -- Predicados --
+% getMaxPoints(DobbleGame,MaxPoint)
+% getPlayers(DobbleGame,Players)
+% getMaxPointsAuxiliar(Players,0,MaxPoint)
+% -- Metas --
+% Principales: getMaxPoints
+% Secundarias: getPlayers,getMaxPointsAuxiliar
+% -- Cláusula --
+% Regla:  Helper obtiene el punto o score maximo
 getMaxPoints(DobbleGame,MaxPoint):-
   getPlayers(DobbleGame,Players),
   getMaxPointsAuxiliar(Players,0,MaxPoint).
   
+% Regla: Helper auxiliar obtiene el punto o score maximo
 getMaxPointsAuxiliar([],MaxPoint,MaxPoint).
 getMaxPointsAuxiliar([[_,_,Point]|Players],MaxPoint,FinalMaxPoint):-
   Point >= MaxPoint ->
